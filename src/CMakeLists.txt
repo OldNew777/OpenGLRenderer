@@ -12,6 +12,8 @@ endif ()
 
 add_subdirectory(ext)
 
+add_subdirectory(core)
+
 add_library(opengl-render-include INTERFACE)
 target_include_directories(opengl-render-include INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 target_compile_features(opengl-render-include INTERFACE c_std_11 cxx_std_20)

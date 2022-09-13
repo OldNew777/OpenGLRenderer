@@ -1,3 +1,33 @@
 [submodule "src/ext/cxxopts"]
 	path = src/ext/cxxopts
 	url = https://github.com/jarro2783/cxxopts.git
+[submodule "src/ext/spdlog"]
+	path = src/ext/spdlog
+	url = https://github.com/gabime/spdlog.git
+[submodule "src/ext/xxHash"]
+	path = src/ext/xxHash
+	url = https://github.com/Cyan4973/xxHash.git
+[submodule "src/ext/glfw"]
+	path = src/ext/glfw
+	url = https://github.com/glfw/glfw.git
+[submodule "src/ext/fmt"]
+	path = src/ext/fmt
+	url = https://github.com/fmtlib/fmt.git
+[submodule "src/ext/EASTL"]
+	path = src/ext/EASTL
+	url = https://github.com/electronicarts/EASTL.git
+[submodule "src/ext/json"]
+	path = src/ext/json
+	url = https://github.com/nlohmann/json.git
+[submodule "src/ext/fast_float"]
+	path = src/ext/fast_float
+	url = https://github.com/fastfloat/fast_float.git
+[submodule "src/ext/assimp"]
+	path = src/ext/assimp
+	url = https://github.com/assimp/assimp.git
+[submodule "src/ext/tinyexr"]
+	path = src/ext/tinyexr
+	url = https://github.com/syoyo/tinyexr.git
+[submodule "src/ext/stb/stb"]
+	path = src/ext/stb/stb
+	url = https://github.com/nothings/stb.git
