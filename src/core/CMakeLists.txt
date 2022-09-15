@@ -1,5 +1,5 @@
 set(OPENGL_RENDER_CORE_SOURCES
-        logger.cpp logger.h
+        logger.h logger.cpp
         macro.h
         stl.h)
 

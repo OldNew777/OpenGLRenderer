@@ -2,8 +2,7 @@
 // Created by Kasumi on 2022/9/13.
 //
 
-#ifndef OPENGLRENDERER_STL_H
-#define OPENGLRENDERER_STL_H
+#pragma once
 
 #include <cstdlib>
 #include <cmath>
@@ -58,5 +57,3 @@ namespace gl_render {
     using eastl::weak_ptr;
 
 }
-
-#endif //OPENGLRENDERER_STL_H

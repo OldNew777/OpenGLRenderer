@@ -12,6 +12,13 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_OSX_DEPLOYMENT_TARGET 12)
 set(BUILD_SHARED_LIBS ON)
 
+if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+    add_compile_options(
+            "/Zc:preprocessor"
+            "/wd5105"
+            "/wd4819")
+endif ()
+
 if (NOT CMAKE_SIZEOF_VOID_P EQUAL 8)
     message(FATAL_ERROR "Only supports 64-bit platforms")
 endif ()

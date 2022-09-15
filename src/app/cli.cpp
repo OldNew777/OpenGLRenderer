@@ -29,10 +29,10 @@ using namespace gl_render;
         try {
             return cli.parse(argc, argv);
         } catch (const std::exception &e) {
-//            GL_RENDER_WARNING_WITH_LOCATION(
-//                    "Failed to parse command line arguments: {}.",
-//                    e.what());
-//            std::cout << cli.help() << std::endl;
+            GL_RENDER_WARNING_WITH_LOCATION(
+                    "Failed to parse command line arguments: {}.",
+                    e.what());
+            std::cout << cli.help() << std::endl;
             exit(-1);
         }
     }();
@@ -41,8 +41,8 @@ using namespace gl_render;
         exit(0);
     }
     if (options["scene"].count() == 0u) [[unlikely]] {
-//        GL_RENDER_WARNING_WITH_LOCATION("Scene file not specified.");
-//        std::cout << cli.help() << std::endl;
+        GL_RENDER_WARNING_WITH_LOCATION("Scene file not specified.");
+        std::cout << cli.help() << std::endl;
         exit(-1);
     }
     if (auto unknown = options.unmatched(); !unknown.empty()) [[unlikely]] {
@@ -50,8 +50,8 @@ using namespace gl_render;
         for (auto &&u : gl_render::span{unknown}.subspan(1)) {
             opts.append("; ").append(u);
         }
-//        GL_RENDER_WARNING_WITH_LOCATION(
-//                "Unrecognized options: {}", opts);
+        GL_RENDER_WARNING_WITH_LOCATION(
+                "Unrecognized options: {}", opts);
     }
     return options;
 }
@@ -60,4 +60,5 @@ int main(int argc, char *argv[]) {
     log_level_info();
     auto options = parse_cli_options(argc, argv);
 
+    return 0;
 }

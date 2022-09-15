@@ -2,8 +2,7 @@
 // Created by Kasumi on 2022/9/13.
 //
 
-#ifndef OPENGLRENDERER_LOGGER_H
-#define OPENGLRENDERER_LOGGER_H
+#pragma once
 
 #include <iostream>
 
@@ -114,4 +113,13 @@ namespace gl_render {
 #define GL_RENDER_ERROR_WITH_LOCATION(fmt, ...) \
     GL_RENDER_ERROR(fmt " [{}:{}]" __VA_OPT__(, ) __VA_ARGS__, __FILE__, __LINE__)
 
-#endif //OPENGLRENDERER_LOGGER_H
+#define GL_RENDER_ASSERT(x, fmt, ...)            \
+    do {                                         \
+        if (!(x)) [[unlikely]] {                 \
+            auto msg = gl_render::format(        \
+                fmt __VA_OPT__(, ) __VA_ARGS__); \
+            GL_RENDER_ERROR_WITH_LOCATION(       \
+                "Assertion '{}' failed: {}",     \
+                #x, msg);                        \
+        }                                        \
+    } while (false)

@@ -3,6 +3,11 @@ add_library(opengl-render-ext SHARED dummy.cpp)
 set_target_properties(opengl-render-ext PROPERTIES
         WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
+add_subdirectory(EASTL)
+target_link_libraries(opengl-render-ext PUBLIC EASTL)
+set_target_properties(EASTL PROPERTIES
+        WINDOWS_EXPORT_ALL_SYMBOLS ON)
+
 set(FMT_OS OFF CACHE BOOL "" FORCE)
 add_subdirectory(fmt)
 target_compile_definitions(fmt-header-only INTERFACE
@@ -14,7 +19,7 @@ target_link_libraries(opengl-render-ext PUBLIC fmt::fmt-header-only)
 
 set(SPDLOG_ENABLE_PCH OFF CACHE BOOL "" FORCE)
 set(SPDLOG_BUILD_SHARED ON CACHE BOOL "" FORCE)
-set(SPDLOG_NO_EXCEPTIONS OFF CACHE BOOL "" FORCE)
+set(SPDLOG_NO_EXCEPTIONS ON CACHE BOOL "" FORCE)
 set(SPDLOG_NO_THREAD_ID ON CACHE BOOL "" FORCE)
 set(SPDLOG_FMT_EXTERNAL_HO ON CACHE BOOL "" FORCE)
 set(SPDLOG_DISABLE_DEFAULT_LOGGER ON CACHE BOOL "" FORCE)
@@ -60,9 +65,6 @@ if (OPENGL_RENDER_ENABLE_GUI)
     target_link_libraries(opengl-render-ext PUBLIC imgui)
 endif ()
 
-add_subdirectory(EASTL)
-target_link_libraries(opengl-render-ext PUBLIC EASTL)
-
 
 # renderer
 #add_library(opengl-render-ext INTERFACE)
@@ -86,6 +88,7 @@ target_link_libraries(opengl-render-ext INTERFACE tinyexr)
 
 find_package(assimp CONFIG)
 if (NOT assimp_FOUND)
+    set(ASSIMP_WARNINGS_AS_ERRORS OFF CACHE BOOL "" FORCE)
     set(ASSIMP_BUILD_ZLIB ON CACHE BOOL "" FORCE)
     set(ASSIMP_BUILD_ASSIMP_TOOLS OFF CACHE BOOL "" FORCE)
     set(ASSIMP_BUILD_TESTS OFF CACHE BOOL "" FORCE)

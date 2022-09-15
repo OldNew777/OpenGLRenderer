@@ -23,7 +23,8 @@ target_compile_features(opengl-render-include INTERFACE c_std_11 cxx_std_20)
 add_library(opengl-render INTERFACE)
 
 target_link_libraries(opengl-render INTERFACE
-        opengl-render-ext)
+        opengl-render-ext
+        opengl-render-core)
 add_library(opengl::render ALIAS opengl-render)
 
 add_subdirectory(app)
