@@ -1,5 +1,5 @@
 # backend
-add_library(opengl-render-ext SHARED)
+add_library(opengl-render-ext SHARED dummy.cpp)
 set_target_properties(opengl-render-ext PROPERTIES
         WINDOWS_EXPORT_ALL_SYMBOLS ON)
 

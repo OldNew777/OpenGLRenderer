@@ -1,5 +1,6 @@
 set(OPENGL_RENDER_CORE_SOURCES
         logger.cpp logger.h
+        macro.h
         stl.h)
 
 find_package(Threads REQUIRED)

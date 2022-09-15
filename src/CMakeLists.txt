@@ -10,6 +10,8 @@ if (WIN32)
     endif ()
 endif ()
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+
 add_subdirectory(ext)
 
 add_subdirectory(core)
@@ -24,4 +26,4 @@ target_link_libraries(opengl-render INTERFACE
         opengl-render-ext)
 add_library(opengl::render ALIAS opengl-render)
 
-add_subdirectory(apps)
+add_subdirectory(app)
