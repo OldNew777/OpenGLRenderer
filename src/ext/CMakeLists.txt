@@ -3,11 +3,6 @@ add_library(opengl-render-ext SHARED dummy.cpp)
 set_target_properties(opengl-render-ext PROPERTIES
         WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
-add_subdirectory(EASTL)
-target_link_libraries(opengl-render-ext PUBLIC EASTL)
-set_target_properties(EASTL PROPERTIES
-        WINDOWS_EXPORT_ALL_SYMBOLS ON)
-
 set(FMT_OS OFF CACHE BOOL "" FORCE)
 add_subdirectory(fmt)
 target_compile_definitions(fmt-header-only INTERFACE
