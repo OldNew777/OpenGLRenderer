@@ -13,9 +13,6 @@
 [submodule "src/ext/fmt"]
 	path = src/ext/fmt
 	url = https://github.com/fmtlib/fmt.git
-[submodule "src/ext/EASTL"]
-	path = src/ext/EASTL
-	url = https://github.com/electronicarts/EASTL.git
 [submodule "src/ext/json"]
 	path = src/ext/json
 	url = https://github.com/nlohmann/json.git
