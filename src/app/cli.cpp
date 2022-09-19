@@ -60,5 +60,10 @@ int main(int argc, char *argv[]) {
     log_level_info();
     auto options = parse_cli_options(argc, argv);
 
+    auto backend = options["backend"].as<gl_render::string>();
+    auto index = options["device"].as<uint32_t>();
+    auto path = options["scene"].as<std::filesystem::path>();
+    auto definitions = options["define"].as<std::vector<std::string>>();
+
     return 0;
 }
