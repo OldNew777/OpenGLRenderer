@@ -24,12 +24,8 @@ namespace gl_render {
                float3 up = float3{0.0f, 1.0f, 0.0f},
                float fov = 35.f);
 
-        // returns the view matrix calculated using Euler Angles and the LookAt Matrix
-        [[nodiscard]] virtual float4x4 GetViewMatrix() noexcept;
-
-    protected:
-        // calculates the front vector from the Camera's (updated) Euler Angles
-        virtual void updateCameraVectors() noexcept;
+        [[nodiscard]] virtual float4x4 getViewMatrix() noexcept;
+        [[nodiscard]] virtual float getFov() noexcept;
     };
 
 }
