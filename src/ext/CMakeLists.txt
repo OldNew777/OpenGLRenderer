@@ -39,6 +39,10 @@ set(JSON_SystemInclude ON CACHE BOOL "" FORCE)
 add_subdirectory(json)
 target_link_libraries(opengl-render-ext PUBLIC nlohmann_json::nlohmann_json)
 
+set(glm_TEST_ENABLE OFF CACHE BOOL "" FORCE)
+add_subdirectory(glm)
+target_link_libraries(opengl-render-ext PUBLIC glm)
+
 if (OPENGL_RENDER_ENABLE_GUI)
     add_subdirectory(glad)
     target_link_libraries(opengl-render-ext PUBLIC glad)
@@ -56,8 +60,8 @@ if (OPENGL_RENDER_ENABLE_GUI)
     endif ()
     target_link_libraries(opengl-render-ext PUBLIC glfw)
 
-    add_subdirectory(imgui)
-    target_link_libraries(opengl-render-ext PUBLIC imgui)
+#    add_subdirectory(imgui)
+#    target_link_libraries(opengl-render-ext PUBLIC imgui)
 endif ()
 
 

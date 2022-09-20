@@ -12,9 +12,9 @@ endif ()
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-add_subdirectory(ext)
-
+add_subdirectory(base)
 add_subdirectory(core)
+add_subdirectory(ext)
 
 add_library(opengl-render-include INTERFACE)
 target_include_directories(opengl-render-include INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
@@ -23,8 +23,9 @@ target_compile_features(opengl-render-include INTERFACE c_std_11 cxx_std_20)
 add_library(opengl-render INTERFACE)
 
 target_link_libraries(opengl-render INTERFACE
-        opengl-render-ext
-        opengl-render-core)
+        opengl-render-base
+        opengl-render-core
+        opengl-render-ext)
 add_library(opengl::render ALIAS opengl-render)
 
 add_subdirectory(app)

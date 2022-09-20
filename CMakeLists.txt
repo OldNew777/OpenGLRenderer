@@ -49,6 +49,7 @@ endif ()
 
 option(OPENGL_RENDER_BUILD_TESTS "Build tests for OpenGLRenderer" ${OPENGL_RENDER_MASTER_PROJECT})
 option(OPENGL_RENDER_ENABLE_UNITY_BUILD "Enable unity build to speed up compilation" ON)
+option(OPENGL_RENDER_ENABLE_GUI "Enable gui" ON)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")

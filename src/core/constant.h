@@ -21,10 +21,10 @@ namespace gl_render {
         constexpr auto SQRT_TWO = 1.41421356237309504880168872420969808f;
         /// 1/sqrt(2)
         constexpr auto INV_SQRT_TWO = 0.707106781186547524400844362104849039f;
-        /// 1-epsilon
-        constexpr auto ONE_MINUS_EPSILON = 0x1.fffffep-1f;
         /// epsilon
-        constexpr auto EPSILON = 0x0.000002p-126f;
+        constexpr auto EPSILON = 0x1p-24f;
+        /// 1-epsilon
+        constexpr auto ONE_MINUS_EPSILON = 0x1.fffffep-1f;  // = 1 - EPSILON
     }
 
 }// namespace luisa::constants
