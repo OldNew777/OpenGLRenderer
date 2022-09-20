@@ -2,9 +2,7 @@
 // Created by ChenXin on 2022/9/19.
 //
 
-#include "camera.h"
-
-#include <glm/gtc/matrix_transform.hpp>
+#include <base/camera.h>
 
 namespace gl_render {
 
@@ -16,7 +14,7 @@ namespace gl_render {
     }
 
     float4x4 Camera::getViewMatrix() noexcept {
-        return glm::lookAt(_position, _position + _front, _up);
+        return lookAt(_position, _position + _front, _up);
     }
 
     float Camera::getFov() noexcept {
