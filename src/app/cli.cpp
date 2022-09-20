@@ -63,7 +63,7 @@ int main(int argc, char *argv[]) {
     auto device_index = options["device"].as<uint32_t>();
     auto scene_path = options["scene"].as<std::filesystem::path>();
 
-    Pipeline pipeline{scene_path};
+    auto pipeline = Pipeline::GetInstance(scene_path);
     pipeline.render();
 
     return 0;

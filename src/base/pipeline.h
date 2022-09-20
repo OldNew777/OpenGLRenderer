@@ -17,13 +17,25 @@ namespace gl_render {
     class Pipeline {
 
     public:
-        Pipeline(const std::filesystem::path &scene_path) noexcept;
 
+        struct Config {
+            bool enable_vsync = false;
+            bool enable_shadow = false;
+        };
+
+        static Pipeline& GetInstance(const std::filesystem::path &scene_path) noexcept {
+            static Pipeline pipeline{scene_path};
+            return pipeline;
+        }
         void render() noexcept;
+
+    private:
+        Pipeline(const std::filesystem::path &scene_path) noexcept;
 
     private:
         gl_render::string _scene;
         GLFWwindow *_window;
+        Config _config;
     };
 
 }

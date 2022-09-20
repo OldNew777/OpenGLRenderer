@@ -43,6 +43,9 @@ set(glm_TEST_ENABLE OFF CACHE BOOL "" FORCE)
 add_subdirectory(glm)
 target_link_libraries(opengl-render-ext PUBLIC glm)
 
+#add_subdirectory(imgui)
+#target_link_libraries(opengl-render-ext PUBLIC imgui)
+
 if (OPENGL_RENDER_ENABLE_GUI)
     add_subdirectory(glad)
     target_link_libraries(opengl-render-ext PUBLIC glad)

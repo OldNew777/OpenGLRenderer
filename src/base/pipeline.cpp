@@ -6,6 +6,10 @@
 
 #include <core/logger.h>
 
+//#include <imgui/imgui.h>
+//#include <imgui/backends/imgui_impl_glfw.h>
+//#include <imgui/backends/imgui_impl_opengl3.h>
+
 namespace gl_render {
 
     Pipeline::Pipeline(const std::filesystem::path &scene_path) noexcept {
@@ -31,6 +35,7 @@ namespace gl_render {
             GL_RENDER_ERROR_WITH_LOCATION("Failed to create GLFW window");
         }
         glfwMakeContextCurrent(_window);
+        glfwSwapInterval(_config.enable_vsync);    // handle vsync
 
         // glad: load all OpenGL function pointers
         // =======================================
@@ -43,6 +48,19 @@ namespace gl_render {
         glCullFace(GL_BACK);
         glEnable(GL_FRAMEBUFFER_SRGB);
         glEnable(GL_MULTISAMPLE);
+
+//        // imgui init
+//        IMGUI_CHECKVERSION();
+//        ImGui::CreateContext();
+//
+//        // setup prefered style
+//        ImGui::StyleColorsDark();
+//
+//        // Decide GL+GLSL versions
+//        const char *glsl_version = "#version 410 core";
+//        // setup platform/renderer bindings
+//        ImGui_ImplGlfw_InitForOpenGL(_window, true);
+//        ImGui_ImplOpenGL3_Init(glsl_version);
     }
 
     void Pipeline::render() noexcept {
@@ -50,8 +68,30 @@ namespace gl_render {
         double last_fps_time = glfwGetTime();
         double fps_time_sum = 0.f;
         int fps_count = 60;
+        auto clear_color = float3(0.45f, 0.55f, 0.60f);
 
         while (!glfwWindowShouldClose(_window)) {
+            glfwPollEvents();
+
+//            // Start the Dear ImGui frame
+//            ImGui_ImplOpenGL3_NewFrame();
+//            ImGui_ImplGlfw_NewFrame();
+//            ImGui::NewFrame();
+//
+//            ImGui::Begin("Hello, world!");
+//            ImGui::Text("Settings");
+//            ImGui::Checkbox("Enable shadow", &_config.enable_shadow);
+
+
+            // Rendering
+            glClearColor(clear_color.x, clear_color.y, clear_color.z, 1.0f);
+            glClear(static_cast<uint32_t>(GL_COLOR_BUFFER_BIT) | static_cast<uint32_t>(GL_DEPTH_BUFFER_BIT));
+//            auto projection = perspective(radians(fov), static_cast<float>(width) / static_cast<float>(height), near_plane, far_plane);
+//            glViewport(0, 0, width, height);
+//            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+
+            // calculate fps
             double current_time = glfwGetTime();
             double delta_time = current_time - last_fps_time;
             last_fps_time = current_time;
@@ -64,16 +104,16 @@ namespace gl_render {
 
             GL_RENDER_INFO("FPS: {}", 1.0 / fps_time_sum * frame_time.size());
             GL_RENDER_INFO("SPF: {}", fps_time_sum / frame_time.size());
-//            auto projection = perspective(radians(fov), static_cast<float>(width) / static_cast<float>(height), near_plane, far_plane);
-
-            glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-            glClear(static_cast<uint32_t>(GL_COLOR_BUFFER_BIT) | static_cast<uint32_t>(GL_DEPTH_BUFFER_BIT));
-//            glViewport(0, 0, width, height);
 
             glfwSwapBuffers(_window);
-            glfwPollEvents();
         }
 
+        // Cleanup
+//        ImGui_ImplOpenGL3_Shutdown();
+//        ImGui_ImplGlfw_Shutdown();
+//        ImGui::DestroyContext();
+
+        glfwDestroyWindow(_window);
         glfwTerminate();
     }
 
