@@ -1,5 +1,5 @@
 {
-  "bsdfs": [
+  "materials": [
     {
       "name": "LeftWall",
       "albedo": [
@@ -65,46 +65,46 @@
       ]
     }
   ],
-  "primitives": [
+  "meshes": [
     {
       "transform": {},
       "file": "models/left-wall.obj",
-      "bsdf": "LeftWall"
+      "material": "LeftWall"
     },
     {
       "transform": {},
       "file": "models/right-wall.obj",
-      "bsdf": "RightWall"
+      "material": "RightWall"
     },
     {
       "transform": {},
       "file": "models/back-wall.obj",
-      "bsdf": "BackWall"
+      "material": "BackWall"
     },
     {
       "transform": {},
       "file": "models/floor.obj",
-      "bsdf": "Floor"
+      "material": "Floor"
     },
     {
       "transform": {},
       "file": "models/ceiling.obj",
-      "bsdf": "Ceiling"
+      "material": "Ceiling"
     },
     {
       "transform": {},
       "file": "models/short-box.obj",
-      "bsdf": "ShortBox"
+      "material": "ShortBox"
     },
     {
       "transform": {},
       "file": "models/tall-box.obj",
-      "bsdf": "TallBox"
+      "material": "TallBox"
     },
     {
       "transform": {},
       "file": "models/light.obj",
-      "bsdf": "Light",
+      "material": "Light",
       "emission": [
         17.0,
         12.0,

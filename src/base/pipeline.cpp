@@ -4,21 +4,24 @@
 
 #include <base/pipeline.h>
 
-#include <core/logger.h>
+#include <fstream>
 
+#include <nlohmann/json.hpp>
 //#include <imgui/imgui.h>
 //#include <imgui/backends/imgui_impl_glfw.h>
 //#include <imgui/backends/imgui_impl_opengl3.h>
 
+#include <core/logger.h>
+
 namespace gl_render {
 
     Pipeline::Pipeline(const std::filesystem::path &scene_path) noexcept {
-        // TODO: load scene
-        int width = 1280;
-        int height = 720;
-        float fov = 35.f;
-        float near_plane = 0.01f;
-        float far_plane = 1.f;
+        // load scene
+        nlohmann::json scene_json = nlohmann::json::parse(std::ifstream{scene_path});
+        _scene.emplace(SceneAllNode{scene_json});
+        // TODO
+        int width = 1024u;
+        int height = 1024u;
 
         // glfw init
         glfwInit();

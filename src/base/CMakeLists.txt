@@ -1,6 +1,7 @@
 set(OPENGL_RENDER_BASE_SOURCES
         camera.h camera.cpp
-        pipeline.h pipeline.cpp)
+        pipeline.h pipeline.cpp
+        scene_info.h scene_info.cpp)
 
 add_library(opengl-render-base SHARED ${OPENGL_RENDER_BASE_SOURCES})
 target_link_libraries(opengl-render-base PUBLIC

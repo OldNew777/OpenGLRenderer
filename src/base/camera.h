@@ -9,7 +9,7 @@
 namespace gl_render {
 
     class Camera {
-    public:
+    private:
         // camera Attributes
         float3 _position;
         float3 _front;
@@ -18,6 +18,7 @@ namespace gl_render {
         // TODO: default pinhole camera now
         float _fov;
 
+    public:
         // constructor with vectors
         Camera(float3 position = float3{0.0f, 0.0f, 0.0f},
                float3 front = float3{0.0f, 0.0f, -1.0f},

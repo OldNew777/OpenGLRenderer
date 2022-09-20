@@ -11,6 +11,7 @@
 
 #include <core/logger.h>
 #include <core/stl.h>
+#include <base/scene_info.h>
 
 namespace gl_render {
 
@@ -33,7 +34,7 @@ namespace gl_render {
         Pipeline(const std::filesystem::path &scene_path) noexcept;
 
     private:
-        gl_render::string _scene;
+        optional<SceneAllNode> _scene;
         GLFWwindow *_window;
         Config _config;
     };

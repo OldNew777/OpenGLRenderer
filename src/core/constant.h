@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <core/stl.h>
+
 namespace gl_render {
 
     namespace constant {
@@ -25,6 +27,12 @@ namespace gl_render {
         constexpr auto EPSILON = 0x1p-24f;
         /// 1-epsilon
         constexpr auto ONE_MINUS_EPSILON = 0x1.fffffep-1f;  // = 1 - EPSILON
+
+        /// float4x4 Identity
+        constexpr auto IDENTITY_FLOAT4x4 = float4x4{1.f, 0.f, 0.f, 0.f,
+                                                   0.f, 1.f, 0.f, 0.f,
+                                                   0.f, 0.f, 1.f, 0.f,
+                                                   0.f, 0.f, 0.f, 1.f};
     }
 
 }// namespace luisa::constants
