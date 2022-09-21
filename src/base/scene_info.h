@@ -123,7 +123,7 @@ namespace gl_render {
 
         friend class SceneAllNode;
 
-    private:
+    protected:
         gl_render::string _name;
         float3 _albedo;
     };
@@ -156,7 +156,7 @@ namespace gl_render {
             }
         }
 
-    private:
+    protected:
         float4x4 _transform;
         std::filesystem::path _file_path;
         string _material_name;
@@ -174,7 +174,7 @@ namespace gl_render {
             _fov = property_float_or_default("fov", 35.f);
         }
 
-    private:
+    protected:
         uint2 _resolution;
         float3 _position;
         float3 _front;
@@ -193,7 +193,7 @@ namespace gl_render {
             _output_file = property_string_or_default("output_file", "output.exr");
         }
 
-    private:
+    protected:
         bool _enable_two_sided_shading;
         bool _enable_shadow;
         std::filesystem::path _output_file;
@@ -220,12 +220,14 @@ namespace gl_render {
                 _meshes.emplace_back(MeshNode{mesh_json});
             }
             _camera.emplace(CameraNode{json["camera"]});
+            _renderer.emplace(RendererNode{json["renderer"]});
         }
 
-    private:
+    protected:
         unordered_map<string, MaterialNode> _materials;
         vector<MeshNode> _meshes;
         optional<CameraNode> _camera;
+        optional<RendererNode> _renderer;
     };
 
 }
