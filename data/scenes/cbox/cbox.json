@@ -67,12 +67,25 @@
   ],
   "meshes": [
     {
-      "transform": {},
+      "transform": {
+        "matrix": [
+          1.0, 1.0, 1.0,
+          1.0, 1.0, 1.0,
+          1.0, 1.0, 1.0
+        ]
+      },
       "file": "models/left-wall.obj",
       "material": "LeftWall"
     },
     {
-      "transform": {},
+      "transform": {
+        "scale": [1.0, 1.0, 1.0],
+        "rotate": {
+          "angle": 0.0,
+          "axis": [0.0, 1.0, 0.0]
+        },
+        "translate": [0.0, 0.0, 0.0]
+      },
       "file": "models/right-wall.obj",
       "material": "RightWall"
     },

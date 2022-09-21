@@ -22,6 +22,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <fmt/format.h>
 
+#include <core/basic_traits.h>
+
 namespace gl_render {
 
     using string = std::basic_string<char, std::char_traits<char>>;
@@ -30,6 +32,7 @@ namespace gl_render {
     // stl
     using std::span;
     using std::optional;
+    using std::nullopt;
     using std::vector;
     using std::list;
     using std::queue;
@@ -38,67 +41,16 @@ namespace gl_render {
     using std::unordered_set;
 
     // data type
-    using float2 = glm::vec2;
-    using float3 = glm::vec3;
-    using float4 = glm::vec4;
-    using float2x2 = glm::mat2x2;
-    using float3x3 = glm::mat3x3;
-    using float4x4 = glm::mat4x4;
-    using uint = unsigned int;
-    using uint2 = glm::uvec2;
-    using uint3 = glm::uvec3;
-    using uint4 = glm::uvec4;
-
-    template<typename T>
-    [[nodiscard]] inline constexpr bool is_vector_v() noexcept {
-        return false;
-    }
-#define GL_RENDER_PROCESS_VECTOR(type)                                  \
-    template<>                                                          \
-    [[nodiscard]] inline constexpr bool is_vector_v<type>() noexcept {  \
-        return true;                                                    \
-    }
-    GL_RENDER_PROCESS_VECTOR(float2)
-    GL_RENDER_PROCESS_VECTOR(float3)
-    GL_RENDER_PROCESS_VECTOR(float4)
-    GL_RENDER_PROCESS_VECTOR(uint2)
-    GL_RENDER_PROCESS_VECTOR(uint3)
-    GL_RENDER_PROCESS_VECTOR(uint4)
-#undef GL_RENDER_PROCESS_VECTOR
-
-    template<typename T>
-    [[nodiscard]] inline constexpr bool is_matrix_v() noexcept {
-        return false;
-    }
-#define GL_RENDER_PROCESS_MATRIX(type)                                  \
-    template<>                                                          \
-    [[nodiscard]] inline constexpr bool is_matrix_v<type>() noexcept {  \
-        return true;                                                    \
-    }
-    GL_RENDER_PROCESS_MATRIX(float2x2)
-    GL_RENDER_PROCESS_MATRIX(float3x3)
-    GL_RENDER_PROCESS_MATRIX(float4x4)
-#undef GL_RENDER_PROCESS_MATRIX
-
-    template<typename T>
-    [[nodiscard]] inline constexpr bool is_scalar_v() noexcept {
-        return true;
-    }
-#define GL_RENDER_PROCESS_SCALAR(type)                                  \
-    template<>                                                          \
-    [[nodiscard]] inline constexpr bool is_scalar_v<type>() noexcept {  \
-        return false;                                                   \
-    }
-    GL_RENDER_PROCESS_SCALAR(float2)
-    GL_RENDER_PROCESS_SCALAR(float3)
-    GL_RENDER_PROCESS_SCALAR(float4)
-    GL_RENDER_PROCESS_SCALAR(uint2)
-    GL_RENDER_PROCESS_SCALAR(uint3)
-    GL_RENDER_PROCESS_SCALAR(uint4)
-    GL_RENDER_PROCESS_SCALAR(float2x2)
-    GL_RENDER_PROCESS_SCALAR(float3x3)
-    GL_RENDER_PROCESS_SCALAR(float4x4)
-#undef GL_RENDER_PROCESS_SCALAR
+    using float2 = Vector<glm::f32, 2>;
+    using float3 = Vector<glm::f32, 3>;
+    using float4 = Vector<glm::f32, 4>;
+    using float2x2 = Matrix<2>;
+    using float3x3 = Matrix<3>;
+    using float4x4 = Matrix<4>;
+    using uint = glm::u32;
+    using uint2 = Vector<glm::u32, 2>;
+    using uint3 = Vector<glm::u32, 2>;
+    using uint4 = Vector<glm::u32, 2>;
 
     // glm
     using glm::normalize;
@@ -109,6 +61,9 @@ namespace gl_render {
 
     using glm::inverse;
     using glm::transpose;
+    using glm::scale;
+    using glm::rotate;
+    using glm::translate;
 
     using glm::perspective;
     using glm::lookAt;
