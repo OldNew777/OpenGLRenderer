@@ -37,6 +37,7 @@ namespace gl_render {
     using std::span;
     using std::optional;
     using std::nullopt;
+    using std::unique_ptr;
     using std::vector;
     using std::list;
     using std::queue;
