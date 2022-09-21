@@ -5,6 +5,7 @@
 #pragma once
 
 #include <cstdlib>
+#include <sstream>
 #include <cmath>
 #include <memory>
 #include <string>
@@ -28,6 +29,7 @@ namespace gl_render {
 
     using string = std::basic_string<char, std::char_traits<char>>;
     using std::string_view;
+    using std::stringstream;
 
     // stl
     using std::span;

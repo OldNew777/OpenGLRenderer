@@ -55,23 +55,21 @@
         0.71,
         0.68
       ]
-    },
-    {
-      "name": "Light",
-      "albedo": [
-        1.0,
-        1.0,
-        1.0
-      ]
     }
   ],
   "meshes": [
     {
       "transform": {
         "matrix": [
-          1.0, 1.0, 1.0,
-          1.0, 1.0, 1.0,
-          1.0, 1.0, 1.0
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
         ]
       },
       "file": "models/left-wall.obj",
@@ -79,12 +77,24 @@
     },
     {
       "transform": {
-        "scale": [1.0, 1.0, 1.0],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
         "rotate": {
           "angle": 0.0,
-          "axis": [0.0, 1.0, 0.0]
+          "axis": [
+            0.0,
+            1.0,
+            0.0
+          ]
         },
-        "translate": [0.0, 0.0, 0.0]
+        "translate": [
+          0.0,
+          0.0,
+          0.0
+        ]
       },
       "file": "models/right-wall.obj",
       "material": "RightWall"
@@ -113,15 +123,19 @@
       "transform": {},
       "file": "models/tall-box.obj",
       "material": "TallBox"
-    },
+    }
+  ],
+  "lights": [
     {
-      "transform": {},
-      "file": "models/light.obj",
-      "material": "Light",
       "emission": [
         17.0,
         12.0,
         4.0
+      ],
+      "position": [
+        0.0,
+        0.0,
+        0.0
       ]
     }
   ],
@@ -130,23 +144,21 @@
       1024,
       1024
     ],
-    "transform": {
-      "position": [
-        0,
-        1,
-        6.8
-      ],
-      "look_at": [
-        0,
-        1,
-        0
-      ],
-      "up": [
-        0,
-        1,
-        0
-      ]
-    },
+    "position": [
+      0,
+      1,
+      6.8
+    ],
+    "look_at": [
+      0,
+      1,
+      0
+    ],
+    "up": [
+      0,
+      1,
+      0
+    ],
     "fov": 19.5
   },
   "renderer": {

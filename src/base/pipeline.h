@@ -11,7 +11,7 @@
 
 #include <core/logger.h>
 #include <core/stl.h>
-#include <base/scene_info.h>
+#include <base/scene_parser.h>
 
 namespace gl_render {
 

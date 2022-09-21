@@ -93,6 +93,9 @@ namespace gl_render {
 //            glViewport(0, 0, width, height);
 //            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
+            // lights
+
+
 
             // calculate fps
             double current_time = glfwGetTime();
