@@ -34,3 +34,6 @@
 [submodule "src/ext/imgui/imgui"]
 	path = src/ext/imgui/imgui
 	url = https://github.com/ocornut/imgui.git
+[submodule "src/ext/glsl-optimizer"]
+	path = src/ext/glsl-optimizer
+	url = https://github.com/aras-p/glsl-optimizer.git

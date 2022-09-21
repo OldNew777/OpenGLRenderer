@@ -4,7 +4,6 @@
 
 #include <string_view>
 #include <iostream>
-#include <filesystem>
 
 #include <cxxopts.hpp>
 
@@ -19,7 +18,7 @@ using namespace gl_render;
     cli.add_option("", "d", "device", "Compute device index",
                    cxxopts::value<uint32_t>()->default_value("0"), "<index>");
     cli.add_option("", "s", "scene", "Path to scene description file",
-                   cxxopts::value<std::filesystem::path>(), "<file>");
+                   cxxopts::value<path>(), "<file>");
     cli.add_option("", "h", "help", "Display this help message",
                    cxxopts::value<bool>()->default_value("false"), "");
     cli.allow_unrecognised_options();
@@ -61,7 +60,7 @@ int main(int argc, char *argv[]) {
     auto options = parse_cli_options(argc, argv);
 
     auto device_index = options["device"].as<uint32_t>();
-    auto scene_path = options["scene"].as<std::filesystem::path>();
+    auto scene_path = options["scene"].as<path>();
 
     auto pipeline = Pipeline::GetInstance(scene_path);
     pipeline.render();

@@ -29,7 +29,7 @@ namespace gl_render {
 
     struct MeshInfo : public SceneNodeInfo  {
         float4x4 transform = constant::IDENTITY_FLOAT4x4;
-        std::filesystem::path file_path;
+        path file_path;
         string material_name;
 
         void print() const noexcept override {
@@ -68,7 +68,7 @@ namespace gl_render {
     struct RendererInfo : public SceneNodeInfo  {
         bool enable_two_sided_shading;
         bool enable_shadow;
-        std::filesystem::path output_file;
+        path output_file;
 
         void print() const noexcept override {
             GL_RENDER_INFO(

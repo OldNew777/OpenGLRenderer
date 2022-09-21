@@ -3,6 +3,7 @@ set(OPENGL_RENDER_CORE_SOURCES
         constant.h
         logger.h logger.cpp
         macro.h
+        serialize.h
         stl.h)
 
 find_package(Threads REQUIRED)

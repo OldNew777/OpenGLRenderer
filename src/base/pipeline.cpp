@@ -15,7 +15,7 @@
 
 namespace gl_render {
 
-    Pipeline::Pipeline(const std::filesystem::path &scene_path) noexcept {
+    Pipeline::Pipeline(const path &scene_path) noexcept {
         // load scene
         nlohmann::json scene_json = nlohmann::json::parse(std::ifstream{scene_path});
         _scene.emplace(SceneAllNode{scene_json});

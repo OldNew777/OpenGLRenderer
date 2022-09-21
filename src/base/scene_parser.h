@@ -4,8 +4,6 @@
 
 #pragma once
 
-#include <filesystem>
-
 #include <nlohmann/json.hpp>
 
 #include <core/stl.h>
@@ -52,33 +50,19 @@ namespace gl_render {
     }
 
         GL_RENDER_SCENE_NODE_DESC_PROPERTY_GETTER(string)
-
         GL_RENDER_SCENE_NODE_DESC_PROPERTY_GETTER(bool)
-
         GL_RENDER_SCENE_NODE_DESC_PROPERTY_GETTER(int)
-
         GL_RENDER_SCENE_NODE_DESC_PROPERTY_GETTER(uint)
-
         GL_RENDER_SCENE_NODE_DESC_PROPERTY_GETTER(uint2)
-
         GL_RENDER_SCENE_NODE_DESC_PROPERTY_GETTER(uint3)
-
         GL_RENDER_SCENE_NODE_DESC_PROPERTY_GETTER(uint4)
-
         GL_RENDER_SCENE_NODE_DESC_PROPERTY_GETTER(float)
-
         GL_RENDER_SCENE_NODE_DESC_PROPERTY_GETTER(float2)
-
         GL_RENDER_SCENE_NODE_DESC_PROPERTY_GETTER(float3)
-
         GL_RENDER_SCENE_NODE_DESC_PROPERTY_GETTER(float4)
-
         GL_RENDER_SCENE_NODE_DESC_PROPERTY_GETTER(float2x2)
-
         GL_RENDER_SCENE_NODE_DESC_PROPERTY_GETTER(float3x3)
-
         GL_RENDER_SCENE_NODE_DESC_PROPERTY_GETTER(float4x4)
-
 #undef GL_RENDER_SCENE_NODE_DESC_PROPERTY_GETTER
 
     private:
@@ -249,7 +233,6 @@ namespace gl_render {
             GL_RENDER_ASSERT(json.contains("camera"), "Scene file must contain camera.");
             GL_RENDER_ASSERT(json.contains("renderer"), "Scene file must contain renderer.");
 
-            GL_RENDER_INFO("asdfasd");
             for (auto &material_json: json["materials"]) {
                 auto material = MaterialNode{material_json};
                 auto material_name = material.material_info().name;
@@ -260,7 +243,6 @@ namespace gl_render {
                 }
                 _materials.insert({material_name, material});
             }
-            GL_RENDER_INFO("asdfasd");
             for (auto &mesh_json: json["meshes"]) {
                 auto mesh_node = _meshes.emplace_back(MeshNode{mesh_json});
                 auto material_name = mesh_node.mesh_info().material_name;
@@ -270,13 +252,10 @@ namespace gl_render {
                             material_name);
                 }
             }
-            GL_RENDER_INFO("asdfasd");
             for (auto &light_json: json["lights"]) {
                 _lights.emplace_back(LightNode{light_json});
             }
-            GL_RENDER_INFO("asdfasd");
             _camera.emplace(CameraNode{json["camera"]});
-            GL_RENDER_INFO("asdfasd");
             _renderer.emplace(RendererNode{json["renderer"]});
         }
 

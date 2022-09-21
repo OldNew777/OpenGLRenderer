@@ -4,8 +4,6 @@
 
 #pragma once
 
-#include <filesystem>
-
 #include <glad/glad.h>
 #include <glfw/glfw3.h>
 
@@ -24,14 +22,14 @@ namespace gl_render {
             bool enable_shadow = false;
         };
 
-        static Pipeline& GetInstance(const std::filesystem::path &scene_path) noexcept {
+        static Pipeline& GetInstance(const path &scene_path) noexcept {
             static Pipeline pipeline{scene_path};
             return pipeline;
         }
         void render() noexcept;
 
     private:
-        Pipeline(const std::filesystem::path &scene_path) noexcept;
+        Pipeline(const path &scene_path) noexcept;
 
     private:
         optional<SceneAllNode> _scene;

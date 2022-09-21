@@ -18,6 +18,7 @@
 #include <set>
 #include <unordered_map>
 #include <unordered_set>
+#include <filesystem>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -30,6 +31,7 @@ namespace gl_render {
     using string = std::basic_string<char, std::char_traits<char>>;
     using std::string_view;
     using std::stringstream;
+    using std::filesystem::path;
 
     // stl
     using std::span;
