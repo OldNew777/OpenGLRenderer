@@ -54,8 +54,12 @@ namespace gl_render {
     using float4x4 = Matrix<4>;
     using uint = glm::u32;
     using uint2 = Vector<glm::u32, 2>;
-    using uint3 = Vector<glm::u32, 2>;
-    using uint4 = Vector<glm::u32, 2>;
+    using uint3 = Vector<glm::u32, 3>;
+    using uint4 = Vector<glm::u32, 4>;
+    using uchar = glm::u8;
+    using uchar2 = Vector<glm::u8, 2>;
+    using uchar3 = Vector<glm::u8, 3>;
+    using uchar4 = Vector<glm::u8, 4>;
 
     // glm
     using glm::normalize;

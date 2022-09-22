@@ -30,6 +30,9 @@ namespace gl_render {
 
     private:
         Pipeline(const path &scene_path) noexcept;
+        Pipeline(const Pipeline&) = delete;
+        Pipeline &operator=(Pipeline &&) = default;
+        Pipeline &operator=(const Pipeline &) = delete;
 
     private:
         optional<SceneAllNode> _scene;

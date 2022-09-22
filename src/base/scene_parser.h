@@ -124,7 +124,7 @@ namespace gl_render {
     public:
         MaterialNode(nlohmann::json &json) noexcept: SceneNode{json} {
             _material_info.name = property_string("name");
-            _material_info.albedo = property_float3("albedo");
+            _material_info.kd = property_float3("kd");
         }
 
         [[nodiscard]] inline const auto &material_info() const noexcept {
@@ -236,51 +236,44 @@ namespace gl_render {
             for (auto &material_json: json["materials"]) {
                 auto material = MaterialNode{material_json};
                 auto material_name = material.material_info().name;
-                if (_materials.contains(material_name)) {
+                if (_scene_all_info.materials.contains(material_name)) {
                     GL_RENDER_ERROR_WITH_LOCATION(
                             "Material '{}' already exists.",
                             material_name);
                 }
-                _materials.insert({material_name, material});
+                _scene_all_info.materials.insert({material_name, material});
             }
             for (auto &mesh_json: json["meshes"]) {
-                auto mesh_node = _meshes.emplace_back(MeshNode{mesh_json});
+                auto mesh_node = _scene_all_info.meshes.emplace_back(MeshNode{mesh_json});
                 auto material_name = mesh_node.mesh_info().material_name;
-                if (!_materials.contains(material_name)) {
+                if (!_scene_all_info.materials.contains(material_name)) {
                     GL_RENDER_ERROR_WITH_LOCATION(
                             "Material '{}' does not exist.",
                             material_name);
                 }
             }
             for (auto &light_json: json["lights"]) {
-                _lights.emplace_back(LightNode{light_json});
+                _scene_all_info.lights.emplace_back(LightNode{light_json});
             }
-            _camera.emplace(CameraNode{json["camera"]});
-            _renderer.emplace(RendererNode{json["renderer"]});
+            _scene_all_info.camera.emplace(CameraNode{json["camera"]});
+            _scene_all_info.renderer.emplace(RendererNode{json["renderer"]});
         }
 
-        [[nodiscard]] inline const auto &materials() const noexcept {
-            return _materials;
+        [[nodiscard]] inline const auto &scene_all_info() const noexcept {
+            return _scene_all_info;
         }
 
-        [[nodiscard]] inline const auto &lights() const noexcept {
-            return _lights;
-        }
-
-        [[nodiscard]] inline const auto &camera() const noexcept {
-            return _camera.value();
-        }
-
-        [[nodiscard]] inline const auto &renderer() const noexcept {
-            return _renderer.value();
-        }
+    public:
+        struct SceneAllInfo {
+            unordered_map<string, MaterialNode> materials;
+            vector<MeshNode> meshes;
+            vector<LightNode> lights;
+            optional<CameraNode> camera;
+            optional<RendererNode> renderer;
+        };
 
     protected:
-        unordered_map<string, MaterialNode> _materials;
-        vector<MeshNode> _meshes;
-        vector<LightNode> _lights;
-        optional<CameraNode> _camera;
-        optional<RendererNode> _renderer;
+        SceneAllInfo _scene_all_info;
     };
 
 }

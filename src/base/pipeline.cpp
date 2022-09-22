@@ -21,7 +21,7 @@ namespace gl_render {
         // load scene
         nlohmann::json scene_json = nlohmann::json::parse(std::ifstream{scene_path});
         _scene.emplace(SceneAllNode{scene_json});
-        const auto& camera_info = _scene->camera().camera_info();
+        const auto& camera_info = _scene->scene_all_info().camera->camera_info();
         int width = static_cast<int>(camera_info.resolution.x);
         int height = static_cast<int>(camera_info.resolution.y);
 
@@ -50,7 +50,7 @@ namespace gl_render {
 
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_CULL_FACE);
-        if (!_scene->renderer().renderer_info().enable_two_sided_shading) {
+        if (!_scene->scene_all_info().renderer->renderer_info().enable_two_sided_shading) {
             glCullFace(GL_BACK);
         }
         glEnable(GL_FRAMEBUFFER_SRGB);
@@ -77,8 +77,8 @@ namespace gl_render {
         int fps_count = 60;
         auto clear_color = float3(0.45f, 0.55f, 0.60f);
 
-        const auto& lights = _scene->lights();
-        const auto& camera_info = _scene->camera().camera_info();
+        const auto& lights = _scene->scene_all_info().lights;
+        const auto& camera_info = _scene->scene_all_info().camera->camera_info();
         int width = static_cast<int>(camera_info.resolution.x);
         int height = static_cast<int>(camera_info.resolution.y);
         float near_plane = 0.01f;
