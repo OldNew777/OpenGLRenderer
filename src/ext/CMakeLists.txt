@@ -43,10 +43,6 @@ set(glm_TEST_ENABLE OFF CACHE BOOL "" FORCE)
 add_subdirectory(glm)
 target_link_libraries(opengl-render-ext PUBLIC glm)
 
-add_subdirectory(glsl-optimizer)
-target_include_directories(glsl_optimizer INTERFACE glsl-optimizer/src)
-target_link_libraries(opengl-render-ext PUBLIC glsl_optimizer)
-
 #add_subdirectory(imgui)
 #target_link_libraries(opengl-render-ext PUBLIC imgui)
 

@@ -12,6 +12,8 @@
 //#include <imgui/backends/imgui_impl_opengl3.h>
 
 #include <core/logger.h>
+#include <base/shader.h>
+#include <base/camera.h>
 
 namespace gl_render {
 
@@ -19,9 +21,9 @@ namespace gl_render {
         // load scene
         nlohmann::json scene_json = nlohmann::json::parse(std::ifstream{scene_path});
         _scene.emplace(SceneAllNode{scene_json});
-        // TODO
-        int width = 1024u;
-        int height = 1024u;
+        const auto& camera_info = _scene->camera().camera_info();
+        int width = static_cast<int>(camera_info.resolution.x);
+        int height = static_cast<int>(camera_info.resolution.y);
 
         // glfw init
         glfwInit();
@@ -48,7 +50,9 @@ namespace gl_render {
 
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_CULL_FACE);
-        glCullFace(GL_BACK);
+        if (!_scene->renderer().renderer_info().enable_two_sided_shading) {
+            glCullFace(GL_BACK);
+        }
         glEnable(GL_FRAMEBUFFER_SRGB);
         glEnable(GL_MULTISAMPLE);
 
@@ -73,6 +77,24 @@ namespace gl_render {
         int fps_count = 60;
         auto clear_color = float3(0.45f, 0.55f, 0.60f);
 
+        const auto& lights = _scene->lights();
+        const auto& camera_info = _scene->camera().camera_info();
+        int width = static_cast<int>(camera_info.resolution.x);
+        int height = static_cast<int>(camera_info.resolution.y);
+        float near_plane = 0.01f;
+        float far_plane = 100.f;
+
+        // build and compile shaders
+        Shader shader{
+            "data/shaders/ggx.vs",
+            "data/shaders/ggx_approx.fs",
+            {},
+            {
+                {std::string{"LIGHT_COUNT"}, serialize(lights.size())},
+                {std::string{"TEXTURE_MAX_SIZE"}, serialize(4096)}
+            }
+        };
+
         while (!glfwWindowShouldClose(_window)) {
             glfwPollEvents();
 
@@ -89,12 +111,24 @@ namespace gl_render {
             // Rendering
             glClearColor(clear_color.x, clear_color.y, clear_color.z, 1.0f);
             glClear(static_cast<uint32_t>(GL_COLOR_BUFFER_BIT) | static_cast<uint32_t>(GL_DEPTH_BUFFER_BIT));
-//            auto projection = perspective(radians(fov), static_cast<float>(width) / static_cast<float>(height), near_plane, far_plane);
-//            glViewport(0, 0, width, height);
+            auto projection = perspective(
+                    radians(camera_info.fov),
+                    static_cast<float>(width) / static_cast<float>(height),
+                    near_plane, far_plane);
+            glViewport(0, 0, width, height);
 //            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
+            shader.use();
             // lights
-
+            for (auto i = 0ul; i < lights.size(); i++) {
+                shader.setVec3(serialize("lights[", i, "].Position"), lights[i].light_info().position);
+                shader.setVec3(serialize("lights[", i, "].Color"), lights[i].light_info().emission);
+            }
+            // camera
+            Camera camera{camera_info.position, camera_info.front, camera_info.up, camera_info.fov};
+            shader.setMat4("projection", projection);
+            shader.setMat4("view", camera.view_matrix());
+            shader.setVec3("cameraPos", camera_info.position);
 
 
             // calculate fps

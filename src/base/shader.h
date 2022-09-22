@@ -10,7 +10,6 @@
 #include <regex>
 
 #include <glad/glad.h>
-#include <glsl/glsl_optimizer.h>
 
 #include <core/serialize.h>
 #include <core/logger.h>
@@ -34,8 +33,8 @@ namespace gl_render {
             string fragmentCode;
             string geometryCode;
 
-            vertexCode = optimizeShaderSource(readSourceFile(vertexPath, tl), kGlslOptShaderVertex);
-            fragmentCode = optimizeShaderSource(readSourceFile(fragmentPath, tl), kGlslOptShaderFragment);
+            vertexCode = readSourceFile(vertexPath, tl);
+            fragmentCode = readSourceFile(fragmentPath, tl);
 
             // if geometry shader path is present, also load a geometry shader
             if (!geometryPath.empty()) {
@@ -161,28 +160,6 @@ namespace gl_render {
                     replacement,
                     string_view{src}.substr(match_result.position() + match_result.length()));
             return version_string;
-        }
-
-        static string optimizeShaderSource(string src, glslopt_shader_type shader_type) {
-
-            auto version_string = replaceVersionString(src, "#version 300 es");
-
-            static constexpr auto context_deleter = [](glslopt_ctx *ctx) noexcept { glslopt_cleanup(ctx); };
-            static unique_ptr<glslopt_ctx, decltype(context_deleter)> optimizer_context{
-                    glslopt_initialize(kGlslTargetOpenGL), context_deleter};
-
-            static constexpr auto shader_deleter = [](glslopt_shader *shader) noexcept {
-                glslopt_shader_delete(shader);
-            };
-            unique_ptr<glslopt_shader, decltype(shader_deleter)> shader{
-                    glslopt_optimize(optimizer_context.get(), shader_type, src.c_str(), 0), shader_deleter};
-
-            if (!glslopt_get_status(shader.get())) {
-                throw std::runtime_error{serialize("Failed to optimize shader: ", glslopt_get_log(shader.get()))};
-            }
-            src = glslopt_get_output(shader.get());
-            replaceVersionString(src, version_string);
-            return src;
         }
 
         static string readSourceFile(const path &path, const TemplateList &tl) {
