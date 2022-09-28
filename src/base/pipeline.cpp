@@ -24,14 +24,13 @@ namespace gl_render {
         const auto& camera_info = _scene->scene_all_info().camera->camera_info();
         int width = static_cast<int>(camera_info.resolution.x);
         int height = static_cast<int>(camera_info.resolution.y);
-        _geometry = make_unique<Geometry>(_scene->scene_all_info(), scene_path.parent_path());
 
         // glfw init
         glfwInit();
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-        glfwWindowHint(GLFW_SRGB_CAPABLE, 1);
+//        glfwWindowHint(GLFW_SRGB_CAPABLE, 1);
         // glfw window creation
         // ====================
         glfwWindowHint(GLFW_SAMPLES, 4);
@@ -69,13 +68,16 @@ namespace gl_render {
 //        // setup platform/renderer bindings
 //        ImGui_ImplGlfw_InitForOpenGL(_window, true);
 //        ImGui_ImplOpenGL3_Init(glsl_version);
+
+        _geometry = make_unique<Geometry>(_scene->scene_all_info(), scene_path.parent_path());
     }
 
     void Pipeline::render() noexcept {
         gl_render::queue<double> frame_time;
         double last_fps_time = glfwGetTime();
         double fps_time_sum = 0.f;
-        int fps_count = 600;
+        const auto fps_count = 600u;
+        auto print_count = 0u;
         auto clear_color = float3(0.45f, 0.55f, 0.60f);
 
         const auto& lights = _scene->scene_all_info().lights;
@@ -145,8 +147,13 @@ namespace gl_render {
                 frame_time.pop();
             }
 
-            GL_RENDER_INFO("FPS: {}", 1.0 / fps_time_sum * frame_time.size());
-            GL_RENDER_INFO("SPF: {}", fps_time_sum / frame_time.size());
+            if (print_count++ == fps_count) {
+                print_count = 0;
+                GL_RENDER_INFO(
+                        "FPS: {}, SPF: {}",
+                        1.0 / fps_time_sum * frame_time.size(),
+                        fps_time_sum / frame_time.size());
+            }
 
             glfwSwapBuffers(_window);
         }

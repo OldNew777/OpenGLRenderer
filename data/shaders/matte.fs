@@ -9,7 +9,7 @@ in vec2 TexCoord;
 in vec3 Position;
 in vec3 Normal;
 in vec3 r;
-in float sigma;
+in float Sigma;
 in float a;
 in float b;
 
@@ -29,10 +29,10 @@ uniform PointLight pointLights[POINT_LIGHT_COUNT];
 // calculates the color when using a point light.
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 {
-    vec3 lightDir = normalize(light.position - fragPos);
+    vec3 lightDir = normalize(light.Position - fragPos);
     // diffuse shading
     float diff = max(dot(normal, lightDir), 0.0f);
-    vec3 diffuse = light.diffuse * diff;
+    vec3 diffuse = light.Color * diff;
     return diffuse;
 }
 
@@ -46,14 +46,14 @@ void main()
 //     // phase 1: directional light
 //     vec3 result = CalcDirLight(dirLight, norm, viewDir);
     // phase 2: point lights
-    for(int i = 0; i < NR_POINT_LIGHTS; i++) {
+    for(int i = 0; i < POINT_LIGHT_COUNT; i++) {
         vec3 lightDir = normalize(pointLights[i].Position - Position);
         bool valid = (viewDir.z * lightDir.z) > 0.0f;
         if (!valid) {
             continue;
         }
         vec3 f = r * INV_PI;
-        if (sigma > 0.0f) {
+        if (Sigma > 0.0f) {
             // TODO
         }
         Lo += CalcPointLight(pointLights[i], norm, Position, viewDir) * f;

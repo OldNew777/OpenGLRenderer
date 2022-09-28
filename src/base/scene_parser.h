@@ -198,7 +198,7 @@ namespace gl_render {
                 : SceneNode{json} {
             _camera_info.resolution = property_uint2("resolution");
             _camera_info.position = property_float3_or_default("position", float3{0.f});
-            _camera_info.front = property_float3_or_default("look_at", float3{0.0f, 0.0f, -1.0f}) - _camera_info.position;
+            _camera_info.front = property_float3_or_default("front", float3{0.0f, 0.0f, -1.0f});
             _camera_info.up = property_float3_or_default("up", float3{0.0f, 1.0f, 0.0f});
             _camera_info.fov = property_float_or_default("fov", 35.f);
         }

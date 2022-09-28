@@ -117,7 +117,6 @@ namespace gl_render {
             _mesh_sizes.emplace_back(positions.size() - _mesh_offsets.back());
         }
 
-        GL_RENDER_INFO("1");
         _texture_count = packer.count();
         _texture_array = packer.create_opengl_texture_array();
 
