@@ -4,7 +4,8 @@ set(OPENGL_RENDER_BASE_SOURCES
         pipeline.h pipeline.cpp
         scene_info.h
         scene_parser.h scene_parser.cpp
-        shader.h)
+        shader.h
+        texture_packer.h texture_packer.cpp)
 
 add_library(opengl-render-base SHARED ${OPENGL_RENDER_BASE_SOURCES})
 target_link_libraries(opengl-render-base PUBLIC

@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <core/stl.h>
+
 namespace gl_render {
 
     class TexturePacker {
@@ -21,33 +23,32 @@ namespace gl_render {
 
         struct ImageBlock {
             uint32_t index;
-            glm::uvec2 offset;
-            glm::uvec2 size;
+            uint2 offset;
+            uint2 size;
             constexpr ImageBlock() noexcept : index{}, offset{}, size{} {}
-            constexpr ImageBlock(uint32_t index, glm::uvec2 offset, glm::uvec2 size) noexcept : index{index}, offset{offset}, size{size} {}
+            constexpr ImageBlock(uint32_t index, uint2 offset, uint2 size) noexcept : index{index}, offset{offset}, size{size} {}
         };
 
     private:
         size_t _max_size{};
         size_t _min_size{};
         size_t _max_level_count{};
-        std::vector<std::queue<Quad>> _available_quads;
-        std::vector<std::vector<glm::u8vec4>> _image_buffers;
-        std::unordered_map<std::string, ImageBlock> _loaded_images;
+        vector<queue<Quad>> _available_quads;
+        vector<vector<uchar4>> _image_buffers;
+        unordered_map<string, ImageBlock> _loaded_images;
 
         Quad _decompose_quad(Quad quad, size_t target_size, size_t level) noexcept;
         Quad _fit_image(size_t w, size_t h) noexcept;
-        void _fill(TexturePacker::ImageBlock b, const glm::u8vec4 *data) noexcept;
+        void _fill(TexturePacker::ImageBlock b, const uchar4 *data) noexcept;
 
     public:
         explicit TexturePacker(size_t max_size = 4096ul, size_t min_size = 16ul);
-        ImageBlock load(const std::string &path);
+        ImageBlock load(const string &path);
         [[nodiscard]] size_t count() const noexcept;
         [[nodiscard]] size_t max_size() const noexcept;
-        [[nodiscard]] const std::vector<glm::u8vec4> &image_buffer(size_t index) const noexcept;
+        [[nodiscard]] const vector<uchar4> &image_buffer(size_t index) const noexcept;
         [[nodiscard]] uint32_t create_opengl_texture_array() const noexcept;
 
     };
-
 
 }

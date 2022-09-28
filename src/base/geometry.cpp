@@ -11,22 +11,27 @@
 namespace gl_render {
 
     Geometry::Geometry(const SceneAllNode::SceneAllInfo &sceneAllInfo) {
-        std::vector<float3> positions;
-        std::vector<float3> normals;
-        std::vector<float3> kd;
-        std::vector<float3> tex_coords;
-        std::vector<float4> tex_properties;
-        std::vector<uint3> indices;
+        vector<float3> positions;
+        vector<float3> normals;
+        vector<float3> kd;
+        vector<float3> tex_coords;
+        vector<float4> tex_properties;
+        vector<uint3> indices;
 
         TexturePacker packer;
 
-        for (auto &&mesh : info.meshes()) {
+        for (auto &&mesh_node: sceneAllInfo.meshes) {
+            const auto& mesh = mesh_node.mesh_info();
 
-            auto path = info.folder() + mesh.file_name;
+            auto path = mesh.file_path.string();
+            auto material_name = mesh.material_name;
 
             Assimp::Importer importer;
-            auto ai_scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_FixInfacingNormals | aiProcess_GenSmoothNormals);
-            if (ai_scene == nullptr || (ai_scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE) || ai_scene->mRootNode == nullptr) {
+            auto ai_scene = importer.ReadFile(path,
+                                              aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_FixInfacingNormals |
+                                              aiProcess_GenSmoothNormals);
+            if (ai_scene == nullptr || (ai_scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE) ||
+                ai_scene->mRootNode == nullptr) {
                 throw std::runtime_error{serialize("Failed to load scene from: ", path)};
             }
 
@@ -35,8 +40,8 @@ namespace gl_render {
             auto offset = static_cast<uint32_t>(_mesh_offsets.back());
 
             // gather submeshes
-            std::vector<aiMesh *> mesh_list;
-            std::queue<aiNode *> node_queue;
+            vector<aiMesh *> mesh_list;
+            queue<aiNode *> node_queue;
             node_queue.push(ai_scene->mRootNode);
             while (!node_queue.empty()) {
                 auto node = node_queue.front();
@@ -50,61 +55,36 @@ namespace gl_render {
             }
 
             // process submeshes
-            for (auto ai_mesh : mesh_list) {
+            for (auto ai_mesh: mesh_list) {
 
                 // process material
-                std::string tex_name;
-                glm::vec3 color{1.0f};
-                glm::vec2 gloss{0.0f, 0.0f};
-                if (!mesh.material_name.empty()) {
-                    auto iter = info.materials().find(mesh.material_name);
-                    if (iter == info.materials().end()) {
-                        throw std::runtime_error{serialize("Reference to undefined material: ", mesh.material_name)};
-                    }
-                    auto &&material = iter->second;
-                    if (material.file_name.empty()) {
-                        color = material.color;
-                    } else {
-                        tex_name = material.file_name;
-                    }
-                    gloss.x = material.specular;
-                    gloss.y = material.roughness;
-                } else {
-                    auto ai_material = ai_scene->mMaterials[ai_mesh->mMaterialIndex];
-                    if (ai_material->GetTextureCount(aiTextureType_DIFFUSE) == 0) {
-                        aiColor3D ai_color;
-                        ai_material->Get(AI_MATKEY_COLOR_DIFFUSE, ai_color);
-                        color = glm::vec3{ai_color.r, ai_color.g, ai_color.b};
-                    } else {
-                        aiString ai_path;
-                        ai_material->GetTexture(aiTextureType_DIFFUSE, 0, &ai_path);
-                        tex_name = mesh.file_name;
-                        tex_name.erase(tex_name.find('/') + 1).append(ai_path.C_Str());
-                    }
-                    float shininess;
-                    aiColor3D specular;
-                    ai_material->Get(AI_MATKEY_COLOR_SPECULAR, specular);
-                    ai_material->Get(AI_MATKEY_SHININESS, shininess);
-                    gloss.x = (specular.r + specular.g + specular.b) / 3.0f;
-                    gloss.y = std::sqrt(2.0f / (2.0f + shininess));
+                float3 color{1.0f};
+                auto iter = sceneAllInfo.materials.find(material_name);
+                if (iter == sceneAllInfo.materials.end()) {
+                    GL_RENDER_ERROR_WITH_LOCATION("Reference to undefined material: {}", material_name);
+                }
+                auto &&material = iter->second.material_info();
+                auto has_texture = true;
+                if (material.kd_map.empty()) {
+                    color = material.kd;
+                    has_texture = false;
                 }
 
-                auto has_texture = false;
                 TexturePacker::ImageBlock block{};
-                if (!tex_name.empty()) {
-                    block = packer.load(info.folder() + tex_name);
-                    has_texture = true;
+                if (has_texture) {
+                    block = packer.load(material.kd_map);
                 }
 
                 auto model_matrix = mesh.transform;
-                auto normal_matrix = glm::transpose(glm::inverse(glm::mat3{model_matrix}));
+                auto normal_matrix = transpose(inverse(model_matrix));
 
                 // process vertices
                 for (auto i = 0ul; i < ai_mesh->mNumVertices; i++) {
                     auto ai_position = ai_mesh->mVertices[i];
                     auto ai_normal = ai_mesh->mNormals[i];
-                    auto position = glm::vec3{model_matrix * glm::vec4{ai_position.x, ai_position.y, ai_position.z, 1.0f}};
-                    auto normal = normal_matrix * glm::vec3{ai_normal.x, ai_normal.y, ai_normal.z};
+                    auto temp = model_matrix * float4{ai_position.x, ai_position.y, ai_position.z, 1.f};
+                    auto position = float3(temp.x, temp.y, temp.z);
+                    auto normal = normal_matrix * float4{ai_normal.x, ai_normal.y, ai_normal.z, 1.f};
                     positions.emplace_back(position);
                     normals.emplace_back(normal);
                     auto ai_tex_coords = ai_mesh->mTextureCoords[0];
@@ -116,14 +96,14 @@ namespace gl_render {
                         tex_properties.emplace_back(block.offset.x, block.offset.y, block.size.x, block.size.y);
                     }
                     kd.emplace_back(color);
-                    _aabb.min = glm::min(_aabb.min, position);
-                    _aabb.max = glm::max(_aabb.max, position);
+                    _aabb.min = min(_aabb.min, position);
+                    _aabb.max = max(_aabb.max, position);
                 }
 
                 // process faces
                 for (auto i = 0ul; i < ai_mesh->mNumFaces; i++) {
                     auto &&face = ai_mesh->mFaces[i].mIndices;
-                    indices.emplace_back(glm::uvec3{face[0], face[1], face[2]} + offset);
+                    indices.emplace_back(uint3{face[0], face[1], face[2]} + offset);
                 }
 
                 offset += ai_mesh->mNumVertices;
@@ -134,20 +114,21 @@ namespace gl_render {
         _texture_count = packer.count();
         _texture_array = packer.create_opengl_texture_array();
 
-        auto aabb_min = glm::min(_aabb.min, _aabb.max);
-        auto aabb_max = glm::max(_aabb.min, _aabb.max);
+        auto aabb_min = min(_aabb.min, _aabb.max);
+        auto aabb_max = max(_aabb.min, _aabb.max);
         _aabb.min = aabb_min;
         _aabb.max = aabb_max;
 
-        std::cout << "AABB: "
-                  << "min = (" << aabb_min.x << ", " << aabb_min.y << ", " << aabb_min.z << "), "
-                  << "max = (" << aabb_max.x << ", " << aabb_max.y << ", " << aabb_max.z << ")" << std::endl;
+        GL_RENDER_INFO(
+                "AABB: min = ({}, {}, {}), max = ({}, {}, {})",
+                _aabb.min.x, _aabb.min.y, _aabb.min.z,
+                _aabb.max.x, _aabb.max.y, _aabb.max.z);
 
         _triangle_count = indices.size();
         _vertex_count = positions.size();
 
-        std::cout << "Total vertices: " << positions.size() << std::endl;
-        std::cout << "Total triangles: " << _triangle_count << std::endl;
+        GL_RENDER_INFO("Total vertices: {}", positions.size());
+        GL_RENDER_INFO("Total triangles: {}", _triangle_count);
 
         // transfer to OpenGL
         glGenVertexArrays(1, &_vertex_array);
@@ -164,29 +145,34 @@ namespace gl_render {
         glBindVertexArray(_vertex_array);
 
         glBindBuffer(GL_ARRAY_BUFFER, _position_buffer);
-        glBufferData(GL_ARRAY_BUFFER, indices.size() * 3ul * sizeof(glm::vec3), _flatten(positions, indices).data(), GL_DYNAMIC_COPY);
+        glBufferData(GL_ARRAY_BUFFER, indices.size() * 3ul * sizeof(float3), _flatten(positions, indices).data(),
+                     GL_DYNAMIC_COPY);
         glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), nullptr);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float3), nullptr);
 
         glBindBuffer(GL_ARRAY_BUFFER, _normal_buffer);
-        glBufferData(GL_ARRAY_BUFFER, indices.size() * 3ul * sizeof(glm::vec3), _flatten(normals, indices).data(), GL_DYNAMIC_COPY);
+        glBufferData(GL_ARRAY_BUFFER, indices.size() * 3ul * sizeof(float3), _flatten(normals, indices).data(),
+                     GL_DYNAMIC_COPY);
         glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), nullptr);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float3), nullptr);
 
         glBindBuffer(GL_ARRAY_BUFFER, _color_buffer);
-        glBufferData(GL_ARRAY_BUFFER, indices.size() * 3ul * sizeof(glm::vec3), _flatten(kd, indices).data(), GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, indices.size() * 3ul * sizeof(float3), _flatten(kd, indices).data(),
+                     GL_STATIC_DRAW);
         glEnableVertexAttribArray(2);
-        glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), nullptr);
+        glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(float3), nullptr);
 
         glBindBuffer(GL_ARRAY_BUFFER, _tex_coord_buffer);
-        glBufferData(GL_ARRAY_BUFFER, indices.size() * 3ul * sizeof(glm::vec3), _flatten(tex_coords, indices).data(), GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, indices.size() * 3ul * sizeof(float3), _flatten(tex_coords, indices).data(),
+                     GL_STATIC_DRAW);
         glEnableVertexAttribArray(3);
-        glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), nullptr);
+        glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(float3), nullptr);
 
         glBindBuffer(GL_ARRAY_BUFFER, _tex_property_buffer);
-        glBufferData(GL_ARRAY_BUFFER, indices.size() * 3ul * sizeof(glm::vec4), _flatten(tex_properties, indices).data(), GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, indices.size() * 3ul * sizeof(float4),
+                     _flatten(tex_properties, indices).data(), GL_STATIC_DRAW);
         glEnableVertexAttribArray(4);
-        glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4), nullptr);
+        glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(float4), nullptr);
 
         glBindVertexArray(0);
     }

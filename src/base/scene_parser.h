@@ -125,6 +125,7 @@ namespace gl_render {
         MaterialNode(nlohmann::json &json) noexcept: SceneNode{json} {
             _material_info.name = property_string("name");
             _material_info.kd = property_float3("kd");
+            _material_info.kd_map = property_string_or_default("kd_map");
         }
 
         [[nodiscard]] inline const auto &material_info() const noexcept {

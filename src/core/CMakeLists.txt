@@ -4,7 +4,8 @@ set(OPENGL_RENDER_CORE_SOURCES
         logger.h logger.cpp
         macro.h
         serialize.h
-        stl.h)
+        stl.h
+        util.h)
 
 find_package(Threads REQUIRED)
 add_library(opengl-render-core SHARED ${OPENGL_RENDER_CORE_SOURCES})

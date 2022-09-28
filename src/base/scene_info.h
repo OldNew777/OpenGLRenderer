@@ -19,11 +19,12 @@ namespace gl_render {
     struct MaterialInfo : public SceneNodeInfo {
         string name;
         float3 kd;
+        path kd_map;
 
         void print() const noexcept override {
             GL_RENDER_INFO(
-                    "MaterialInfo: name: {}, albedo: ({}, {}, {})",
-                    name, kd.x, kd.y, kd.z);
+                    "MaterialInfo: name: {}, kd: ({}, {}, {}), kd_map",
+                    name, kd.x, kd.y, kd.z, kd_map.string());
         }
     };
 

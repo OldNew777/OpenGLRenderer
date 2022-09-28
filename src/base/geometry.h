@@ -12,8 +12,8 @@ namespace gl_render {
     namespace impl {
 
         struct AABB {
-            glm::vec3 min{1.e6f};
-            glm::vec3 max{-1.e6f};
+            float3 min{1.e6f};
+            float3 max{-1.e6f};
         };
 
     }
@@ -24,8 +24,8 @@ namespace gl_render {
         using AABB = impl::AABB;
 
     private:
-        std::vector<size_t> _mesh_offsets;
-        std::vector<size_t> _mesh_sizes;
+        vector<size_t> _mesh_offsets;
+        vector<size_t> _mesh_sizes;
         AABB _aabb{};
         size_t _triangle_count{0};
         size_t _vertex_count{0};
