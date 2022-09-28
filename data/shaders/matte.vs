@@ -35,12 +35,7 @@ void main() {
 
     Normal = aNormal;
 
-    if (TexId >= 0) {
-        r = kd;
-    } else {
-        vec2 Coord = (fract(fract(TexCoord) + 1.0f) * TexSize + TexOffset) / ${TEXTURE_MAX_SIZE};
-        r = texture(textures, vec3(Coord, TexId)).rgb;
-    }
+    r = kd;
     float sigma2 = sigma * PI / 180.0f;
     sigma2 *= sigma2;
     a = 1.f - sigma2 / (2.0f * sigma2 + 0.66f);

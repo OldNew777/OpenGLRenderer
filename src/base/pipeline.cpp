@@ -85,7 +85,7 @@ namespace gl_render {
         int width = static_cast<int>(camera_info.resolution.x);
         int height = static_cast<int>(camera_info.resolution.y);
         float near_plane = 0.01f;
-        float far_plane = length(_geometry->aabb().max - _geometry->aabb().min) * 1.1f;
+        float far_plane = 10.f;
         Camera camera{camera_info.position, camera_info.front, camera_info.up, camera_info.fov};
         auto view_matrix = camera.view_matrix();
         auto projection = perspective(

@@ -97,17 +97,11 @@ namespace gl_render {
 
     uint32_t TexturePacker::create_opengl_texture_array() const noexcept {
         uint32_t texture_array = 0u;
-        GL_RENDER_INFO("1");
         glGenTextures(1, &texture_array);
-        GL_RENDER_INFO("1");
         glBindTexture(GL_TEXTURE_2D_ARRAY, texture_array);
-        GL_RENDER_INFO("1");
         glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        GL_RENDER_INFO("1");
         glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
-        GL_RENDER_INFO("1");
         glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-        GL_RENDER_INFO("1");
         glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_RGBA8, _max_size, _max_size, _image_buffers.size(), 0, GL_RGBA,

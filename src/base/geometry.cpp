@@ -35,7 +35,7 @@ namespace gl_render {
             Assimp::Importer importer;
             auto ai_scene = importer.ReadFile(mesh_path,
                                               aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_FixInfacingNormals |
-                                              aiProcess_GenSmoothNormals);
+                                              aiProcess_GenNormals);
             GL_RENDER_ASSERT(ai_scene != nullptr, "Mesh \"{}\" is nullptr", mesh_path);
             GL_RENDER_ASSERT(!(ai_scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE), "Mesh \"{}\" is incomplete", mesh_path);
             GL_RENDER_ASSERT(ai_scene->mRootNode != nullptr, "Failed to load mesh: {}", mesh_path);
@@ -87,6 +87,7 @@ namespace gl_render {
                 for (auto i = 0ul; i < ai_mesh->mNumVertices; i++) {
                     auto ai_position = ai_mesh->mVertices[i];
                     auto ai_normal = ai_mesh->mNormals[i];
+                    GL_RENDER_INFO("ai_normal: ({}, {}, {})", ai_normal.x, ai_normal.y, ai_normal.z);
                     auto temp = model_matrix * float4{ai_position.x, ai_position.y, ai_position.z, 1.f};
                     auto position = float3(temp.x, temp.y, temp.z);
                     auto normal = normal_matrix * float4{ai_normal.x, ai_normal.y, ai_normal.z, 1.f};
@@ -104,6 +105,7 @@ namespace gl_render {
                     sigma_vec.emplace_back(material.sigma);
                     _aabb.min = min(_aabb.min, position);
                     _aabb.max = max(_aabb.max, position);
+                    GL_RENDER_INFO("sigma: {}", material.sigma);
                 }
 
                 // process faces
@@ -119,11 +121,6 @@ namespace gl_render {
 
         _texture_count = packer.count();
         _texture_array = packer.create_opengl_texture_array();
-
-        auto aabb_min = min(_aabb.min, _aabb.max);
-        auto aabb_max = max(_aabb.min, _aabb.max);
-        _aabb.min = aabb_min;
-        _aabb.max = aabb_max;
 
         GL_RENDER_INFO(
                 "AABB: min = ({}, {}, {}), max = ({}, {}, {})",
@@ -147,6 +144,7 @@ namespace gl_render {
         _kd_buffer = buffers[2];
         _tex_coord_buffer = buffers[3];
         _tex_property_buffer = buffers[4];
+        _sigma_buffer = buffers[5];
 
         glBindVertexArray(_vertex_array);
 

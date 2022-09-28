@@ -31,29 +31,33 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 {
     vec3 lightDir = normalize(light.Position - fragPos);
     // diffuse shading
-    float diff = max(dot(normal, lightDir), 0.0f);
+    float diff = max(dot(normal, lightDir), 0.f);
     vec3 diffuse = light.Color * diff;
     return diffuse;
+}
+
+bool same_hemisphere(vec3 v1, vec3 v2, vec3 normal) {
+    return dot(v1, normal) > 0.f && dot(v2, normal) > 0.f;
 }
 
 void main()
 {
     vec3 viewDir = normalize(cameraPos - Position);
-    vec3 norm = normalize(dot(Normal, viewDir) >= 0.0f ? Normal : -Normal);
+    vec3 norm = normalize(Normal);
 
-    vec3 Lo = vec3(0.0f);
+    vec3 Lo = vec3(0.f);
 
 //     // phase 1: directional light
 //     vec3 result = CalcDirLight(dirLight, norm, viewDir);
     // phase 2: point lights
     for(int i = 0; i < POINT_LIGHT_COUNT; i++) {
         vec3 lightDir = normalize(pointLights[i].Position - Position);
-        bool valid = (viewDir.z * lightDir.z) > 0.0f;
+        bool valid = same_hemisphere(lightDir, viewDir, norm);
         if (!valid) {
             continue;
         }
         vec3 f = r * INV_PI;
-        if (Sigma > 0.0f) {
+        if (Sigma > 0.f) {
             // TODO
         }
         Lo += CalcPointLight(pointLights[i], norm, Position, viewDir) * f;
@@ -61,5 +65,5 @@ void main()
 //     // phase 3: spot light
 //     result += CalcSpotLight(spotLight, norm, FragPos, viewDir);
 
-    FragColor = vec4(Lo, 1.0f);
+    FragColor = vec4(Lo, 1.f);
 }
