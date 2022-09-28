@@ -27,22 +27,23 @@ namespace gl_render {
         vector<size_t> _mesh_offsets;
         vector<size_t> _mesh_sizes;
         AABB _aabb{};
-        size_t _triangle_count{0};
-        size_t _vertex_count{0};
-        size_t _texture_count{0};
-        uint _vertex_array{0};
-        uint _position_buffer{0};
-        uint _normal_buffer{0};
-        uint _color_buffer{0};
-        uint _tex_coord_buffer{0};
-        uint _tex_property_buffer{0};
-        uint _texture_array{0};
+        size_t _triangle_count{0u};
+        size_t _vertex_count{0u};
+        size_t _texture_count{0u};
+        uint _vertex_array{0u};
+        uint _position_buffer{0u};
+        uint _normal_buffer{0u};
+        uint _kd_buffer{0u};
+        uint _sigma_buffer{0u};
+        uint _tex_coord_buffer{0u};
+        uint _tex_property_buffer{0u};
+        uint _texture_array{0u};
 
     private:
         template<typename T>
         static T _flatten(const T &v, const std::vector<uint3> &indices) noexcept {
             T container;
-            container.reserve(indices.size() * 3);
+            container.reserve(indices.size() * 3u);
             for (auto i : indices) {
                 container.emplace_back(v[i.x]);
                 container.emplace_back(v[i.y]);
@@ -52,7 +53,7 @@ namespace gl_render {
         }
 
     public:
-        explicit Geometry(const SceneAllNode::SceneAllInfo &sceneAllInfo);
+        explicit Geometry(const SceneAllNode::SceneAllInfo &sceneAllInfo, const path& scene_dir);
 
         ~Geometry();
         Geometry(Geometry &&) = default;

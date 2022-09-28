@@ -38,6 +38,7 @@ namespace gl_render {
     using std::optional;
     using std::nullopt;
     using std::unique_ptr;
+    using std::make_unique;
     using std::vector;
     using std::list;
     using std::queue;
@@ -80,6 +81,9 @@ namespace gl_render {
     // function
     using glm::radians;
     using glm::degrees;
+    using glm::max;
+    using glm::min;
+    using glm::clamp;
 
     template<typename FMT, typename... Args>
     [[nodiscard]] inline auto format(FMT &&f, Args &&...args) noexcept {
@@ -87,5 +91,10 @@ namespace gl_render {
         memory_buffer buffer;
         fmt::format_to(std::back_inserter(buffer), std::forward<FMT>(f), std::forward<Args>(args)...);
         return gl_render::string{buffer.data(), buffer.size()};
+    }
+
+    template<typename T>
+    inline T lerp(T u, T v, float t) {
+        return (1 - t) * u + t * v;
     }
 }

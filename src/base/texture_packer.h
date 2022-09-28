@@ -35,7 +35,7 @@ namespace gl_render {
         size_t _max_level_count{};
         vector<queue<Quad>> _available_quads;
         vector<vector<uchar4>> _image_buffers;
-        unordered_map<string, ImageBlock> _loaded_images;
+        unordered_map<path, ImageBlock> _loaded_images;
 
         Quad _decompose_quad(Quad quad, size_t target_size, size_t level) noexcept;
         Quad _fit_image(size_t w, size_t h) noexcept;
@@ -43,7 +43,7 @@ namespace gl_render {
 
     public:
         explicit TexturePacker(size_t max_size = 4096ul, size_t min_size = 16ul);
-        ImageBlock load(const string &path);
+        ImageBlock load(const path &image_path);
         [[nodiscard]] size_t count() const noexcept;
         [[nodiscard]] size_t max_size() const noexcept;
         [[nodiscard]] const vector<uchar4> &image_buffer(size_t index) const noexcept;

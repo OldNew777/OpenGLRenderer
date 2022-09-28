@@ -46,7 +46,7 @@ using namespace gl_render;
     }
     if (auto unknown = options.unmatched(); !unknown.empty()) [[unlikely]] {
         gl_render::string opts{unknown.front()};
-        for (auto &&u : gl_render::span{unknown}.subspan(1)) {
+        for (auto &&u: gl_render::span{unknown}.subspan(1)) {
             opts.append("; ").append(u);
         }
         GL_RENDER_WARNING_WITH_LOCATION(
@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
     auto device_index = options["device"].as<uint32_t>();
     auto scene_path = options["scene"].as<path>();
 
-    auto pipeline = Pipeline::GetInstance(scene_path);
+    auto &pipeline = Pipeline::GetInstance(scene_path);
     pipeline.render();
 
     return 0;

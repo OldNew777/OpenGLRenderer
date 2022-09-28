@@ -25,7 +25,7 @@ namespace gl_render {
 
         // constructor generates the shader on the fly
         // ------------------------------------------------------------------------
-        Shader(const path &vertexPath, const path &fragmentPath, const string &geometryPath = {},
+        Shader(const path &vertexPath, const path &fragmentPath, const path &geometryPath = {},
                const TemplateList &tl = {}) {
 
             // 1. retrieve the vertex/fragment source code from filePath
@@ -83,7 +83,7 @@ namespace gl_render {
 
         // activate the shader
         // ------------------------------------------------------------------------
-        void use() {
+        void use() const {
             glUseProgram(ID);
         }
 
@@ -126,7 +126,7 @@ namespace gl_render {
             glUniform4fv(glGetUniformLocation(ID, name.c_str()), 1, &value[0]);
         }
 
-        void setVec4(const string &name, float x, float y, float z, float w) {
+        void setVec4(const string &name, float x, float y, float z, float w) const {
             glUniform4f(glGetUniformLocation(ID, name.c_str()), x, y, z, w);
         }
 
@@ -146,22 +146,6 @@ namespace gl_render {
         }
 
     private:
-
-        static string replaceVersionString(string &src, string_view replacement) {
-            static std::regex version_string_finder{R"(#version\s+\d{3}\s+(core|es)?)",
-                                                    std::regex::optimize | std::regex::ECMAScript};
-            std::smatch match_result{};
-            if (!std::regex_search(src, match_result, version_string_finder)) {
-                throw std::runtime_error{"Failed to find version string in shader source"};
-            }
-            auto version_string = match_result.str();
-            src = serialize(
-                    string_view{src}.substr(0, match_result.position()),
-                    replacement,
-                    string_view{src}.substr(match_result.position() + match_result.length()));
-            return version_string;
-        }
-
         static string readSourceFile(const path &path, const TemplateList &tl) {
             std::ifstream file{path};
             if (!file.is_open()) {

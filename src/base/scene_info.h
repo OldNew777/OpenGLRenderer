@@ -19,6 +19,7 @@ namespace gl_render {
     struct MaterialInfo : public SceneNodeInfo {
         string name;
         float3 kd;
+        float sigma;
         path kd_map;
 
         void print() const noexcept override {

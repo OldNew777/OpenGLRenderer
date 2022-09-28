@@ -8,12 +8,15 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
+#include <base/texture_packer.h>
+
 namespace gl_render {
 
-    Geometry::Geometry(const SceneAllNode::SceneAllInfo &sceneAllInfo) {
+    Geometry::Geometry(const SceneAllNode::SceneAllInfo &sceneAllInfo, const path &scene_dir) {
         vector<float3> positions;
         vector<float3> normals;
-        vector<float3> kd;
+        vector<float3> kd_vec;
+        vector<float> sigma_vec;
         vector<float3> tex_coords;
         vector<float4> tex_properties;
         vector<uint3> indices;
@@ -23,17 +26,19 @@ namespace gl_render {
         for (auto &&mesh_node: sceneAllInfo.meshes) {
             const auto& mesh = mesh_node.mesh_info();
 
-            auto path = mesh.file_path.string();
+            auto mesh_path = mesh.file_path.string();
+            if (mesh.file_path.is_relative()) {
+                mesh_path = (scene_dir / mesh.file_path).string();
+            }
             auto material_name = mesh.material_name;
 
             Assimp::Importer importer;
-            auto ai_scene = importer.ReadFile(path,
+            auto ai_scene = importer.ReadFile(mesh_path,
                                               aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_FixInfacingNormals |
                                               aiProcess_GenSmoothNormals);
-            if (ai_scene == nullptr || (ai_scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE) ||
-                ai_scene->mRootNode == nullptr) {
-                throw std::runtime_error{serialize("Failed to load scene from: ", path)};
-            }
+            GL_RENDER_ASSERT(ai_scene != nullptr, "Mesh \"{}\" is nullptr", mesh_path);
+            GL_RENDER_ASSERT(!(ai_scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE), "Mesh \"{}\" is incomplete", mesh_path);
+            GL_RENDER_ASSERT(ai_scene->mRootNode != nullptr, "Failed to load mesh: {}", mesh_path);
 
             _mesh_offsets.emplace_back(positions.size());
 
@@ -58,7 +63,7 @@ namespace gl_render {
             for (auto ai_mesh: mesh_list) {
 
                 // process material
-                float3 color{1.0f};
+                float3 kd{1.0f};
                 auto iter = sceneAllInfo.materials.find(material_name);
                 if (iter == sceneAllInfo.materials.end()) {
                     GL_RENDER_ERROR_WITH_LOCATION("Reference to undefined material: {}", material_name);
@@ -66,7 +71,7 @@ namespace gl_render {
                 auto &&material = iter->second.material_info();
                 auto has_texture = true;
                 if (material.kd_map.empty()) {
-                    color = material.kd;
+                    kd = material.kd;
                     has_texture = false;
                 }
 
@@ -95,7 +100,8 @@ namespace gl_render {
                         tex_coords.emplace_back(ai_tex_coords[i].x, ai_tex_coords[i].y, block.index);
                         tex_properties.emplace_back(block.offset.x, block.offset.y, block.size.x, block.size.y);
                     }
-                    kd.emplace_back(color);
+                    kd_vec.emplace_back(kd);
+                    sigma_vec.emplace_back(material.sigma);
                     _aabb.min = min(_aabb.min, position);
                     _aabb.max = max(_aabb.max, position);
                 }
@@ -111,6 +117,7 @@ namespace gl_render {
             _mesh_sizes.emplace_back(positions.size() - _mesh_offsets.back());
         }
 
+        GL_RENDER_INFO("1");
         _texture_count = packer.count();
         _texture_array = packer.create_opengl_texture_array();
 
@@ -138,7 +145,7 @@ namespace gl_render {
 
         _position_buffer = buffers[0];
         _normal_buffer = buffers[1];
-        _color_buffer = buffers[2];
+        _kd_buffer = buffers[2];
         _tex_coord_buffer = buffers[3];
         _tex_property_buffer = buffers[4];
 
@@ -156,8 +163,8 @@ namespace gl_render {
         glEnableVertexAttribArray(1);
         glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float3), nullptr);
 
-        glBindBuffer(GL_ARRAY_BUFFER, _color_buffer);
-        glBufferData(GL_ARRAY_BUFFER, indices.size() * 3ul * sizeof(float3), _flatten(kd, indices).data(),
+        glBindBuffer(GL_ARRAY_BUFFER, _kd_buffer);
+        glBufferData(GL_ARRAY_BUFFER, indices.size() * 3ul * sizeof(float3), _flatten(kd_vec, indices).data(),
                      GL_STATIC_DRAW);
         glEnableVertexAttribArray(2);
         glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(float3), nullptr);
@@ -173,6 +180,12 @@ namespace gl_render {
                      _flatten(tex_properties, indices).data(), GL_STATIC_DRAW);
         glEnableVertexAttribArray(4);
         glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(float4), nullptr);
+
+        glBindBuffer(GL_ARRAY_BUFFER, _sigma_buffer);
+        glBufferData(GL_ARRAY_BUFFER, indices.size() * 3ul * sizeof(float), _flatten(sigma_vec, indices).data(),
+                     GL_STATIC_DRAW);
+        glEnableVertexAttribArray(5);
+        glVertexAttribPointer(5, 1, GL_FLOAT, GL_FALSE, sizeof(float), nullptr);
 
         glBindVertexArray(0);
     }

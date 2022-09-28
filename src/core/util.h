@@ -30,9 +30,4 @@ namespace gl_render {
         return log2_exact(next_power_of_two(x));
     }
 
-    template<typename T>
-    inline T lerp(T u, T v, float t) {
-        return (1 - t) * u + t * v;
-    }
-
 }

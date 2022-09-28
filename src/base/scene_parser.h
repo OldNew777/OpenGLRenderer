@@ -125,6 +125,7 @@ namespace gl_render {
         MaterialNode(nlohmann::json &json) noexcept: SceneNode{json} {
             _material_info.name = property_string("name");
             _material_info.kd = property_float3("kd");
+            _material_info.sigma = std::clamp(property_float_or_default("sigma", 0.f), 0.f, 90.f);
             _material_info.kd_map = property_string_or_default("kd_map");
         }
 
@@ -144,12 +145,14 @@ namespace gl_render {
             if (contains("transform")) {
                 auto transfrom_node = SceneNode{_json["transform"]};
                 if (transfrom_node.contains("matrix")) {
-                    _mesh_info.transform = transfrom_node.property_float4x4_or_default("matrix",
-                                                                                       constant::IDENTITY_FLOAT4x4);
+                    _mesh_info.transform = transfrom_node.property_float4x4_or_default(
+                            "matrix",
+                            constant::IDENTITY_FLOAT4x4);
                 } else {
                     if (transfrom_node.contains("scale")) {
-                        _mesh_info.transform = scale(_mesh_info.transform,
-                                                     transfrom_node.property_float3_or_default("scale", float3(1.f)));
+                        _mesh_info.transform = scale(
+                                _mesh_info.transform,
+                                transfrom_node.property_float3_or_default("scale", float3(1.f)));
                     }
                     if (transfrom_node.contains("rotate")) {
                         auto rotate_node = SceneNode{transfrom_node["rotate"]};

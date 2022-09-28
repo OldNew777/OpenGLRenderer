@@ -119,7 +119,7 @@ namespace gl_render {
             auto msg = gl_render::format(        \
                 fmt __VA_OPT__(, ) __VA_ARGS__); \
             GL_RENDER_ERROR_WITH_LOCATION(       \
-                "Assertion '{}' failed: {}",     \
+                "Assertion \"{}\" failed: {}",   \
                 #x, msg);                        \
         }                                        \
     } while (false)

@@ -20,10 +20,11 @@ namespace gl_render {
     Pipeline::Pipeline(const path &scene_path) noexcept {
         // load scene
         nlohmann::json scene_json = nlohmann::json::parse(std::ifstream{scene_path});
-        _scene.emplace(SceneAllNode{scene_json});
+        _scene = make_unique<SceneAllNode>(scene_json);
         const auto& camera_info = _scene->scene_all_info().camera->camera_info();
         int width = static_cast<int>(camera_info.resolution.x);
         int height = static_cast<int>(camera_info.resolution.y);
+        _geometry = make_unique<Geometry>(_scene->scene_all_info(), scene_path.parent_path());
 
         // glfw init
         glfwInit();
@@ -74,7 +75,7 @@ namespace gl_render {
         gl_render::queue<double> frame_time;
         double last_fps_time = glfwGetTime();
         double fps_time_sum = 0.f;
-        int fps_count = 60;
+        int fps_count = 600;
         auto clear_color = float3(0.45f, 0.55f, 0.60f);
 
         const auto& lights = _scene->scene_all_info().lights;
@@ -82,15 +83,21 @@ namespace gl_render {
         int width = static_cast<int>(camera_info.resolution.x);
         int height = static_cast<int>(camera_info.resolution.y);
         float near_plane = 0.01f;
-        float far_plane = 100.f;
+        float far_plane = length(_geometry->aabb().max - _geometry->aabb().min) * 1.1f;
+        Camera camera{camera_info.position, camera_info.front, camera_info.up, camera_info.fov};
+        auto view_matrix = camera.view_matrix();
+        auto projection = perspective(
+                radians(camera_info.fov),
+                static_cast<float>(width) / static_cast<float>(height),
+                near_plane, far_plane);
 
         // build and compile shaders
         Shader shader{
-            "data/shaders/ggx.vs",
-            "data/shaders/ggx_approx.fs",
+            "data/shaders/matte.vs",
+            "data/shaders/matte.fs",
             {},
             {
-                {std::string{"LIGHT_COUNT"}, serialize(lights.size())},
+                {std::string{"POINT_LIGHT_COUNT"}, serialize(lights.size())},
                 {std::string{"TEXTURE_MAX_SIZE"}, serialize(4096)}
             }
         };
@@ -111,25 +118,21 @@ namespace gl_render {
             // Rendering
             glClearColor(clear_color.x, clear_color.y, clear_color.z, 1.0f);
             glClear(static_cast<uint32_t>(GL_COLOR_BUFFER_BIT) | static_cast<uint32_t>(GL_DEPTH_BUFFER_BIT));
-            auto projection = perspective(
-                    radians(camera_info.fov),
-                    static_cast<float>(width) / static_cast<float>(height),
-                    near_plane, far_plane);
             glViewport(0, 0, width, height);
 //            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
             shader.use();
             // lights
+            // point lights
             for (auto i = 0ul; i < lights.size(); i++) {
-                shader.setVec3(serialize("lights[", i, "].Position"), lights[i].light_info().position);
-                shader.setVec3(serialize("lights[", i, "].Color"), lights[i].light_info().emission);
+                shader.setVec3(serialize("pointLights[", i, "].Position"), lights[i].light_info().position);
+                shader.setVec3(serialize("pointLights[", i, "].Color"), lights[i].light_info().emission);
             }
             // camera
-            Camera camera{camera_info.position, camera_info.front, camera_info.up, camera_info.fov};
             shader.setMat4("projection", projection);
-            shader.setMat4("view", camera.view_matrix());
+            shader.setMat4("view", view_matrix);
             shader.setVec3("cameraPos", camera_info.position);
-
+            _geometry->render(shader);
 
             // calculate fps
             double current_time = glfwGetTime();

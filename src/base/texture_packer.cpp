@@ -56,9 +56,9 @@ namespace gl_render {
         _available_quads.resize(_max_level_count);
     }
 
-    TexturePacker::ImageBlock TexturePacker::load(const std::string &path) {
-        if (auto iter = _loaded_images.find(path); iter != _loaded_images.end()) {
-            std::cout << "Using cached image: " << path << std::endl;
+    TexturePacker::ImageBlock TexturePacker::load(const path &image_path) {
+        if (auto iter = _loaded_images.find(image_path); iter != _loaded_images.end()) {
+            GL_RENDER_INFO("Using cached image: {}", image_path.string());
             return iter->second;
         }
 
@@ -66,19 +66,19 @@ namespace gl_render {
         auto h = 0;
         auto d = 0;
 
-        std::cout << "Loading image: " << path << std::endl;
+        GL_RENDER_INFO("Loading image: {}", image_path.string());
         auto deleter = [](uchar4 *p) noexcept { stbi_image_free(p); };
-        std::unique_ptr<uchar4, decltype(deleter)> image_date{
-                reinterpret_cast<uchar4 *>(stbi_load(path.c_str(), &w, &h, &d, 4)), deleter};
+        unique_ptr<uchar4, decltype(deleter)> image_date{
+                reinterpret_cast<uchar4 *>(stbi_load(image_path.string().c_str(), &w, &h, &d, 4)), deleter};
 
         if (!image_date || w > _max_size || h > _max_size) {
-            throw std::runtime_error{serialize("Failed to load image: ", path)};
+            GL_RENDER_ERROR_WITH_LOCATION("Failed to load image: {}", image_path.string());
         }
 
         auto quad = _fit_image(w, h);
         ImageBlock block{quad.index, {quad.x, quad.y}, {w, h}};
         _fill(block, image_date.get());
-        _loaded_images.emplace(path, block);
+        _loaded_images.emplace(image_path, block);
 
         return block;
     }
@@ -87,7 +87,7 @@ namespace gl_render {
         return _image_buffers.size();
     }
 
-    const std::vector<uchar4> &TexturePacker::image_buffer(size_t index) const noexcept {
+    const vector<uchar4> &TexturePacker::image_buffer(size_t index) const noexcept {
         return _image_buffers[index];
     }
 
@@ -112,7 +112,7 @@ namespace gl_render {
         }
         glGenerateMipmap(GL_TEXTURE_2D_ARRAY);
         glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
-        std::cout << "Created texture array" << std::endl;
+        GL_RENDER_INFO("Created texture array");
         return texture_array;
     }
 

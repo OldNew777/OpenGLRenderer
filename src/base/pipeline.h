@@ -10,6 +10,7 @@
 #include <core/logger.h>
 #include <core/stl.h>
 #include <base/scene_parser.h>
+#include <base/geometry.h>
 
 namespace gl_render {
 
@@ -30,12 +31,12 @@ namespace gl_render {
 
     private:
         Pipeline(const path &scene_path) noexcept;
-        Pipeline(const Pipeline&) = delete;
         Pipeline &operator=(Pipeline &&) = default;
         Pipeline &operator=(const Pipeline &) = delete;
 
     private:
-        optional<SceneAllNode> _scene;
+        unique_ptr<SceneAllNode> _scene;
+        unique_ptr<Geometry> _geometry;
         GLFWwindow *_window;
         Config _config;
     };
