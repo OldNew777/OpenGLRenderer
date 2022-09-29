@@ -7,6 +7,7 @@
 #include <fstream>
 
 #include <nlohmann/json.hpp>
+#include <stb/stb_image_write.h>
 //#include <imgui/imgui.h>
 //#include <imgui/backends/imgui_impl_glfw.h>
 //#include <imgui/backends/imgui_impl_opengl3.h>
@@ -14,6 +15,7 @@
 #include <core/logger.h>
 #include <base/shader.h>
 #include <base/camera.h>
+#include <util/imageio.h>
 
 namespace gl_render {
 
@@ -22,6 +24,10 @@ namespace gl_render {
         nlohmann::json scene_json = nlohmann::json::parse(std::ifstream{scene_path});
         _scene = make_unique<SceneAllNode>(scene_json);
         const auto& camera_info = _scene->scene_all_info().camera->camera_info();
+        _config.renderer_info = _scene->scene_all_info().renderer->renderer_info();
+        if (_config.renderer_info.output_file.is_relative()) {
+            _config.renderer_info.output_file = scene_path.parent_path() / _config.renderer_info.output_file;
+        }
         int width = static_cast<int>(camera_info.resolution.x);
         int height = static_cast<int>(camera_info.resolution.y);
 
@@ -50,7 +56,7 @@ namespace gl_render {
 
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_CULL_FACE);
-        if (!_scene->scene_all_info().renderer->renderer_info().enable_two_sided_shading) {
+        if (!_config.renderer_info.enable_two_sided_shading) {
             glCullFace(GL_BACK);
         }
         glEnable(GL_FRAMEBUFFER_SRGB);
@@ -70,6 +76,8 @@ namespace gl_render {
 //        ImGui_ImplOpenGL3_Init(glsl_version);
 
         _geometry = make_unique<Geometry>(_scene->scene_all_info(), scene_path.parent_path());
+
+        stbi_flip_vertically_on_write(true);
     }
 
     void Pipeline::render() noexcept {
@@ -158,7 +166,14 @@ namespace gl_render {
             glfwSwapBuffers(_window);
         }
 
-        // Cleanup
+        // save to file
+        vector<uchar3> pixels(width * height);
+        glReadBuffer(GL_FRONT);
+        glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, pixels.data());
+        glReadBuffer(GL_BACK);
+        save_image(_config.renderer_info.output_file, (const uchar*)pixels.data(), uint2{width, height}, 3);
+
+//        // Cleanup
 //        ImGui_ImplOpenGL3_Shutdown();
 //        ImGui_ImplGlfw_Shutdown();
 //        ImGui::DestroyContext();

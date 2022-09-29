@@ -21,6 +21,7 @@ namespace gl_render {
         struct Config {
             bool enable_vsync = false;
             bool enable_shadow = false;
+            RendererInfo renderer_info;
         };
 
         static Pipeline& GetInstance(const path &scene_path) noexcept {

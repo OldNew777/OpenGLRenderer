@@ -133,6 +133,6 @@
   "renderer": {
     "enable_two_sided_shading": true,
     "enable_shadow": true,
-    "output_file": "output.exr"
+    "output_file": "output.png"
   }
 }

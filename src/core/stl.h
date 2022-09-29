@@ -57,6 +57,9 @@ namespace gl_render {
     using uint2 = Vector<glm::u32, 2>;
     using uint3 = Vector<glm::u32, 3>;
     using uint4 = Vector<glm::u32, 4>;
+    using int2 = Vector<glm::i32, 2>;
+    using int3 = Vector<glm::i32, 3>;
+    using int4 = Vector<glm::i32, 4>;
     using uchar = glm::u8;
     using uchar2 = Vector<glm::u8, 2>;
     using uchar3 = Vector<glm::u8, 3>;
@@ -76,6 +79,7 @@ namespace gl_render {
     using glm::translate;
 
     using glm::perspective;
+    using glm::ortho;
     using glm::lookAt;
 
     // function
