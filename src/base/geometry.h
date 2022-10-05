@@ -14,6 +14,22 @@ namespace gl_render {
         struct AABB {
             float3 min{1.e6f};
             float3 max{-1.e6f};
+
+            [[nodiscard]] auto& operator[](size_t index) noexcept {
+                switch (index) {
+                    case 0: return min;
+                    case 1: return max;
+                    default: GL_RENDER_ERROR("AABB index out of range");
+                }
+            }
+
+            [[nodiscard]] const auto& operator[](size_t index) const noexcept {
+                switch (index) {
+                    case 0: return min;
+                    case 1: return max;
+                    default: GL_RENDER_ERROR("AABB index out of range");
+                }
+            }
         };
 
     }
@@ -22,6 +38,7 @@ namespace gl_render {
 
     public:
         using AABB = impl::AABB;
+        static const uint SHADOW_WIDTH, SHADOW_HEIGHT;
 
     private:
         vector<size_t> _mesh_offsets;

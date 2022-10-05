@@ -16,6 +16,7 @@
 #include <base/shader.h>
 #include <base/camera.h>
 #include <util/imageio.h>
+#include <core/util.h>
 
 namespace gl_render {
 
@@ -93,7 +94,7 @@ namespace gl_render {
         int width = static_cast<int>(camera_info.resolution.x);
         int height = static_cast<int>(camera_info.resolution.y);
         float near_plane = 0.01f;
-        float far_plane = 10.f;
+        float far_plane = get_far_plane(camera_info.position, camera_info.front, _geometry->aabb()) * 1.1f;
         Camera camera{camera_info.position, camera_info.front, camera_info.up, camera_info.fov};
         auto view_matrix = camera.view_matrix();
         auto projection = perspective(

@@ -54,6 +54,7 @@ namespace gl_render {
               _min_size{next_power_of_two(min_size)} {
         _max_level_count = log2(_max_size / _min_size) + 1;
         _available_quads.resize(_max_level_count);
+        GL_RENDER_INFO("max_level_count: {}", _max_level_count);
     }
 
     TexturePacker::ImageBlock TexturePacker::load(const path &image_path) {
@@ -79,6 +80,9 @@ namespace gl_render {
         ImageBlock block{quad.index, {quad.x, quad.y}, {w, h}};
         _fill(block, image_date.get());
         _loaded_images.emplace(image_path, block);
+
+        quad.print();
+        block.print();
 
         return block;
     }

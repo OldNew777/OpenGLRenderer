@@ -6,6 +6,7 @@
 
 #include <core/stl.h>
 #include <base/pixel.h>
+#include <core/logger.h>
 
 namespace gl_render {
 
@@ -41,14 +42,22 @@ namespace gl_render {
 
             constexpr Quad() noexcept = default;
             constexpr Quad(uint32_t index, uint32_t x, uint32_t y, uint32_t size) noexcept : index{index}, x{x}, y{y}, size{size} {}
+            void print() const noexcept {
+                GL_RENDER_INFO("Quad: index = {}, x = {}, y = {}, size = {}", index, x, y, size);
+            }
         };
 
         struct ImageBlock {
             uint32_t index;
             uint2 offset;
             uint2 size;
+
             constexpr ImageBlock() noexcept : index{}, offset{}, size{} {}
             constexpr ImageBlock(uint32_t index, uint2 offset, uint2 size) noexcept : index{index}, offset{offset}, size{size} {}
+            void print() const noexcept {
+                GL_RENDER_INFO("ImageBlock: index: {}, offset: ({}, {}), size: ({}, {})",
+                               index, offset.x, offset.y, size.x, size.y);
+            }
         };
 
     private:

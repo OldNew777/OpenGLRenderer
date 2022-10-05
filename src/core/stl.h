@@ -88,6 +88,8 @@ namespace gl_render {
     using glm::max;
     using glm::min;
     using glm::clamp;
+    using glm::sqrt;
+    using glm::pow;
 
     template<typename FMT, typename... Args>
     [[nodiscard]] inline auto format(FMT &&f, Args &&...args) noexcept {

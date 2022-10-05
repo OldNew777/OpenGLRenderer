@@ -31,15 +31,13 @@ void main() {
     TexOffset = aTexProperty.xy;
     TexSize = aTexProperty.zw;
 
-    vec4 PosInView = view * vec4(aPos, 1.0f);
-
     Normal = aNormal;
 
     if (TexId < 0) {
         r = kd;
     } else {
-        //vec2 Coord = (fract(fract(TexCoord) + 1.0f) * TexSize + TexOffset) / ${TEXTURE_MAX_SIZE};
-        vec2 Coord = TexOffset;
+        vec2 Coord = (fract(fract(TexCoord) + 1.0f) * TexSize + TexOffset) / ${TEXTURE_MAX_SIZE};
+        //vec2 Coord = TexOffset;
         r = texture(textures, vec3(Coord, TexId)).rgb;
     }
     float sigma2 = sigma * PI / 180.0f;
@@ -47,5 +45,5 @@ void main() {
     a = 1.f - sigma2 / (2.0f * sigma2 + 0.66f);
     b = 0.45f * sigma2 / (sigma2 + 0.09f);
 
-    gl_Position = projection * PosInView;
+    gl_Position = projection * view * vec4(aPos, 1.0f);
 }

@@ -102,6 +102,7 @@ namespace gl_render {
                         tex_properties.emplace_back(0.0f, 0.0f, 0.0f, 0.0f);
                     } else {
                         tex_coords.emplace_back(ai_tex_coords[i].x, ai_tex_coords[i].y, block.index);
+                        GL_RENDER_INFO("tex coord: ({}, {}), {}", ai_tex_coords[i].x, ai_tex_coords[i].y, block.index);
                         tex_properties.emplace_back(block.offset.x, block.offset.y, block.size.x, block.size.y);
                     }
                     kd_vec.emplace_back(kd);
@@ -148,6 +149,7 @@ namespace gl_render {
         _tex_property_buffer = buffers[4];
         _sigma_buffer = buffers[5];
 
+        // VAO
         glBindVertexArray(_vertex_array);
 
         glBindBuffer(GL_ARRAY_BUFFER, _position_buffer);
@@ -187,6 +189,26 @@ namespace gl_render {
         glVertexAttribPointer(5, 1, GL_FLOAT, GL_FALSE, sizeof(float), nullptr);
 
         glBindVertexArray(0);
+
+        // depth map VBO
+        // -----------------------
+        unsigned int depthMapFBO;
+        glGenFramebuffers(1, &depthMapFBO);
+        // create depth texture
+        unsigned int depthMap;
+        glGenTextures(1, &depthMap);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        // attach depth texture as FBO's depth buffer
+        glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
+        glDrawBuffer(GL_NONE);
+        glReadBuffer(GL_NONE);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
 
     Geometry::~Geometry() {
@@ -209,5 +231,8 @@ namespace gl_render {
         glDrawArrays(GL_TRIANGLES, 0, _triangle_count * 3);
         glBindVertexArray(0);
     }
+
+    const uint Geometry::SHADOW_HEIGHT = 1024u;
+    const uint Geometry::SHADOW_WIDTH = 1024u;
 
 }
