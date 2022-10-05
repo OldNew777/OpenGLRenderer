@@ -23,8 +23,8 @@ namespace gl_render {
     }
 
     TexturePacker::Quad TexturePacker::_fit_image(size_t w, size_t h) noexcept {
-        auto size = std::max({next_power_of_two(w), next_power_of_two(h), _min_size});
-        auto level = log2(_max_size / size);
+        auto size = std::max({util::next_power_of_two(w), util::next_power_of_two(h), _min_size});
+        size_t level = util::log2(_max_size / size);
 
         for (auto i = static_cast<int64_t>(level); i >= 0; i--) {
             auto &&quads = _available_quads[i];
@@ -50,9 +50,9 @@ namespace gl_render {
     }
 
     TexturePacker::TexturePacker(size_t max_size, size_t min_size)
-            : _max_size{next_power_of_two(max_size)},
-              _min_size{next_power_of_two(min_size)} {
-        _max_level_count = log2(_max_size / _min_size) + 1;
+            : _max_size{util::next_power_of_two(max_size)},
+              _min_size{util::next_power_of_two(min_size)} {
+        _max_level_count = util::log2(_max_size / _min_size) + 1;
         _available_quads.resize(_max_level_count);
         GL_RENDER_INFO("max_level_count: {}", _max_level_count);
     }

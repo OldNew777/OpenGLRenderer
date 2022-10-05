@@ -4,7 +4,7 @@ set(OPENGL_RENDER_BASE_SOURCES
         pipeline.h pipeline.cpp
         pixel.h
         scene_info.h
-        scene_parser.h scene_parser.cpp
+        scene_parser.h
         shader.h
         texture_packer.h texture_packer.cpp)
 

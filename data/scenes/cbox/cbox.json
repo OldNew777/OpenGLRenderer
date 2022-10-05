@@ -2,7 +2,7 @@
   "materials": [
     {
       "name": "LeftWall",
-      "kd": [
+      "diffuse": [
         0.63,
         0.065,
         0.05
@@ -10,7 +10,7 @@
     },
     {
       "name": "RightWall",
-      "kd": [
+      "diffuse": [
         0.14,
         0.45,
         0.091
@@ -18,7 +18,7 @@
     },
     {
       "name": "Floor",
-      "kd": [
+      "diffuse": [
         0.725,
         0.71,
         0.68
@@ -26,7 +26,7 @@
     },
     {
       "name": "Ceiling",
-      "kd": [
+      "diffuse": [
         0.725,
         0.71,
         0.68
@@ -34,7 +34,7 @@
     },
     {
       "name": "BackWall",
-      "kd": [
+      "diffuse": [
         0.725,
         0.71,
         0.68
@@ -42,7 +42,7 @@
     },
     {
       "name": "ShortBox",
-      "kd": [
+      "diffuse": [
         0.725,
         0.71,
         0.68
@@ -50,7 +50,7 @@
     },
     {
       "name": "TallBox",
-      "kd": [
+      "diffuse": [
         0.725,
         0.71,
         0.68

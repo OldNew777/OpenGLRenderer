@@ -103,4 +103,21 @@ namespace gl_render {
     inline T lerp(T u, T v, float t) {
         return (1 - t) * u + t * v;
     }
+
+    template<typename T>
+    requires is_vector_v<T>
+    [[nodiscard]] constexpr inline auto to_string(T v) noexcept {
+        constexpr auto length = vector_dimension_v<T>;
+        if constexpr (length == 1) {
+            return format("{}", v.x);
+        } else if constexpr (length == 2) {
+            return format("({}, {})", v.x, v.y);
+        } else if constexpr (length == 3) {
+            return format("({}, {}, {})", v.x, v.y, v.z);
+        } else if constexpr (length == 4) {
+            return format("({}, {}, {}, {})", v.x, v.y, v.z, v.w);
+        } else {
+            return "Unknown vector type";
+        }
+    }
 }

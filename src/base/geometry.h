@@ -50,8 +50,9 @@ namespace gl_render {
         uint _vertex_array{0u};
         uint _position_buffer{0u};
         uint _normal_buffer{0u};
-        uint _kd_buffer{0u};
-        uint _sigma_buffer{0u};
+        uint _diffuse_buffer{0u};
+        uint _specular_buffer{0u};
+        uint _ambient_buffer{0u};
         uint _tex_coord_buffer{0u};
         uint _tex_property_buffer{0u};
         uint _texture_array{0u};

@@ -15,8 +15,9 @@ namespace gl_render {
     Geometry::Geometry(const SceneAllNode::SceneAllInfo &sceneAllInfo, const path &scene_dir) {
         vector<float3> positions;
         vector<float3> normals;
-        vector<float3> kd_vec;
-        vector<float> sigma_vec;
+        vector<float3> diffuse_vec;
+        vector<float3> specular_vec;
+        vector<float3> ambient_vec;
         vector<float3> tex_coords;
         vector<float4> tex_properties;
         vector<uint3> indices;
@@ -63,25 +64,25 @@ namespace gl_render {
             for (auto ai_mesh: mesh_list) {
 
                 // process material
-                float3 kd{1.0f};
+                float3 diffuse{1.0f};
                 auto iter = sceneAllInfo.materials.find(material_name);
                 if (iter == sceneAllInfo.materials.end()) {
                     GL_RENDER_ERROR_WITH_LOCATION("Reference to undefined material: {}", material_name);
                 }
                 auto &&material = iter->second.material_info();
                 auto has_texture = true;
-                if (material.kd_map.empty()) {
-                    kd = material.kd;
+                if (material.diffuse_map.empty()) {
+                    diffuse = material.diffuse;
                     has_texture = false;
                 }
 
                 TexturePacker::ImageBlock block{};
                 if (has_texture) {
-                    auto kd_map_path = material.kd_map;
-                    if (material.kd_map.is_relative()) {
-                        kd_map_path = (scene_dir / material.kd_map).string();
+                    auto diffuse_map_path = material.diffuse_map;
+                    if (material.diffuse_map.is_relative()) {
+                        diffuse_map_path = (scene_dir / material.diffuse_map).string();
                     }
-                    block = packer.load(kd_map_path);
+                    block = packer.load(diffuse_map_path);
                 }
 
                 auto model_matrix = mesh.transform;
@@ -105,8 +106,9 @@ namespace gl_render {
                         GL_RENDER_INFO("tex coord: ({}, {}), {}", ai_tex_coords[i].x, ai_tex_coords[i].y, block.index);
                         tex_properties.emplace_back(block.offset.x, block.offset.y, block.size.x, block.size.y);
                     }
-                    kd_vec.emplace_back(kd);
-                    sigma_vec.emplace_back(material.sigma);
+                    diffuse_vec.emplace_back(diffuse);
+                    specular_vec.emplace_back(material.specular);
+                    ambient_vec.emplace_back(material.ambient);
                     _aabb.min = min(_aabb.min, position);
                     _aabb.max = max(_aabb.max, position);
                 }
@@ -139,15 +141,16 @@ namespace gl_render {
         // transfer to OpenGL
         glGenVertexArrays(1, &_vertex_array);
 
-        uint32_t buffers[6];
-        glGenBuffers(6, buffers);
+        uint32_t buffers[7];
+        glGenBuffers(7, buffers);
 
         _position_buffer = buffers[0];
         _normal_buffer = buffers[1];
-        _kd_buffer = buffers[2];
+        _diffuse_buffer = buffers[2];
         _tex_coord_buffer = buffers[3];
         _tex_property_buffer = buffers[4];
-        _sigma_buffer = buffers[5];
+        _specular_buffer = buffers[5];
+        _ambient_buffer = buffers[6];
 
         // VAO
         glBindVertexArray(_vertex_array);
@@ -164,8 +167,8 @@ namespace gl_render {
         glEnableVertexAttribArray(1);
         glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float3), nullptr);
 
-        glBindBuffer(GL_ARRAY_BUFFER, _kd_buffer);
-        glBufferData(GL_ARRAY_BUFFER, indices.size() * 3ul * sizeof(float3), _flatten(kd_vec, indices).data(),
+        glBindBuffer(GL_ARRAY_BUFFER, _diffuse_buffer);
+        glBufferData(GL_ARRAY_BUFFER, indices.size() * 3ul * sizeof(float3), _flatten(diffuse_vec, indices).data(),
                      GL_STATIC_DRAW);
         glEnableVertexAttribArray(2);
         glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(float3), nullptr);
@@ -182,11 +185,17 @@ namespace gl_render {
         glEnableVertexAttribArray(4);
         glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(float4), nullptr);
 
-        glBindBuffer(GL_ARRAY_BUFFER, _sigma_buffer);
-        glBufferData(GL_ARRAY_BUFFER, indices.size() * 3ul * sizeof(float), _flatten(sigma_vec, indices).data(),
+        glBindBuffer(GL_ARRAY_BUFFER, _specular_buffer);
+        glBufferData(GL_ARRAY_BUFFER, indices.size() * 3ul * sizeof(float3), _flatten(specular_vec, indices).data(),
                      GL_STATIC_DRAW);
         glEnableVertexAttribArray(5);
-        glVertexAttribPointer(5, 1, GL_FLOAT, GL_FALSE, sizeof(float), nullptr);
+        glVertexAttribPointer(5, 3, GL_FLOAT, GL_FALSE, sizeof(float3), nullptr);
+
+        glBindBuffer(GL_ARRAY_BUFFER, _ambient_buffer);
+        glBufferData(GL_ARRAY_BUFFER, indices.size() * 3ul * sizeof(float3), _flatten(ambient_vec, indices).data(),
+                     GL_STATIC_DRAW);
+        glEnableVertexAttribArray(6);
+        glVertexAttribPointer(6, 3, GL_FLOAT, GL_FALSE, sizeof(float3), nullptr);
 
         glBindVertexArray(0);
 
@@ -213,12 +222,13 @@ namespace gl_render {
 
     Geometry::~Geometry() {
         glDeleteVertexArrays(1, &_vertex_array);
-        glDeleteBuffers(6, &_position_buffer);
+        glDeleteBuffers(7, &_position_buffer);
         glDeleteTextures(1, &_texture_array);
     }
 
     void Geometry::render(const Shader &shader) const {
         glBindVertexArray(_vertex_array);
+        // FIXME: texture rendering error now
         glActiveTexture(GL_TEXTURE0);
         shader.setInt("textures", 0);
         glBindTexture(GL_TEXTURE_2D_ARRAY, _texture_array);

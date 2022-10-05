@@ -124,9 +124,10 @@ namespace gl_render {
     public:
         MaterialNode(nlohmann::json &json) noexcept: SceneNode{json} {
             _material_info.name = property_string("name");
-            _material_info.kd = property_float3("kd");
-            _material_info.sigma = std::clamp(property_float_or_default("sigma", 0.f), 0.f, 90.f);
-            _material_info.kd_map = property_string_or_default("kd_map");
+            _material_info.diffuse = property_float3_or_default("diffuse", float3(0.5f));
+            _material_info.specular = property_float3_or_default("specular", float3(0.f));
+            _material_info.ambient = property_float3_or_default("ambient", float3(0.f));
+            _material_info.diffuse_map = property_string_or_default("diffuse_map", "");
         }
 
         [[nodiscard]] inline const auto &material_info() const noexcept {

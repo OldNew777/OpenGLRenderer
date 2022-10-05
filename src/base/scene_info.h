@@ -18,14 +18,23 @@ namespace gl_render {
 
     struct MaterialInfo : public SceneNodeInfo {
         string name;
-        float3 kd;
-        float sigma;
-        path kd_map;
+        float3 diffuse;
+        float3 specular;
+        float3 ambient;
+        path diffuse_map;
 
         void print() const noexcept override {
-            GL_RENDER_INFO(
-                    "MaterialInfo: name: {}, kd: ({}, {}, {}), kd_map",
-                    name, kd.x, kd.y, kd.z, kd_map.string());
+            GL_RENDER_INFO("MaterialInfo: name = ({}), "
+                           "diffuse = ({}, {}, {}), "
+                           "specular = ({}, {}, {}), "
+                           "ambient = ({}, {}, {}), "
+                           "diffuse_map = {}",
+                           name,
+                           diffuse.x, diffuse.y, diffuse.z,
+                           specular.x, specular.y, specular.z,
+                           diffuse.x, diffuse.y, diffuse.z,
+                           diffuse_map.string());
+            GL_RENDER_INFO("{}", to_string(diffuse));
         }
     };
 
