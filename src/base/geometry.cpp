@@ -77,7 +77,11 @@ namespace gl_render {
 
                 TexturePacker::ImageBlock block{};
                 if (has_texture) {
-                    block = packer.load(material.kd_map);
+                    auto kd_map_path = material.kd_map;
+                    if (material.kd_map.is_relative()) {
+                        kd_map_path = (scene_dir / material.kd_map).string();
+                    }
+                    block = packer.load(kd_map_path);
                 }
 
                 auto model_matrix = mesh.transform;
@@ -87,7 +91,6 @@ namespace gl_render {
                 for (auto i = 0ul; i < ai_mesh->mNumVertices; i++) {
                     auto ai_position = ai_mesh->mVertices[i];
                     auto ai_normal = ai_mesh->mNormals[i];
-                    GL_RENDER_INFO("ai_normal: ({}, {}, {})", ai_normal.x, ai_normal.y, ai_normal.z);
                     auto temp = model_matrix * float4{ai_position.x, ai_position.y, ai_position.z, 1.f};
                     auto position = float3(temp.x, temp.y, temp.z);
                     auto normal = normal_matrix * float4{ai_normal.x, ai_normal.y, ai_normal.z, 1.f};
@@ -105,7 +108,6 @@ namespace gl_render {
                     sigma_vec.emplace_back(material.sigma);
                     _aabb.min = min(_aabb.min, position);
                     _aabb.max = max(_aabb.max, position);
-                    GL_RENDER_INFO("sigma: {}", material.sigma);
                 }
 
                 // process faces

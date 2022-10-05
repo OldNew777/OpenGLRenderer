@@ -110,7 +110,6 @@ namespace gl_render {
             glTexSubImage3D(GL_TEXTURE_2D_ARRAY, 0, 0, 0, i, _max_size, _max_size, 1, GL_RGBA, GL_UNSIGNED_BYTE,
                             _image_buffers[i].data());
         }
-        GL_RENDER_INFO("1");
         glGenerateMipmap(GL_TEXTURE_2D_ARRAY);
         glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
         GL_RENDER_INFO("Created texture array");

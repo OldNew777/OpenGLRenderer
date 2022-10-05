@@ -38,7 +38,8 @@
         0.725,
         0.71,
         0.68
-      ]
+      ],
+      "kd_map": "textures/cbox.png"
     },
     {
       "name": "ShortBox",

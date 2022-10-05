@@ -2,6 +2,7 @@ set(OPENGL_RENDER_BASE_SOURCES
         camera.h camera.cpp
         geometry.h geometry.cpp
         pipeline.h pipeline.cpp
+        pixel.h
         scene_info.h
         scene_parser.h scene_parser.cpp
         shader.h
