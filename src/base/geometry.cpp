@@ -34,9 +34,9 @@ namespace gl_render {
             auto material_name = mesh.material_name;
 
             Assimp::Importer importer;
-            auto ai_scene = importer.ReadFile(mesh_path,
-                                              aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_FixInfacingNormals |
-                                              aiProcess_GenNormals);
+            auto ai_scene = importer.ReadFile(
+                    mesh_path,
+                    aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_FixInfacingNormals | aiProcess_GenNormals);
             GL_RENDER_ASSERT(ai_scene != nullptr, "Mesh \"{}\" is nullptr", mesh_path);
             GL_RENDER_ASSERT(!(ai_scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE), "Mesh \"{}\" is incomplete", mesh_path);
             GL_RENDER_ASSERT(ai_scene->mRootNode != nullptr, "Failed to load mesh: {}", mesh_path);
