@@ -1,0 +1,3989 @@
+{
+  "materials": [
+    {
+      "name": "WoodFloor"
+    },
+    {
+      "name": "WoodStairs"
+    },
+    {
+      "name": "WoodChair"
+    },
+    {
+      "name": "WoodLamp"
+    },
+    {
+      "name": "Lampshade"
+    },
+    {
+      "name": "Brass"
+    },
+    {
+      "name": "BrushedAluminium"
+    },
+    {
+      "name": "ChairSeat"
+    },
+    {
+      "name": "Glass"
+    },
+    {
+      "name": "MagnoliaPaint"
+    },
+    {
+      "name": "WhitePaint"
+    },
+    {
+      "name": "Painting1"
+    },
+    {
+      "name": "Painting2"
+    },
+    {
+      "name": "Painting3"
+    },
+    {
+      "name": "Black"
+    },
+    {
+      "name": "StainlessSteel"
+    },
+    {
+      "name": "Emission"
+    },
+    {
+      "name": "Candles"
+    },
+    {
+      "name": "Gold"
+    },
+    {
+      "name": "WhitePaint2"
+    },
+    {
+      "name": "White"
+    },
+    {
+      "name": "WhitePlastic"
+    },
+    {
+      "name": "Copper"
+    },
+    {
+      "name": "Wallpaper"
+    }
+  ],
+  "meshes": [
+    {
+      "transform": {},
+      "file": "models/Mesh524.obj",
+      "material": "WhitePaint"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh286.obj",
+      "material": "MagnoliaPaint"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh334.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh489.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh429.obj",
+      "material": "Painting1"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh423.obj",
+      "material": "Painting2"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh473.obj",
+      "material": "WhitePaint"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh346.obj",
+      "material": "MagnoliaPaint"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh405.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh530.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh385.obj",
+      "material": "WhitePaint"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh361.obj",
+      "material": "MagnoliaPaint"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh355.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh328.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh252.obj",
+      "material": "Painting3"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh403.obj",
+      "material": "WhitePaint"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh270.obj",
+      "material": "MagnoliaPaint"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh344.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh251.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh305.obj",
+      "material": "Painting1"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh253.obj",
+      "material": "WhitePaint"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh339.obj",
+      "material": "MagnoliaPaint"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh409.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh491.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh624.obj",
+      "material": "Painting3"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh517.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh329.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh384.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh382.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh391.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh752.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh318.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh353.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh374.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh315.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh386.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh432.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh445.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh401.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh363.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh439.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh508.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh523.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh456.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh379.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh511.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh542.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh675.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh419.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh466.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh467.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh320.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh393.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh470.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh474.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh483.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh486.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh500.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh490.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh505.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh494.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh545.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh468.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh496.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh516.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh376.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh378.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh659.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh360.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh292.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh501.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh283.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh321.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh513.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh428.obj",
+      "material": "WhitePaint"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh498.obj",
+      "material": "WhitePaint"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh510.obj",
+      "material": "WhitePaint"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh514.obj",
+      "material": "WhitePaint"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh411.obj",
+      "material": "WhitePaint"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh690.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh482.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh518.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh422.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh450.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh507.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh434.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh312.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh311.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh309.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh308.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh726.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh356.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh303.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh300.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh277.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh296.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh452.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh333.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh295.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh243.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh289.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh288.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh604.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh314.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh287.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh404.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh430.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh745.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh502.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh723.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh258.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh414.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh367.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh307.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh284.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh282.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh302.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh240.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh279.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh366.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh276.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh326.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh447.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh477.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh273.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh522.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh616.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh568.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh358.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh262.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh632.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh399.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh261.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh460.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh521.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh443.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh304.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh705.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh586.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh387.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh472.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh538.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh749.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh254.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh425.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh235.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh679.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh736.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh249.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh364.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh248.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh667.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh301.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh715.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh236.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh718.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh246.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh712.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh576.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh631.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh674.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh245.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh381.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh654.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh244.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh728.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh242.obj",
+      "material": "WoodFloor"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh342.obj",
+      "material": "WoodFloor"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh653.obj",
+      "material": "WoodFloor"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh737.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh290.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh416.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh239.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh559.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh418.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh350.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh337.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh338.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh234.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh458.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh229.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh257.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh269.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh336.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh267.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh227.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh226.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh230.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh529.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh531.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh536.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh685.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh539.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh541.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh543.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh550.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh553.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh275.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh555.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh556.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh638.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh560.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh561.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh563.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh565.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh469.obj",
+      "material": "WhitePaint"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh569.obj",
+      "material": "WhitePaint"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh571.obj",
+      "material": "WhitePaint"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh574.obj",
+      "material": "Wallpaper"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh389.obj",
+      "material": "WhitePaint2"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh731.obj",
+      "material": "WoodFloor"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh579.obj",
+      "material": "Wallpaper"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh672.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh408.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh709.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh583.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh515.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh584.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh546.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh587.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh297.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh377.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh595.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh395.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh598.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh487.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh607.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh610.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh397.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh573.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh503.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh525.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh710.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh649.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh352.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh578.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh614.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh444.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh644.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh417.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh620.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh625.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh570.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh601.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh455.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh630.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh635.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh533.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh657.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh340.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh637.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh426.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh280.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh640.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh645.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh618.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh441.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh446.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh476.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh707.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh588.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh256.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh648.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh373.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh650.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh652.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh655.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh464.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh299.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh641.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh461.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh656.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh658.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh660.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh323.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh663.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh313.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh390.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh265.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh228.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh233.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh264.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh747.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh324.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh497.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh437.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh478.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh665.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh668.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh306.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh602.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh627.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh670.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh673.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh677.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh760.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh681.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh520.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh424.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh400.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh683.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh581.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh684.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh753.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh686.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh368.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh702.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh572.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh691.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh293.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh512.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh696.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh605.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh697.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh706.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh699.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh763.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh703.obj",
+      "material": "WoodChair"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh680.obj",
+      "material": "WoodChair"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh558.obj",
+      "material": "WoodChair"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh662.obj",
+      "material": "WoodChair"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh331.obj",
+      "material": "WoodChair"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh708.obj",
+      "material": "WoodChair"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh575.obj",
+      "material": "WoodChair"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh711.obj",
+      "material": "WoodChair"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh492.obj",
+      "material": "WoodChair"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh713.obj",
+      "material": "WoodChair"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh547.obj",
+      "material": "WoodChair"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh577.obj",
+      "material": "WoodChair"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh694.obj",
+      "material": "ChairSeat"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh716.obj",
+      "material": "Lampshade"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh719.obj",
+      "material": "Lampshade"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh633.obj",
+      "material": "Lampshade"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh724.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh727.obj",
+      "material": "WhitePlastic"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh440.obj",
+      "material": "WhitePlastic"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh729.obj",
+      "material": "WhitePlastic"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh590.obj",
+      "material": "StainlessSteel"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh732.obj",
+      "material": "StainlessSteel"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh372.obj",
+      "material": "StainlessSteel"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh734.obj",
+      "material": "StainlessSteel"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh738.obj",
+      "material": "StainlessSteel"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh636.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh741.obj",
+      "material": "WoodLamp"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh742.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh701.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh744.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh600.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh628.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh746.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh566.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh294.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh748.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh535.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh750.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh506.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh410.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh617.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh695.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh554.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh751.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh754.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh622.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh493.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh412.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh621.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh755.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh509.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh757.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh281.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh421.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh639.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh676.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh402.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh567.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh759.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh451.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh548.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh761.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh764.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh768.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh687.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh534.obj",
+      "material": "Gold"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh593.obj",
+      "material": "Gold"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh767.obj",
+      "material": "Gold"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh606.obj",
+      "material": "Gold"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh647.obj",
+      "material": "Gold"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh717.obj",
+      "material": "Gold"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh465.obj",
+      "material": "Gold"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh770.obj",
+      "material": "Gold"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh611.obj",
+      "material": "Gold"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh348.obj",
+      "material": "Gold"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh688.obj",
+      "material": "Gold"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh396.obj",
+      "material": "Gold"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh552.obj",
+      "material": "Gold"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh643.obj",
+      "material": "Gold"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh771.obj",
+      "material": "Gold"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh773.obj",
+      "material": "Gold"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh223.obj",
+      "material": "Gold"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh222.obj",
+      "material": "Gold"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh220.obj",
+      "material": "Gold"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh219.obj",
+      "material": "Gold"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh218.obj",
+      "material": "Gold"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh629.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh217.obj",
+      "material": "WhitePaint2"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh216.obj",
+      "material": "Painting2"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh392.obj",
+      "material": "WhitePaint"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh215.obj",
+      "material": "MagnoliaPaint"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh214.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh704.obj",
+      "material": "WoodStairs"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh427.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh213.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh212.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh210.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh609.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh678.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh209.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh260.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh208.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh207.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh597.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh562.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh689.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh205.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh592.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh420.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh204.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh202.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh345.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh285.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh225.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh201.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh200.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh263.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh398.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh330.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh599.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh198.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh197.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh196.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh195.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh193.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh371.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh191.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh189.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh188.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh722.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh186.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh185.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh184.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh183.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh349.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh181.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh250.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh180.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh608.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh178.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh266.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh176.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh175.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh174.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh171.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh758.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh169.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh698.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh651.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh166.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh322.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh164.obj",
+      "material": "BrushedAluminium"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh232.obj",
+      "material": "BrushedAluminium"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh772.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh163.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh162.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh161.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh730.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh159.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh194.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh158.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh540.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh544.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh375.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh157.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh357.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh156.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh155.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh407.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh153.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh152.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh721.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh151.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh231.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh664.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh160.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh182.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh150.obj",
+      "material": "Black"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh459.obj",
+      "material": "White"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh149.obj",
+      "material": "Copper"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh148.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh146.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh438.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh457.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh144.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh143.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh142.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh141.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh199.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh310.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh140.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh138.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh343.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh471.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh137.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh238.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh187.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh693.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh532.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh537.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh211.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh135.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh134.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh132.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh131.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh129.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh128.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh354.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh431.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh127.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh126.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh125.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh190.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh130.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh124.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh733.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh123.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh136.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh388.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh121.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh120.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh119.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh117.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh116.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh298.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh714.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh740.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh114.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh111.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh110.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh109.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh108.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh551.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh582.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh454.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh415.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh449.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh107.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh106.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh105.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh104.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh103.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh173.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh206.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh102.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh101.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh100.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh626.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh669.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh099.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh098.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh743.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh097.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh613.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh413.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh096.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh095.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh094.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh370.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh177.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh463.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh272.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh093.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh495.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh092.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh359.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh091.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh090.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh089.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh088.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh087.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh203.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh596.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh615.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh086.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh085.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh084.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh082.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh081.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh154.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh080.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh079.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh485.obj",
+      "material": "Glass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh078.obj",
+      "material": "Candles"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh172.obj",
+      "material": "Candles"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh317.obj",
+      "material": "Candles"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh347.obj",
+      "material": "Candles"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh077.obj",
+      "material": "Candles"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh076.obj",
+      "material": "Candles"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh075.obj",
+      "material": "Candles"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh481.obj",
+      "material": "Candles"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh083.obj",
+      "material": "Candles"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh073.obj",
+      "material": "Candles"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh072.obj",
+      "material": "Candles"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh612.obj",
+      "material": "Candles"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh071.obj",
+      "material": "Candles"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh069.obj",
+      "material": "Candles"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh068.obj",
+      "material": "Candles"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh067.obj",
+      "material": "Candles"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh278.obj",
+      "material": "Candles"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh332.obj",
+      "material": "Candles"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh436.obj",
+      "material": "Candles"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh168.obj",
+      "material": "Candles"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh066.obj",
+      "material": "Candles"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh499.obj",
+      "material": "Candles"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh394.obj",
+      "material": "Candles"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh274.obj",
+      "material": "Candles"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh065.obj",
+      "material": "Candles"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh380.obj",
+      "material": "Candles"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh070.obj",
+      "material": "Candles"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh585.obj",
+      "material": "Candles"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh316.obj",
+      "material": "Candles"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh692.obj",
+      "material": "Candles"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh064.obj",
+      "material": "Candles"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh335.obj",
+      "material": "Candles"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh756.obj",
+      "material": "Candles"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh224.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh063.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh062.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh725.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh271.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh061.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh642.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh589.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh060.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh247.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh059.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh433.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh221.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh058.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh057.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh327.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh682.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh056.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh055.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh054.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh735.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh167.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh053.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh052.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh268.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh739.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh623.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh580.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh051.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh769.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh671.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh050.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh049.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh369.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh528.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh048.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh341.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh047.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh046.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh133.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh603.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh442.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh504.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh045.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh480.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh564.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh192.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh362.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh044.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh591.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh043.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh766.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh365.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh042.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh488.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh113.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh041.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh170.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh351.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh040.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh549.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh720.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh634.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh039.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh038.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh383.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh037.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh036.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh035.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh406.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh557.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh112.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh165.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh034.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh032.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh115.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh145.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh527.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh237.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh031.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh479.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh030.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh453.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh029.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh028.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh027.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh026.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh025.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh646.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh484.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh255.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh765.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh448.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh139.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh024.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh325.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh074.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh023.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh022.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh021.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh020.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh019.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh661.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh018.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh017.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh147.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh016.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh015.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh291.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh319.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh526.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh014.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh013.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh033.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh011.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh179.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh010.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh009.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh008.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh118.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh007.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh762.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh594.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh475.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh006.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh005.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh012.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh619.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh519.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh004.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh241.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh700.obj",
+      "material": "Brass"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh435.obj",
+      "material": "Emission"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh003.obj",
+      "material": "Emission"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh122.obj",
+      "material": "Emission"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh666.obj",
+      "material": "Emission"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh002.obj",
+      "material": "Emission"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh001.obj",
+      "material": "Emission"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh000.obj",
+      "material": "Emission"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh259.obj",
+      "material": "Emission"
+    },
+    {
+      "transform": {},
+      "file": "models/Mesh462.obj",
+      "material": "Emission"
+    }
+  ],
+  "lights": [
+    {
+      "emission": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "position": [
+        -0.48117467761039734,
+        7.140594959259033,
+        -1.6527451276779175
+      ]
+    }
+  ],
+  "camera": {
+    "resolution": [
+      720,
+      1280
+    ],
+    "position": [
+      0.03242092579603195,
+      1.526729941368103,
+      4.881969451904297
+    ],
+    "front": [
+      -0.051230225712060926,
+      0.3018800020217896,
+      -6.6932494640350343
+    ],
+    "up": [
+      0.0,
+      1.0,
+      0.0
+    ],
+    "fov": 58.543979551022964
+  },
+  "renderer": {
+    "enable_two_sided_shading": true,
+    "enable_shadow": true,
+    "output_file": "output.png"
+  }
+}
