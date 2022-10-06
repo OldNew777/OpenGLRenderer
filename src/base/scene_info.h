@@ -77,14 +77,14 @@ namespace gl_render {
     };
 
     struct RendererInfo : public SceneNodeInfo  {
-        bool enable_two_sided_shading;
+        bool enable_vsync;
         bool enable_shadow;
         path output_file;
 
         void print() const noexcept override {
             GL_RENDER_INFO(
                     "RendererInfo: enable_two_sided_shading: {}, enable_shadow: {}, output_file: {}",
-                    enable_two_sided_shading, enable_shadow, output_file.string());
+                    enable_vsync, enable_shadow, output_file.string());
         }
     };
 

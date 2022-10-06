@@ -47,7 +47,7 @@ namespace gl_render {
             GL_RENDER_ERROR_WITH_LOCATION("Failed to create GLFW window");
         }
         glfwMakeContextCurrent(_window);
-        glfwSwapInterval(_config.enable_vsync);    // handle vsync
+        glfwSwapInterval(_config.renderer_info.enable_vsync);    // handle vsync
 
         // glad: load all OpenGL function pointers
         // =======================================
@@ -57,9 +57,7 @@ namespace gl_render {
 
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_CULL_FACE);
-        if (!_config.renderer_info.enable_two_sided_shading) {
-            glCullFace(GL_BACK);
-        }
+        glCullFace(GL_BACK);
         glEnable(GL_FRAMEBUFFER_SRGB);
         glEnable(GL_MULTISAMPLE);
 
@@ -85,8 +83,9 @@ namespace gl_render {
         gl_render::queue<double> frame_time;
         double last_fps_time = glfwGetTime();
         double fps_time_sum = 0.f;
-        const auto fps_count = 600u;
-        auto print_count = 0u;
+        const auto fps_count_time = 1.f;
+        const auto frame_min_size = 60u;
+        auto print_time = 0.f;
         auto clear_color = float3(0.45f, 0.55f, 0.60f);
 
         const auto& lights = _scene->scene_all_info().lights;
@@ -152,13 +151,13 @@ namespace gl_render {
             last_fps_time = current_time;
             fps_time_sum += delta_time;
             frame_time.push(delta_time);
-            if (frame_time.size() == fps_count) {
+            while (fps_time_sum >= fps_count_time && frame_time.size() > frame_min_size) {
                 fps_time_sum -= frame_time.front();
                 frame_time.pop();
             }
 
-            if (print_count++ == fps_count) {
-                print_count = 0;
+            if (print_time += delta_time; print_time >= fps_count_time) {
+                print_time = 0.f;
                 GL_RENDER_INFO(
                         "FPS: {}, SPF: {}",
                         1.0 / fps_time_sum * frame_time.size(),

@@ -19,8 +19,6 @@ namespace gl_render {
     public:
 
         struct Config {
-            bool enable_vsync = false;
-            bool enable_shadow = false;
             RendererInfo renderer_info;
         };
 

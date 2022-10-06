@@ -217,7 +217,7 @@ namespace gl_render {
     public:
         RendererNode(nlohmann::json &json) noexcept
                 : SceneNode{json} {
-            _renderer_info.enable_two_sided_shading = property_bool_or_default("enable_two_sided_shading", false);
+            _renderer_info.enable_vsync = property_bool_or_default("enable_vsync", true);
             _renderer_info.enable_shadow = property_bool_or_default("enable_shadow", true);
             _renderer_info.output_file = property_string_or_default("output_file", "output.exr");
         }

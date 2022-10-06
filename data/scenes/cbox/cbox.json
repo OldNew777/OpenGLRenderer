@@ -131,8 +131,8 @@
     "fov": 19.5
   },
   "renderer": {
-    "enable_two_sided_shading": true,
-    "enable_shadow": true,
+    "enable_vsync": true,
+    "enable_shadow": false,
     "output_file": "output.png"
   }
 }

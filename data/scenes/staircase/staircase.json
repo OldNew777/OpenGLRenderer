@@ -3982,8 +3982,8 @@
     "fov": 58.543979551022964
   },
   "renderer": {
-    "enable_two_sided_shading": true,
-    "enable_shadow": true,
+    "enable_vsync": true,
+    "enable_shadow": false,
     "output_file": "output.png"
   }
 }
