@@ -86,6 +86,7 @@ namespace gl_render {
         const auto fps_count_time = 1.f;
         const auto frame_min_size = 60u;
         auto print_time = 0.f;
+        auto frame_index = 0u;
         auto clear_color = float3(0.45f, 0.55f, 0.60f);
 
         const auto& lights = _scene->scene_all_info().lights;
@@ -103,8 +104,8 @@ namespace gl_render {
 
         // build and compile shaders
         Shader shader{
-            "data/shaders/phong.vs",
-            "data/shaders/phong.fs",
+            "data/shaders/phong.vert",
+            "data/shaders/phong.frag",
             {},
             {
                 {std::string{"POINT_LIGHT_COUNT"}, serialize(lights.size())},
@@ -146,6 +147,7 @@ namespace gl_render {
 //            _geometry->shadow(shader);
 
             // calculate fps
+            frame_index++;
             double current_time = glfwGetTime();
             double delta_time = current_time - last_fps_time;
             last_fps_time = current_time;
@@ -159,7 +161,8 @@ namespace gl_render {
             if (print_time += delta_time; print_time >= fps_count_time) {
                 print_time = 0.f;
                 GL_RENDER_INFO(
-                        "FPS: {}, SPF: {}",
+                        "Frame {}, FPS: {}, SPF: {}",
+                        frame_index,
                         1.0 / fps_time_sum * frame_time.size(),
                         fps_time_sum / frame_time.size());
             }
