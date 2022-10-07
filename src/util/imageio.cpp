@@ -77,14 +77,14 @@ namespace gl_render {
 
     }
 
-    void save_image(path output_path, const float *pixels, uint2 resolution, int channel) noexcept {
+    void save_image(path output_path, const float *pixels, uint2 resolution, int channel, HDRConfig hdr_config) noexcept {
         GL_RENDER_ASSERT(channel == 3 || channel == 4, "Image saving only supports 3 or 4 channels");
 
         if (HDR_IMAGE_EXT.contains(output_path.extension().string())) {
             impl::save_hdr_image(output_path, pixels, resolution, channel);
         } else if (LDR_IMAGE_EXT.contains(output_path.extension().string())) {
             auto ldr_pixels = vector<uchar>(resolution.x * resolution.y * channel);
-            hdr2srgb(pixels, ldr_pixels.data(), resolution, channel);
+            hdr2srgb(pixels, ldr_pixels.data(), resolution, channel, hdr_config);
             impl::save_ldr_image(output_path, ldr_pixels.data(), resolution, channel);
         } else {
             GL_RENDER_WARNING_WITH_LOCATION(
@@ -109,15 +109,15 @@ namespace gl_render {
         }
     }
 
-    void hdr2srgb(const float *hdr, uchar *srgb, uint2 resolution, int channel) noexcept {
+    void hdr2srgb(const float *hdr, uchar *srgb, uint2 resolution, int channel, HDRConfig hdr_config) noexcept {
         GL_RENDER_ASSERT(channel == 3 || channel == 4, "Image saving only supports 3 or 4 channels");
 
-        auto exposure = 1.f;
-        auto gamma = 2.2f;
-        auto inv_gamma = 1.f / gamma;
+        auto inv_gamma = 1.f / hdr_config.gamma;
         for (int i = 0; i < resolution.x * resolution.y; ++i) {
             for (int j = 0; j < 3; ++j) {
-                srgb[i * channel + j] = uchar(std::pow(1.f - std::exp(-hdr[i * channel + j] * exposure), inv_gamma) * 255.f);
+                auto ldr_float = pow(1.f - std::exp(-hdr[i * channel + j] * hdr_config.exposure), inv_gamma);
+                auto ldr = ldr_float * 255.f;
+                srgb[i * channel + j] = static_cast<uchar>(ldr);
             }
             if (channel == 4) {
                 srgb[i * channel + 3] = 255;

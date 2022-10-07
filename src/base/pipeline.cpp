@@ -161,8 +161,8 @@ namespace gl_render {
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             hdrShader.use();
-            hdrShader.setBool("hdr", _config.hdr);
-            hdrShader.setFloat("exposure", _config.exposure);
+            hdrShader.setFloat("exposure", _config.hdr_config.exposure);
+            hdrShader.setFloat("gamma", _config.hdr_config.gamma);
             glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_2D, _hdr_tex_buffer);
             renderQuad();

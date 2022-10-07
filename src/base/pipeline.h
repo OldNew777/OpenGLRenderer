@@ -11,6 +11,7 @@
 #include <core/stl.h>
 #include <base/scene_parser.h>
 #include <base/geometry.h>
+#include <util/imageio.h>
 
 namespace gl_render {
 
@@ -21,8 +22,7 @@ namespace gl_render {
 
         struct Config {
             RendererInfo renderer_info;
-            bool hdr = true;
-            float exposure = 1.0f;
+            HDRConfig hdr_config;
         };
 
         static Pipeline& GetInstance(const path &scene_path) noexcept {

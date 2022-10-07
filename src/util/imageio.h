@@ -9,10 +9,15 @@
 
 namespace gl_render {
 
-    void save_image(path output_path, const float *pixels, uint2 resolution, int channel) noexcept;
+    struct HDRConfig {
+        float exposure = 1.f;
+        float gamma = 2.2f;
+    };
+
+    void save_image(path output_path, const float *pixels, uint2 resolution, int channel, HDRConfig hdr_config = HDRConfig{}) noexcept;
     void save_image(path output_path, const uchar *pixels, uint2 resolution, int channel) noexcept;
 
-    void hdr2srgb(const float* hdr, uchar* srgb, uint2 resolution, int channel) noexcept;
+    void hdr2srgb(const float* hdr, uchar* srgb, uint2 resolution, int channel, HDRConfig hdr_config) noexcept;
 
     template<typename T>
     requires is_vector_v<T>
