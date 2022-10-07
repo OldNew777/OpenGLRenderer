@@ -44,4 +44,5 @@ void main() {
     ambient = aAmbient;
 
     gl_Position = projection * view * vec4(aPos, 1.0f);
+//    gl_Position /= gl_Position.w;
 }

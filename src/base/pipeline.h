@@ -17,15 +17,20 @@ namespace gl_render {
     class Pipeline {
 
     public:
+        static const uint SHADOW_WIDTH, SHADOW_HEIGHT;
 
         struct Config {
             RendererInfo renderer_info;
+            bool hdr = true;
+            float exposure = 1.0f;
         };
 
         static Pipeline& GetInstance(const path &scene_path) noexcept {
             static Pipeline pipeline{scene_path};
             return pipeline;
         }
+        void InitShadowMap() noexcept;
+        void InitHDRFrameBuffer() noexcept;
         void render() noexcept;
 
     private:
@@ -33,11 +38,18 @@ namespace gl_render {
         Pipeline &operator=(Pipeline &&) = default;
         Pipeline &operator=(const Pipeline &) = delete;
 
+        void renderQuad() noexcept;
+
     private:
-        unique_ptr<SceneAllNode> _scene;
-        unique_ptr<Geometry> _geometry;
         GLFWwindow *_window;
         Config _config;
+
+        unique_ptr<SceneAllNode> _scene;
+        unique_ptr<Geometry> _geometry;
+        uint _depth_map_buffer{0u};
+        uint _depth_map_tex_buffer{0u};
+        uint _hdr_frame_buffer{0u};
+        uint _hdr_tex_buffer{0u};
     };
 
 }

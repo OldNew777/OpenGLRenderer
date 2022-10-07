@@ -38,7 +38,6 @@ namespace gl_render {
 
     public:
         using AABB = impl::AABB;
-        static const uint SHADOW_WIDTH, SHADOW_HEIGHT;
 
     private:
         vector<size_t> _mesh_offsets;
@@ -47,6 +46,7 @@ namespace gl_render {
         size_t _triangle_count{0u};
         size_t _vertex_count{0u};
         size_t _texture_count{0u};
+
         uint _vertex_array{0u};
         uint _position_buffer{0u};
         uint _normal_buffer{0u};
@@ -80,11 +80,8 @@ namespace gl_render {
         Geometry &operator=(const Geometry &) = delete;
 
         [[nodiscard]] AABB aabb() const noexcept { return _aabb; }
-        [[nodiscard]] const std::vector<size_t> &mesh_offsets() const noexcept { return _mesh_offsets; }
-        [[nodiscard]] const std::vector<size_t> &mesh_sizes() const noexcept { return _mesh_sizes; }
-        [[nodiscard]] uint position_buffer_id() const noexcept { return _position_buffer; }
-        [[nodiscard]] uint normal_buffer_id() const noexcept { return _normal_buffer; }
-        [[nodiscard]] size_t texture_count() const noexcept { return _texture_count; }
+
+    public:
         void render(const Shader &shader) const;
         void shadow(const Shader &shader) const;
     };
