@@ -37,9 +37,10 @@ void main() {
     if (TexId < 0) {
         diffuse = aDiffuse;
     } else {
-        // only accept [0, 1] coordinates
+        // FIXME: only accept [0, 1] coordinates
         vec2 Coord = (TexCoord * TexSize + TexOffset) / TEXTURE_MAX_SIZE;
         vec3 arrayCoord = vec3(Coord, TexId);
+        // FIXME: texture function is not working, except we use constant coordinates
         diffuse = texture(textures, arrayCoord).rgb;
     }
     specular = aSpecular;
