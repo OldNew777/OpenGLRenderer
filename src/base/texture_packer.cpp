@@ -24,7 +24,7 @@ namespace gl_render {
 
     TexturePacker::Quad TexturePacker::_fit_image(size_t w, size_t h) noexcept {
         auto size = std::max({util::next_power_of_two(w), util::next_power_of_two(h), _min_size});
-        size_t level = util::log2(_max_size / size);
+        auto level = util::log2(_max_size / size);
 
         for (auto i = static_cast<int64_t>(level); i >= 0; i--) {
             auto &&quads = _available_quads[i];
@@ -34,9 +34,8 @@ namespace gl_render {
                 return _decompose_quad(quad, size, i);
             }
         }
-        auto quad = _decompose_quad(
-                {static_cast<uint32_t>(_image_buffers.size()), 0, 0, static_cast<uint32_t>(_max_size)}, size, 0);
-        _image_buffers.emplace_back(_max_size * _max_size, uchar4{0.0f, 0.0f, 0.0f, 1.0f});
+        auto quad =  _decompose_quad({static_cast<uint32_t>(_image_buffers.size()), 0, 0, static_cast<uint32_t>(_max_size)}, size, 0);
+        _image_buffers.emplace_back(_max_size * _max_size, uchar4{0, 255, 0, 255});
         return quad;
     }
 
@@ -54,7 +53,6 @@ namespace gl_render {
               _min_size{util::next_power_of_two(min_size)} {
         _max_level_count = util::log2(_max_size / _min_size) + 1;
         _available_quads.resize(_max_level_count);
-        GL_RENDER_INFO("max_level_count: {}", _max_level_count);
     }
 
     TexturePacker::ImageBlock TexturePacker::load(const path &image_path) {
@@ -100,11 +98,17 @@ namespace gl_render {
     }
 
     uint32_t TexturePacker::create_opengl_texture_array() const noexcept {
+        // test loaded textures
+        for (auto i = 0ul; i < _image_buffers.size(); i++) {
+            stbi_write_png(serialize("outputs/", "texture_packed_", i, ".png").c_str(),
+                           _max_size, _max_size, 4, _image_buffers[i].data(), 0);
+        }
+
         uint32_t texture_array = 0u;
         glGenTextures(1, &texture_array);
         glBindTexture(GL_TEXTURE_2D_ARRAY, texture_array);
         glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);

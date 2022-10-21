@@ -73,7 +73,7 @@ namespace gl_render {
         void _fill(TexturePacker::ImageBlock b, const uchar4 *data) noexcept;
 
     public:
-        explicit TexturePacker(size_t max_size = 4096ul, size_t min_size = 16ul);
+        explicit TexturePacker(size_t max_size = 1024ul, size_t min_size = 16ul);
         ImageBlock load(const path &image_path);
         [[nodiscard]] size_t count() const noexcept;
         [[nodiscard]] size_t max_size() const noexcept;

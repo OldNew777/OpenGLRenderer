@@ -99,6 +99,11 @@ namespace gl_render {
         }
 
         // ------------------------------------------------------------------------
+        void setUint(const string &name, uint value) const {
+            glUniform1ui(glGetUniformLocation(ID, name.c_str()), value);
+        }
+
+        // ------------------------------------------------------------------------
         void setFloat(const string &name, float value) const {
             glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
         }

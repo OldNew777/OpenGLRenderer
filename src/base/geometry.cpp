@@ -103,7 +103,9 @@ namespace gl_render {
                         tex_properties.emplace_back(0.0f, 0.0f, 0.0f, 0.0f);
                     } else {
                         tex_coords.emplace_back(ai_tex_coords[i].x, ai_tex_coords[i].y, block.index);
-                        GL_RENDER_INFO("tex coord: ({}, {}), {}", ai_tex_coords[i].x, ai_tex_coords[i].y, block.index);
+                        GL_RENDER_INFO("tex coord: ({}, {}, {}), tex uv: ({}, {}), tex id: {}",
+                                       ai_position.x, ai_position.y, ai_position.z,
+                                       ai_tex_coords[i].x, ai_tex_coords[i].y, block.index);
                         tex_properties.emplace_back(block.offset.x, block.offset.y, block.size.x, block.size.y);
                     }
                     diffuse_vec.emplace_back(diffuse);
@@ -126,6 +128,7 @@ namespace gl_render {
 
         _texture_count = packer.count();
         _texture_array = packer.create_opengl_texture_array();
+        _texture_max_size = packer.max_size();
 
         GL_RENDER_INFO(
                 "AABB: min = ({}, {}, {}), max = ({}, {}, {})",

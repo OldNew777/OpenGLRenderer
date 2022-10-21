@@ -56,6 +56,7 @@ namespace gl_render {
         uint _tex_coord_buffer{0u};
         uint _tex_property_buffer{0u};
         uint _texture_array{0u};
+        uint _texture_max_size{0u};
 
     private:
         template<typename T>
@@ -79,7 +80,8 @@ namespace gl_render {
         Geometry &operator=(Geometry &&) = default;
         Geometry &operator=(const Geometry &) = delete;
 
-        [[nodiscard]] AABB aabb() const noexcept { return _aabb; }
+        [[nodiscard]] auto aabb() const noexcept { return _aabb; }
+        [[nodiscard]] auto texture_max_size() const noexcept { return _texture_max_size; }
 
     public:
         void render(const Shader &shader) const;

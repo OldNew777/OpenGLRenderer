@@ -1,4 +1,4 @@
-#version 410 core
+#version 460 core
 
 layout (location = 0) in vec3 aPos;
 layout (location = 1) in vec3 aNormal;
@@ -21,6 +21,7 @@ out vec3 ambient;
 uniform mat4 view;
 uniform mat4 projection;
 uniform sampler2DArray textures;
+uniform uint TEXTURE_MAX_SIZE;
 
 const float PI = 3.1415926536f;
 
@@ -36,9 +37,10 @@ void main() {
     if (TexId < 0) {
         diffuse = aDiffuse;
     } else {
-        vec2 Coord = (fract(fract(TexCoord) + 1.0f) * TexSize + TexOffset) / ${TEXTURE_MAX_SIZE};
-        //vec2 Coord = TexOffset;
-        diffuse = texture(textures, vec3(Coord, TexId)).rgb;
+        // only accept [0, 1] coordinates
+        vec2 Coord = (TexCoord * TexSize + TexOffset) / TEXTURE_MAX_SIZE;
+        vec3 arrayCoord = vec3(Coord, TexId);
+        diffuse = texture(textures, arrayCoord).rgb;
     }
     specular = aSpecular;
     ambient = aAmbient;

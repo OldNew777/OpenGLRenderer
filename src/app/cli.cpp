@@ -56,6 +56,9 @@ using namespace gl_render;
 }
 
 int main(int argc, char *argv[]) {
+    std::filesystem::remove_all("outputs");
+    std::filesystem::create_directories("outputs");
+
     log_level_info();
     auto options = parse_cli_options(argc, argv);
 

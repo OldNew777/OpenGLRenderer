@@ -86,10 +86,10 @@ namespace gl_render {
         gl_render::queue<double> frame_time;
         double last_fps_time = glfwGetTime();
         double fps_time_sum = 0.f;
-        const auto fps_count_time = 1.f;
-        const auto frame_min_size = 60u;
-        auto print_time = 0.f;
-        auto frame_index = 0u;
+        const double fps_count_time = 1.f;
+        const size_t frame_min_size = 60u;
+        double print_time = 0.f;
+        size_t frame_index = 0u;
         auto clear_color = float3(0.45f, 0.55f, 0.60f);
 
         const auto &lights = _scene->scene_all_info().lights;
@@ -111,8 +111,7 @@ namespace gl_render {
                 "data/shaders/phong.frag",
                 {},
                 {
-                        {std::string{"POINT_LIGHT_COUNT"}, serialize(lights.size())},
-                        {std::string{"TEXTURE_MAX_SIZE"}, serialize(4096)}
+                        {std::string{"POINT_LIGHT_COUNT"}, serialize(lights.size())}
                 }
         };
         Shader hdrShader{
@@ -154,6 +153,7 @@ namespace gl_render {
             shader.setMat4("projection", projection);
             shader.setMat4("view", view_matrix);
             shader.setVec3("cameraPos", camera_info.position);
+            shader.setUint("TEXTURE_MAX_SIZE", _geometry->texture_max_size());
             _geometry->render(shader);
 //            _geometry->shadow(shader);
 
@@ -283,7 +283,7 @@ namespace gl_render {
             glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
             glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
             glEnableVertexAttribArray(0);
-            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*) 0);
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) 0);
             glEnableVertexAttribArray(1);
             glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) (3 * sizeof(float)));
         }
