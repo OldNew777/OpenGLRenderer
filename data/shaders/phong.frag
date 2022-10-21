@@ -28,10 +28,13 @@ uniform PointLight pointLights[POINT_LIGHT_COUNT];
 // calculates the color when using a point light.
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 {
-    vec3 lightDir = normalize(light.Position - fragPos);
+    vec3 lightVec = light.Position - fragPos;
+    vec3 lightDir = normalize(lightVec);
+    float distance = length(lightVec);
     // diffuse shading
     float diff = max(dot(normal, lightDir), 0.f);
     vec3 diffuseLight = light.Color * diff;
+    diffuseLight *= 1.f / (distance * distance);
     return diffuseLight;
 }
 

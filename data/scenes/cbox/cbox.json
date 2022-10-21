@@ -38,7 +38,8 @@
         0.725,
         0.71,
         0.68
-      ]
+      ],
+      "diffuse_map": "textures/cbox.png"
     },
     {
       "name": "ShortBox",
@@ -133,6 +134,6 @@
   "renderer": {
     "enable_vsync": true,
     "enable_shadow": false,
-    "output_file": "output.png"
+    "output_file": "output.exr"
   }
 }
