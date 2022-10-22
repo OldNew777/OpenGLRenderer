@@ -80,56 +80,53 @@ namespace gl_render {
                       aiMesh* ai_mesh, const path &scene_dir,
                       const Shader::TemplateList &tl = {}) noexcept;
         ~GeometryGroup() noexcept;
-        virtual void render() const noexcept;
-        virtual void shadow() const noexcept;
+
+        GeometryGroup(GeometryGroup &&) = delete;
+        GeometryGroup(const GeometryGroup &) = delete;
+        GeometryGroup &operator=(GeometryGroup &&) = delete;
+        GeometryGroup &operator=(const GeometryGroup &) = delete;
+
+        virtual void render() const;
+        virtual void shadow() const;
+        void set_lights(const vector<LightNode> &lights) const;
+        void set_camera(
+                const float4x4& projection,
+                const float4x4& view,
+                const float3& cameraPos) const;
+
         [[nodiscard]] Shader* shader() const noexcept { return _shader.get(); }
         [[nodiscard]] auto texture_max_size() const noexcept { return _texture_max_size; }
-
+        [[nodiscard]] auto aabb() const noexcept { return _aabb; }
     };
 
     class Geometry {
 
-    public:
-        using AABB = impl::AABB;
-
     private:
-        vector<size_t> _mesh_offsets;
-        vector<size_t> _mesh_sizes;
-        AABB _aabb{};
-
-        uint _triangle_count;
-        uint _vertex_array;
-        uint _position_buffer;
-        uint _normal_buffer;
-        uint _diffuse_buffer;
-        uint _specular_buffer;
-        uint _ambient_buffer;
-        uint _tex_coord_buffer;
-        uint _tex_property_buffer;
-        uint _texture_array;
-        uint _texture_max_size;
+        impl::AABB _aabb;
+        vector<unique_ptr<GeometryGroup>> _groups;
 
     public:
         explicit Geometry(const SceneAllNode::SceneAllInfo &sceneAllInfo, const path &scene_dir);
 
-        ~Geometry();
-
-        Geometry(Geometry &&) = default;
-
+        ~Geometry() = default;
+        Geometry(Geometry &&) = delete;
         Geometry(const Geometry &) = delete;
-
-        Geometry &operator=(Geometry &&) = default;
-
+        Geometry &operator=(Geometry &&) = delete;
         Geometry &operator=(const Geometry &) = delete;
 
         [[nodiscard]] auto aabb() const noexcept { return _aabb; }
 
-        [[nodiscard]] auto texture_max_size() const noexcept { return _texture_max_size; }
-
     public:
-        void render(const Shader &shader) const;
-
-        void shadow(const Shader &shader) const;
+        void render(
+                const vector<LightNode> &lights,
+                const float4x4& projection,
+                const float4x4& view,
+                const float3& cameraPos) const;
+        void shadow(
+                const vector<LightNode> &lights,
+                const float4x4& projection,
+                const float4x4& view,
+                const float3& cameraPos) const;
     };
 
 }

@@ -106,14 +106,6 @@ namespace gl_render {
                 near_plane, far_plane);
 
         // build and compile shaders
-        Shader shader{
-                "data/shaders/phong.vert",
-                "data/shaders/phong.frag",
-                "",
-                {
-                        {std::string{"POINT_LIGHT_COUNT"}, serialize(lights.size())}
-                }
-        };
         Shader hdrShader{
                 "data/shaders/hdr2ldr.vert",
                 "data/shaders/hdr2ldr.frag",
@@ -142,20 +134,7 @@ namespace gl_render {
             // 1. render into hdr framebuffer
             glBindFramebuffer(GL_FRAMEBUFFER, _hdr_frame_buffer);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            shader.use();
-            // lights
-            // point lights
-            for (auto i = 0ul; i < lights.size(); i++) {
-                shader.setVec3(serialize("pointLights[", i, "].Position"), lights[i].light_info().position);
-                shader.setVec3(serialize("pointLights[", i, "].Color"), lights[i].light_info().emission);
-            }
-            // camera
-            shader.setMat4("projection", projection);
-            shader.setMat4("view", view_matrix);
-            shader.setVec3("cameraPos", camera_info.position);
-            shader.setUint("TEXTURE_MAX_SIZE", _geometry->texture_max_size());
-            _geometry->render(shader);
-//            _geometry->shadow(shader);
+            _geometry->render(lights, projection, view_matrix, camera_info.position);
 
             // 2. now render hdr buffer to 2D quad and tonemap HDR colors to default framebuffer's (clamped) color range
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
