@@ -25,7 +25,7 @@ namespace gl_render {
             Assimp::Importer importer;
             auto ai_scene = importer.ReadFile(
                     mesh_path,
-                    aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_FixInfacingNormals | aiProcess_GenNormals |
+                    aiProcess_Triangulate | aiProcess_FixInfacingNormals | aiProcess_GenNormals |
                     aiProcess_OptimizeGraph | aiProcess_OptimizeMeshes);
             GL_RENDER_ASSERT(ai_scene != nullptr, "Mesh \"{}\" is nullptr", mesh_path);
             GL_RENDER_ASSERT(!(ai_scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE), "Mesh \"{}\" is incomplete", mesh_path);

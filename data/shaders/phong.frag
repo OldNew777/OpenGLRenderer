@@ -24,6 +24,8 @@ struct PointLight {
 };
 
 uniform PointLight pointLights[POINT_LIGHT_COUNT];
+uniform uint TEXTURE_MAX_SIZE;
+uniform sampler2DArray textures;
 
 // calculates the color when using a point light.
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
@@ -48,20 +50,25 @@ void main()
     vec3 norm = normalize(Normal);
 
     vec3 Lo = vec3(0.f);
+    vec3 diffuseResult = diffuse;
 
-//     // phase 1: directional light
-//     vec3 result = CalcDirLight(dirLight, norm, viewDir);
-    // phase 2: point lights
+    if (TexId >= 0) {
+        // FIXME: only accept [0, 1] coordinates
+        vec2 Coord = (fract(TexCoord) * TexSize + TexOffset) / TEXTURE_MAX_SIZE;
+        vec3 arrayCoord = vec3(Coord, TexId);
+        // FIXME: texture function is not working, except we use constant coordinates
+        diffuseResult = texture(textures, arrayCoord).rgb;
+    }
+
+    // point lights
     for(int i = 0; i < POINT_LIGHT_COUNT; i++) {
         vec3 lightDir = normalize(pointLights[i].Position - Position);
         bool valid = same_hemisphere(lightDir, viewDir, norm);
         if (!valid) {
             continue;
         }
-        Lo += CalcPointLight(pointLights[i], norm, Position, viewDir) * diffuse;
+        Lo += CalcPointLight(pointLights[i], norm, Position, viewDir) * diffuseResult;
     }
-//     // phase 3: spot light
-//     result += CalcSpotLight(spotLight, norm, FragPos, viewDir);
 
     FragColor = vec4(Lo, 1.f);
 //    FragColor = vec4(norm * 0.5f + 0.5f, 1.f);

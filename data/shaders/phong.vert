@@ -20,8 +20,6 @@ out vec3 ambient;
 
 uniform mat4 view;
 uniform mat4 projection;
-uniform sampler2DArray textures;
-uniform uint TEXTURE_MAX_SIZE;
 
 const float PI = 3.1415926536f;
 
@@ -34,15 +32,7 @@ void main() {
 
     Normal = aNormal;
 
-    if (TexId < 0) {
-        diffuse = aDiffuse;
-    } else {
-        // FIXME: only accept [0, 1] coordinates
-        vec2 Coord = (TexCoord * TexSize + TexOffset) / TEXTURE_MAX_SIZE;
-        vec3 arrayCoord = vec3(Coord, TexId);
-        // FIXME: texture function is not working, except we use constant coordinates
-        diffuse = texture(textures, arrayCoord).rgb;
-    }
+    diffuse = aDiffuse;
     specular = aSpecular;
     ambient = aAmbient;
 
