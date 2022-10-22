@@ -123,19 +123,22 @@ namespace gl_render {
     class MaterialNode : public SceneNode {
     public:
         MaterialNode(nlohmann::json &json) noexcept: SceneNode{json} {
-            _material_info.name = property_string("name");
-            _material_info.diffuse = property_float3_or_default("diffuse", float3(0.5f));
-            _material_info.specular = property_float3_or_default("specular", float3(0.f));
-            _material_info.ambient = property_float3_or_default("ambient", float3(0.f));
-            _material_info.diffuse_map = property_string_or_default("diffuse_map", "");
+            _material_info = make_unique<MaterialInfo>();
+            _material_info->type = MaterialInfo::TypeMap(property_string("type"));
+            _material_info->name = property_string("name");
+            _material_info->diffuse = property_float3_or_default("diffuse", float3(0.5f));
+            _material_info->specular = property_float3_or_default("specular", float3(0.f));
+            _material_info->ambient = property_float3_or_default("ambient", float3(0.f));
+            _material_info->diffuse_map = property_string_or_default("diffuse_map", "");
         }
 
-        [[nodiscard]] inline const auto &material_info() const noexcept {
-            return _material_info;
+        [[nodiscard]] inline auto material_info() const noexcept {
+            return _material_info.get();
         }
 
     protected:
-        MaterialInfo _material_info;
+        unique_ptr<MaterialInfo> _material_info;
+
     };
 
     class MeshNode : public SceneNode {
@@ -183,6 +186,7 @@ namespace gl_render {
                 : SceneNode{json} {
             _light_info.position = property_float3("position");
             _light_info.emission = property_float3("emission");
+            _light_info.emission *= property_float_or_default("scale", 1.f);
         }
 
         [[nodiscard]] inline const auto &light_info() const noexcept {
@@ -239,14 +243,20 @@ namespace gl_render {
             GL_RENDER_ASSERT(json.contains("renderer"), "Scene file must contain renderer.");
 
             for (auto &material_json: json["materials"]) {
-                auto material = MaterialNode{material_json};
-                auto material_name = material.material_info().name;
+                auto type = MaterialInfo::TypeMap(material_json["type"]);
+                unique_ptr<MaterialNode> material;
+                // TODO: specify material type
+                material = make_unique<MaterialNode>(material_json);
+                auto material_name = material->material_info()->name;
                 if (_scene_all_info.materials.contains(material_name)) {
                     GL_RENDER_ERROR_WITH_LOCATION(
                             "Material '{}' already exists.",
                             material_name);
                 }
-                _scene_all_info.materials.insert({material_name, material});
+                _scene_all_info.materials.insert({
+                    material_name,
+                    std::forward<unique_ptr<MaterialNode>>(material)
+                });
             }
             for (auto &mesh_json: json["meshes"]) {
                 auto mesh_node = _scene_all_info.meshes.emplace_back(MeshNode{mesh_json});
@@ -270,7 +280,7 @@ namespace gl_render {
 
     public:
         struct SceneAllInfo {
-            unordered_map<string, MaterialNode> materials;
+            unordered_map<string, unique_ptr<MaterialNode>> materials;
             vector<MeshNode> meshes;
             vector<LightNode> lights;
             optional<CameraNode> camera;

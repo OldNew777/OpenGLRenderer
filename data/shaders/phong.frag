@@ -63,8 +63,8 @@ void main()
 //     // phase 3: spot light
 //     result += CalcSpotLight(spotLight, norm, FragPos, viewDir);
 
-//    FragColor = vec4(Lo, 1.f);
+    FragColor = vec4(Lo, 1.f);
 //    FragColor = vec4(norm * 0.5f + 0.5f, 1.f);
-    FragColor = vec4(diffuse, 1.f);
+//    FragColor = vec4(diffuse, 1.f);
 //    FragColor = vec4(TexCoord, 1.f, 1.f);
 }

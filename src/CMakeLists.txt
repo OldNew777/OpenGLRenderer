@@ -13,6 +13,7 @@ endif ()
 add_subdirectory(base)
 add_subdirectory(core)
 add_subdirectory(ext)
+add_subdirectory(material)
 add_subdirectory(util)
 
 add_library(opengl-render-include INTERFACE)
@@ -25,6 +26,7 @@ target_link_libraries(opengl-render INTERFACE
         opengl-render-base
         opengl-render-core
         opengl-render-ext
+        opengl-render-material
         opengl-render-util)
 add_library(opengl::render ALIAS opengl-render)
 

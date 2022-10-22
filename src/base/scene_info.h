@@ -16,14 +16,28 @@ namespace gl_render {
         }
     };
 
-    struct MaterialInfo : public SceneNodeInfo {
+    class MaterialInfo : public SceneNodeInfo {
+    public:
+        enum class MaterialType {
+            Phong,
+        };
+        static std::unordered_map<string, MaterialType> TYPE_MAP;
+        [[nodiscard]] static auto TypeMap(const string& type) noexcept {
+            auto it = MaterialInfo::TYPE_MAP.find(type);
+            if (it == TYPE_MAP.end()) {
+                GL_RENDER_ERROR("Material type \"{}\" not found", type);
+            }
+            return it->second;
+        }
+
         string name;
         float3 diffuse;
         float3 specular;
         float3 ambient;
         path diffuse_map;
+        MaterialType type;
 
-        void print() const noexcept override {
+        virtual void print() const noexcept override {
             GL_RENDER_INFO("MaterialInfo: name = ({}), "
                            "diffuse = ({}, {}, {}), "
                            "specular = ({}, {}, {}), "
@@ -54,7 +68,7 @@ namespace gl_render {
         float3 position;
         float3 emission;
 
-        void print() const noexcept override {
+        virtual void print() const noexcept override {
             GL_RENDER_INFO(
                     "LightInfo: position: ({}, {}, {}), emission: ({}, {}, {})",
                     position.x, position.y, position.z, emission.x, emission.y, emission.z);
@@ -68,7 +82,7 @@ namespace gl_render {
         float3 up;
         float fov;
 
-        void print() const noexcept override {
+        virtual void print() const noexcept override {
             GL_RENDER_INFO(
                     "CameraInfo: resolution: ({}, {}), position: ({}, {}, {}), front: ({}, {}, {}), up: ({}, {}, {}), fov: {}",
                     resolution.x, resolution.y, position.x, position.y, position.z,
@@ -81,7 +95,7 @@ namespace gl_render {
         bool enable_shadow;
         path output_file;
 
-        void print() const noexcept override {
+        virtual void print() const noexcept override {
             GL_RENDER_INFO(
                     "RendererInfo: enable_two_sided_shading: {}, enable_shadow: {}, output_file: {}",
                     enable_vsync, enable_shadow, output_file.string());

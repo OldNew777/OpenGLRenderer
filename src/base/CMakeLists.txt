@@ -3,7 +3,7 @@ set(OPENGL_RENDER_BASE_SOURCES
         geometry.h geometry.cpp
         pipeline.h pipeline.cpp
         pixel.h
-        scene_info.h
+        scene_info.h scene_info.cpp
         scene_parser.h
         shader.h
         texture_packer.h texture_packer.cpp)

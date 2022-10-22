@@ -25,7 +25,7 @@ namespace gl_render {
         TexturePacker packer;
 
         for (auto &&mesh_node: sceneAllInfo.meshes) {
-            const auto& mesh = mesh_node.mesh_info();
+            const auto &mesh = mesh_node.mesh_info();
 
             auto mesh_path = mesh.file_path.string();
             if (mesh.file_path.is_relative()) {
@@ -36,7 +36,8 @@ namespace gl_render {
             Assimp::Importer importer;
             auto ai_scene = importer.ReadFile(
                     mesh_path,
-                    aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_FixInfacingNormals | aiProcess_GenNormals);
+                    aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_FixInfacingNormals | aiProcess_GenNormals |
+                    aiProcess_OptimizeGraph | aiProcess_OptimizeMeshes);
             GL_RENDER_ASSERT(ai_scene != nullptr, "Mesh \"{}\" is nullptr", mesh_path);
             GL_RENDER_ASSERT(!(ai_scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE), "Mesh \"{}\" is incomplete", mesh_path);
             GL_RENDER_ASSERT(ai_scene->mRootNode != nullptr, "Failed to load mesh: {}", mesh_path);
@@ -60,27 +61,28 @@ namespace gl_render {
                 }
             }
 
+            GL_RENDER_INFO("Loaded mesh \"{}\", list size: {}", mesh_path, mesh_list.size());
+
             // process submeshes
             for (auto ai_mesh: mesh_list) {
-
                 // process material
                 float3 diffuse{1.0f};
                 auto iter = sceneAllInfo.materials.find(material_name);
                 if (iter == sceneAllInfo.materials.end()) {
                     GL_RENDER_ERROR_WITH_LOCATION("Reference to undefined material: {}", material_name);
                 }
-                auto &&material = iter->second.material_info();
+                auto &&material = iter->second->material_info();
                 auto has_texture = true;
-                if (material.diffuse_map.empty()) {
-                    diffuse = material.diffuse;
+                if (material->diffuse_map.empty()) {
+                    diffuse = material->diffuse;
                     has_texture = false;
                 }
 
                 TexturePacker::ImageBlock block{};
                 if (has_texture) {
-                    auto diffuse_map_path = material.diffuse_map;
-                    if (material.diffuse_map.is_relative()) {
-                        diffuse_map_path = (scene_dir / material.diffuse_map).string();
+                    auto diffuse_map_path = material->diffuse_map;
+                    if (material->diffuse_map.is_relative()) {
+                        diffuse_map_path = (scene_dir / material->diffuse_map).string();
                     }
                     block = packer.load(diffuse_map_path);
                 }
@@ -109,8 +111,8 @@ namespace gl_render {
                         tex_properties.emplace_back(block.offset.x, block.offset.y, block.size.x, block.size.y);
                     }
                     diffuse_vec.emplace_back(diffuse);
-                    specular_vec.emplace_back(material.specular);
-                    ambient_vec.emplace_back(material.ambient);
+                    specular_vec.emplace_back(material->specular);
+                    ambient_vec.emplace_back(material->ambient);
                     _aabb.min = min(_aabb.min, position);
                     _aabb.max = max(_aabb.max, position);
                 }
@@ -126,7 +128,6 @@ namespace gl_render {
             _mesh_sizes.emplace_back(positions.size() - _mesh_offsets.back());
         }
 
-        _texture_count = packer.count();
         _texture_array = packer.create_opengl_texture_array();
         _texture_max_size = packer.max_size();
 
@@ -136,10 +137,9 @@ namespace gl_render {
                 _aabb.max.x, _aabb.max.y, _aabb.max.z);
 
         _triangle_count = indices.size();
-        _vertex_count = positions.size();
 
         GL_RENDER_INFO("Total vertices: {}", positions.size());
-        GL_RENDER_INFO("Total triangles: {}", _triangle_count);
+        GL_RENDER_INFO("Total triangles: {}", indices.size());
 
         // transfer to OpenGL
         glGenVertexArrays(1, &_vertex_array);

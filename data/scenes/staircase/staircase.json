@@ -1,76 +1,100 @@
 {
   "materials": [
     {
-      "name": "WoodFloor"
+      "name": "WoodFloor",
+      "type": "phong"
     },
     {
-      "name": "WoodStairs"
+      "name": "WoodStairs",
+      "type": "phong"
     },
     {
-      "name": "WoodChair"
+      "name": "WoodChair",
+      "type": "phong"
     },
     {
-      "name": "WoodLamp"
+      "name": "WoodLamp",
+      "type": "phong"
     },
     {
-      "name": "Lampshade"
+      "name": "Lampshade",
+      "type": "phong"
     },
     {
-      "name": "Brass"
+      "name": "Brass",
+      "type": "phong"
     },
     {
-      "name": "BrushedAluminium"
+      "name": "BrushedAluminium",
+      "type": "phong"
     },
     {
-      "name": "ChairSeat"
+      "name": "ChairSeat",
+      "type": "phong"
     },
     {
-      "name": "Glass"
+      "name": "Glass",
+      "type": "phong"
     },
     {
-      "name": "MagnoliaPaint"
+      "name": "MagnoliaPaint",
+      "type": "phong"
     },
     {
-      "name": "WhitePaint"
+      "name": "WhitePaint",
+      "type": "phong"
     },
     {
-      "name": "Painting1"
+      "name": "Painting1",
+      "type": "phong"
     },
     {
-      "name": "Painting2"
+      "name": "Painting2",
+      "type": "phong"
     },
     {
-      "name": "Painting3"
+      "name": "Painting3",
+      "type": "phong"
     },
     {
-      "name": "Black"
+      "name": "Black",
+      "type": "phong"
     },
     {
-      "name": "StainlessSteel"
+      "name": "StainlessSteel",
+      "type": "phong"
     },
     {
-      "name": "Emission"
+      "name": "Emission",
+      "type": "phong"
     },
     {
-      "name": "Candles"
+      "name": "Candles",
+      "type": "phong"
     },
     {
-      "name": "Gold"
+      "name": "Gold",
+      "type": "phong"
     },
     {
-      "name": "WhitePaint2"
+      "name": "WhitePaint2",
+      "type": "phong"
     },
     {
-      "name": "White"
+      "name": "White",
+      "type": "phong"
     },
     {
-      "name": "WhitePlastic"
+      "name": "WhitePlastic",
+      "type": "phong"
     },
     {
-      "name": "Copper"
+      "name": "Copper",
+      "type": "phong"
     },
     {
-      "name": "Wallpaper"
+      "name": "Wallpaper",
+      "type": "phong"
     }
   ],
   "meshes": [
@@ -3952,6 +3976,7 @@
         1.0,
         1.0
       ],
+      "scale": 10,
       "position": [
         -0.48117467761039734,
         7.140594959259033,
