@@ -137,6 +137,7 @@ namespace gl_render {
                 _aabb.max.x, _aabb.max.y, _aabb.max.z);
 
         _triangle_count = indices.size();
+        auto vertex_count = _triangle_count * 3;
 
         GL_RENDER_INFO("Total vertices: {}", positions.size());
         GL_RENDER_INFO("Total triangles: {}", indices.size());
@@ -159,43 +160,43 @@ namespace gl_render {
         glBindVertexArray(_vertex_array);
 
         glBindBuffer(GL_ARRAY_BUFFER, _position_buffer);
-        glBufferData(GL_ARRAY_BUFFER, indices.size() * 3ul * sizeof(float3), _flatten(positions, indices).data(),
+        glBufferData(GL_ARRAY_BUFFER, vertex_count * sizeof(float3), impl::_flatten(positions, indices).data(),
                      GL_DYNAMIC_COPY);
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float3), nullptr);
 
         glBindBuffer(GL_ARRAY_BUFFER, _normal_buffer);
-        glBufferData(GL_ARRAY_BUFFER, indices.size() * 3ul * sizeof(float3), _flatten(normals, indices).data(),
+        glBufferData(GL_ARRAY_BUFFER, vertex_count * sizeof(float3), impl::_flatten(normals, indices).data(),
                      GL_DYNAMIC_COPY);
         glEnableVertexAttribArray(1);
         glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float3), nullptr);
 
         glBindBuffer(GL_ARRAY_BUFFER, _diffuse_buffer);
-        glBufferData(GL_ARRAY_BUFFER, indices.size() * 3ul * sizeof(float3), _flatten(diffuse_vec, indices).data(),
+        glBufferData(GL_ARRAY_BUFFER, vertex_count * sizeof(float3), impl::_flatten(diffuse_vec, indices).data(),
                      GL_STATIC_DRAW);
         glEnableVertexAttribArray(2);
         glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(float3), nullptr);
 
         glBindBuffer(GL_ARRAY_BUFFER, _tex_coord_buffer);
-        glBufferData(GL_ARRAY_BUFFER, indices.size() * 3ul * sizeof(float3), _flatten(tex_coords, indices).data(),
+        glBufferData(GL_ARRAY_BUFFER, vertex_count * sizeof(float3), impl::_flatten(tex_coords, indices).data(),
                      GL_STATIC_DRAW);
         glEnableVertexAttribArray(3);
         glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(float3), nullptr);
 
         glBindBuffer(GL_ARRAY_BUFFER, _tex_property_buffer);
-        glBufferData(GL_ARRAY_BUFFER, indices.size() * 3ul * sizeof(float4),
-                     _flatten(tex_properties, indices).data(), GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, vertex_count * sizeof(float4),
+                     impl::_flatten(tex_properties, indices).data(), GL_STATIC_DRAW);
         glEnableVertexAttribArray(4);
         glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(float4), nullptr);
 
         glBindBuffer(GL_ARRAY_BUFFER, _specular_buffer);
-        glBufferData(GL_ARRAY_BUFFER, indices.size() * 3ul * sizeof(float3), _flatten(specular_vec, indices).data(),
+        glBufferData(GL_ARRAY_BUFFER, vertex_count * sizeof(float3), impl::_flatten(specular_vec, indices).data(),
                      GL_STATIC_DRAW);
         glEnableVertexAttribArray(5);
         glVertexAttribPointer(5, 3, GL_FLOAT, GL_FALSE, sizeof(float3), nullptr);
 
         glBindBuffer(GL_ARRAY_BUFFER, _ambient_buffer);
-        glBufferData(GL_ARRAY_BUFFER, indices.size() * 3ul * sizeof(float3), _flatten(ambient_vec, indices).data(),
+        glBufferData(GL_ARRAY_BUFFER, vertex_count * sizeof(float3), impl::_flatten(ambient_vec, indices).data(),
                      GL_STATIC_DRAW);
         glEnableVertexAttribArray(6);
         glVertexAttribPointer(6, 3, GL_FLOAT, GL_FALSE, sizeof(float3), nullptr);
@@ -220,6 +221,178 @@ namespace gl_render {
     }
 
     void Geometry::shadow(const Shader &shader) const {
+        glBindVertexArray(_vertex_array);
+        glDrawArrays(GL_TRIANGLES, 0, _triangle_count * 3);
+        glBindVertexArray(0);
+    }
+
+    GeometryGroup::GeometryGroup(const MeshInfo& mesh, MaterialInfo *material,
+                                 aiMesh* ai_mesh, const path &scene_dir,
+                                 const Shader::TemplateList &tl) noexcept {
+        string type_string = MaterialInfo::Type2String(material->type);
+        _shader = make_unique<Shader>(
+            "data/shaders/" + type_string + ".vert",
+            "data/shaders/" + type_string + ".frag",
+            "",
+            tl
+        );
+
+        vector<float3> positions;
+        vector<float3> normals;
+        vector<float3> diffuse_vec;
+        vector<float3> specular_vec;
+        vector<float3> ambient_vec;
+        vector<float3> tex_coords;
+        vector<float4> tex_properties;
+        vector<uint3> indices;
+
+        TexturePacker packer;
+
+        // process material
+        float3 diffuse{1.0f};
+        auto has_texture = true;
+        if (material->diffuse_map.empty()) {
+            diffuse = material->diffuse;
+            has_texture = false;
+        }
+
+        TexturePacker::ImageBlock block{};
+        if (has_texture) {
+            auto diffuse_map_path = material->diffuse_map;
+            if (material->diffuse_map.is_relative()) {
+                diffuse_map_path = (scene_dir / material->diffuse_map).string();
+            }
+            block = packer.load(diffuse_map_path);
+        }
+
+        auto model_matrix = mesh.transform;
+        auto normal_matrix = transpose(inverse(model_matrix));
+
+        // process vertices
+        for (auto i = 0ul; i < ai_mesh->mNumVertices; i++) {
+            auto ai_position = ai_mesh->mVertices[i];
+            auto ai_normal = ai_mesh->mNormals[i];
+            auto temp = model_matrix * float4{ai_position.x, ai_position.y, ai_position.z, 1.f};
+            auto position = float3(temp.x, temp.y, temp.z);
+            auto normal = normal_matrix * float4{ai_normal.x, ai_normal.y, ai_normal.z, 1.f};
+            positions.emplace_back(position);
+            normals.emplace_back(normal);
+            _aabb.min = min(_aabb.min, position);
+            _aabb.max = max(_aabb.max, position);
+
+            // TODO: move properties of phong .etc to children class
+            auto ai_tex_coords = ai_mesh->mTextureCoords[0];
+            if (!has_texture || ai_tex_coords == nullptr) {
+                tex_coords.emplace_back(0.0f, 0.0f, -1.0f);
+                tex_properties.emplace_back(0.0f, 0.0f, 0.0f, 0.0f);
+            } else {
+                tex_coords.emplace_back(ai_tex_coords[i].x, ai_tex_coords[i].y, block.index);
+                GL_RENDER_INFO("tex coord: ({}, {}, {}), tex uv: ({}, {}), tex id: {}",
+                               ai_position.x, ai_position.y, ai_position.z,
+                               ai_tex_coords[i].x, ai_tex_coords[i].y, block.index);
+                tex_properties.emplace_back(block.offset.x, block.offset.y, block.size.x, block.size.y);
+            }
+            diffuse_vec.emplace_back(diffuse);
+            specular_vec.emplace_back(material->specular);
+            ambient_vec.emplace_back(material->ambient);
+        }
+
+        // process faces
+        for (auto i = 0ul; i < ai_mesh->mNumFaces; i++) {
+            auto &&face = ai_mesh->mFaces[i].mIndices;
+            indices.emplace_back(uint3{face[0], face[1], face[2]});
+        }
+
+        _texture_array = packer.create_opengl_texture_array();
+        _texture_max_size = packer.max_size();
+
+        GL_RENDER_INFO(
+                "AABB: min = ({}, {}, {}), max = ({}, {}, {})",
+                _aabb.min.x, _aabb.min.y, _aabb.min.z,
+                _aabb.max.x, _aabb.max.y, _aabb.max.z);
+
+        _triangle_count = indices.size();
+        auto vertex_count = _triangle_count * 3;
+
+        // transfer to OpenGL
+        glGenVertexArrays(1, &_vertex_array);
+
+        vector<uint32_t> buffers(buffer_num);
+        glGenBuffers(buffer_num, buffers.data());
+
+        _position_buffer = buffers[0];
+        _normal_buffer = buffers[1];
+        _diffuse_buffer = buffers[2];
+        _tex_coord_buffer = buffers[3];
+        _tex_property_buffer = buffers[4];
+        _specular_buffer = buffers[5];
+        _ambient_buffer = buffers[6];
+
+        // VAO
+        glBindVertexArray(_vertex_array);
+
+        glBindBuffer(GL_ARRAY_BUFFER, _position_buffer);
+        glBufferData(GL_ARRAY_BUFFER, vertex_count * sizeof(float3), impl::_flatten(positions, indices).data(),
+                     GL_DYNAMIC_COPY);
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float3), nullptr);
+
+        glBindBuffer(GL_ARRAY_BUFFER, _normal_buffer);
+        glBufferData(GL_ARRAY_BUFFER, vertex_count * sizeof(float3), impl::_flatten(normals, indices).data(),
+                     GL_DYNAMIC_COPY);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float3), nullptr);
+
+        glBindBuffer(GL_ARRAY_BUFFER, _diffuse_buffer);
+        glBufferData(GL_ARRAY_BUFFER, vertex_count * sizeof(float3), impl::_flatten(diffuse_vec, indices).data(),
+                     GL_STATIC_DRAW);
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(float3), nullptr);
+
+        glBindBuffer(GL_ARRAY_BUFFER, _tex_coord_buffer);
+        glBufferData(GL_ARRAY_BUFFER, vertex_count * sizeof(float3), impl::_flatten(tex_coords, indices).data(),
+                     GL_STATIC_DRAW);
+        glEnableVertexAttribArray(3);
+        glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(float3), nullptr);
+
+        glBindBuffer(GL_ARRAY_BUFFER, _tex_property_buffer);
+        glBufferData(GL_ARRAY_BUFFER, vertex_count * sizeof(float4),
+                     impl::_flatten(tex_properties, indices).data(), GL_STATIC_DRAW);
+        glEnableVertexAttribArray(4);
+        glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(float4), nullptr);
+
+        glBindBuffer(GL_ARRAY_BUFFER, _specular_buffer);
+        glBufferData(GL_ARRAY_BUFFER, vertex_count * sizeof(float3), impl::_flatten(specular_vec, indices).data(),
+                     GL_STATIC_DRAW);
+        glEnableVertexAttribArray(5);
+        glVertexAttribPointer(5, 3, GL_FLOAT, GL_FALSE, sizeof(float3), nullptr);
+
+        glBindBuffer(GL_ARRAY_BUFFER, _ambient_buffer);
+        glBufferData(GL_ARRAY_BUFFER, vertex_count * sizeof(float3), impl::_flatten(ambient_vec, indices).data(),
+                     GL_STATIC_DRAW);
+        glEnableVertexAttribArray(6);
+        glVertexAttribPointer(6, 3, GL_FLOAT, GL_FALSE, sizeof(float3), nullptr);
+
+        glBindVertexArray(0);
+    }
+
+    GeometryGroup::~GeometryGroup() noexcept {
+        glDeleteVertexArrays(1, &_vertex_array);
+        glDeleteBuffers(buffer_num, &_position_buffer);
+        glDeleteTextures(texture_num, &_texture_array);
+    }
+
+    void GeometryGroup::render() const noexcept {
+        glBindVertexArray(_vertex_array);
+        // FIXME: texture rendering error now
+        glActiveTexture(GL_TEXTURE0);
+        _shader->setInt("textures", 0);
+        glBindTexture(GL_TEXTURE_2D_ARRAY, _texture_array);
+        glDrawArrays(GL_TRIANGLES, 0, _triangle_count * 3);
+        glBindVertexArray(0);
+    }
+
+    void GeometryGroup::shadow() const noexcept {
         glBindVertexArray(_vertex_array);
         glDrawArrays(GL_TRIANGLES, 0, _triangle_count * 3);
         glBindVertexArray(0);

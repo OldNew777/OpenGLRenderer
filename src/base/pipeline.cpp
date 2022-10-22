@@ -109,7 +109,7 @@ namespace gl_render {
         Shader shader{
                 "data/shaders/phong.vert",
                 "data/shaders/phong.frag",
-                {},
+                "",
                 {
                         {std::string{"POINT_LIGHT_COUNT"}, serialize(lights.size())}
                 }
@@ -117,7 +117,7 @@ namespace gl_render {
         Shader hdrShader{
                 "data/shaders/hdr2ldr.vert",
                 "data/shaders/hdr2ldr.frag",
-                {},
+                "",
                 {}
         };
 

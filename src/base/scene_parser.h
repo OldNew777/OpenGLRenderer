@@ -124,7 +124,7 @@ namespace gl_render {
     public:
         MaterialNode(nlohmann::json &json) noexcept: SceneNode{json} {
             _material_info = make_unique<MaterialInfo>();
-            _material_info->type = MaterialInfo::TypeMap(property_string("type"));
+            _material_info->type = MaterialInfo::String2Type(property_string("type"));
             _material_info->name = property_string("name");
             _material_info->diffuse = property_float3_or_default("diffuse", float3(0.5f));
             _material_info->specular = property_float3_or_default("specular", float3(0.f));
@@ -243,7 +243,7 @@ namespace gl_render {
             GL_RENDER_ASSERT(json.contains("renderer"), "Scene file must contain renderer.");
 
             for (auto &material_json: json["materials"]) {
-                auto type = MaterialInfo::TypeMap(material_json["type"]);
+                auto type = MaterialInfo::String2Type(material_json["type"]);
                 unique_ptr<MaterialNode> material;
                 // TODO: specify material type
                 material = make_unique<MaterialNode>(material_json);

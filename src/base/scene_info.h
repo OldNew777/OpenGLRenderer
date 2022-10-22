@@ -21,15 +21,24 @@ namespace gl_render {
         enum class MaterialType {
             Phong,
         };
-        static std::unordered_map<string, MaterialType> TYPE_MAP;
-        [[nodiscard]] static auto TypeMap(const string& type) noexcept {
-            auto it = MaterialInfo::TYPE_MAP.find(type);
-            if (it == TYPE_MAP.end()) {
+
+    private:
+        static std::unordered_map<string, MaterialType> STRING2TYPE;
+        static std::unordered_map<MaterialType, string> TYPE2STRING;
+
+    public:
+        [[nodiscard]] static inline auto String2Type(const string& type) noexcept {
+            auto it = MaterialInfo::STRING2TYPE.find(type);
+            if (it == STRING2TYPE.end()) {
                 GL_RENDER_ERROR("Material type \"{}\" not found", type);
             }
             return it->second;
         }
+        [[nodiscard]] static inline auto Type2String(MaterialType type) noexcept {
+            return MaterialInfo::TYPE2STRING.find(type)->second;
+        }
 
+    public:
         string name;
         float3 diffuse;
         float3 specular;
