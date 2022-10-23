@@ -59,26 +59,24 @@ namespace gl_render {
     private:
         impl::AABB _aabb;
         unique_ptr<Shader> _shader;
-        uint buffer_num;
-        uint texture_num;
+        uint _buffer_num;
+        uint _texture_num;
+        uint _triangle_count{0u};
 
-        uint _triangle_count;
-        uint _vertex_array;
-        uint _position_buffer;
-        uint _normal_buffer;
+        GLuint _vertex_array{0u};
+        GLuint _position_buffer{0u};
+        GLuint _normal_buffer{0u};
 
-        uint _diffuse_buffer;
-        uint _specular_buffer;
-        uint _ambient_buffer;
-        uint _tex_coord_buffer;
-        uint _tex_property_buffer;
-        uint _texture_array;
-        uint _texture_max_size;
+        GLuint _diffuse_buffer{0u};
+        GLuint _specular_buffer{0u};
+        GLuint _ambient_buffer{0u};
+        GLuint _tex_coord_buffer{0u};
+        vector<GLuint64> _texture_handles;
 
     public:
         GeometryGroup(const MeshInfo& mesh, MaterialInfo* material,
                       aiMesh* ai_mesh, const path &scene_dir,
-                      const Shader::TemplateList &tl = {}) noexcept;
+                      Shader::TemplateList tl = {}) noexcept;
         ~GeometryGroup() noexcept;
 
         GeometryGroup(GeometryGroup &&) = delete;
@@ -95,7 +93,6 @@ namespace gl_render {
                 const float3& cameraPos) const;
 
         [[nodiscard]] Shader* shader() const noexcept { return _shader.get(); }
-        [[nodiscard]] auto texture_max_size() const noexcept { return _texture_max_size; }
         [[nodiscard]] auto aabb() const noexcept { return _aabb; }
     };
 

@@ -101,7 +101,7 @@ namespace gl_render {
         static int index = 0;
         // test loaded textures
         for (auto i = 0ul; i < _image_buffers.size(); i++) {
-            stbi_write_png(serialize("outputs/", "texture_packed_", i + index, ".png").c_str(),
+            stbi_write_png(serialize("outputs/texture_packed/", i + index, ".png").c_str(),
                            _max_size, _max_size, 4, _image_buffers[i].data(), 0);
         }
         index += _image_buffers.size();

@@ -2,10 +2,8 @@
 
 layout (location = 0) out vec4 FragColor;
 
-flat in float TexId;
-flat in vec2 TexOffset;
-flat in vec2 TexSize;
-in vec2 TexCoord;
+in float DiffuseTex;
+in vec2 DiffuseTexCoord;
 in vec3 Position;
 in vec3 Normal;
 in vec3 diffuse;
@@ -13,7 +11,6 @@ in vec3 specular;
 in vec3 ambient;
 
 uniform vec3 cameraPos;
-//uniform sampler2D tex[1];
 
 const int POINT_LIGHT_COUNT = ${POINT_LIGHT_COUNT};
 const float PI = 3.1415926536f;
@@ -32,8 +29,7 @@ struct PointLight {
 };
 
 uniform PointLight pointLights[POINT_LIGHT_COUNT];
-uniform uint TEXTURE_MAX_SIZE;
-uniform sampler2DArray textures;
+uniform sampler2D textures[${TEXTURE_COUNT}];
 
 // calculates the color when using a point light.
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
@@ -61,12 +57,9 @@ void main()
     vec3 Lo = vec3(0.f);
     vec3 diffuseResult = diffuse;
 
-    if (TexId >= 0) {
-        // FIXME: only accept [0, 1] coordinates
-        vec2 Coord = (fract(TexCoord) * TexSize + TexOffset) / TEXTURE_MAX_SIZE;
-        vec3 arrayCoord = vec3(Coord, TexId);
-        // FIXME: texture function is not working, except we use constant coordinates
-        diffuseResult = texture(textures, arrayCoord).rgb;
+    if (DiffuseTex >= 0.f) {
+        vec2 Coord = fract(DiffuseTexCoord);
+        diffuseResult = texture(textures[0], Coord).rgb;
     }
 
     // point lights
@@ -79,8 +72,8 @@ void main()
         Lo += CalcPointLight(pointLights[i], norm, Position, viewDir) * diffuseResult;
     }
 
-    FragColor = vec4(Lo, 1.f);
+//    FragColor = vec4(Lo, 1.f);
 //    FragColor = vec4(norm * 0.5f + 0.5f, 1.f);
-//    FragColor = vec4(diffuse, 1.f);
+    FragColor = vec4(diffuseResult, 1.f);
 //    FragColor = vec4(TexCoord, 1.f, 1.f);
 }

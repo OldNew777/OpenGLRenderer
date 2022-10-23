@@ -76,8 +76,6 @@ namespace gl_render {
 
         // init geometry
         _geometry = make_unique<Geometry>(_scene->scene_all_info(), scene_path.parent_path());
-        // init shadow map
-        InitShadowMap();
         // init hdr frame buffer
         InitHDRFrameBuffer();
     }
@@ -191,6 +189,9 @@ namespace gl_render {
         glfwTerminate();
     }
 
+    const uint Pipeline::SHADOW_HEIGHT = 1024u;
+    const uint Pipeline::SHADOW_WIDTH = 1024u;
+
     void Pipeline::InitShadowMap() noexcept {
         // depth map VBO
         // -----------------------
@@ -214,9 +215,6 @@ namespace gl_render {
         glReadBuffer(GL_NONE);
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
-
-    const uint Pipeline::SHADOW_HEIGHT = 1024u;
-    const uint Pipeline::SHADOW_WIDTH = 1024u;
 
     void Pipeline::InitHDRFrameBuffer() noexcept {
         // configure floating point framebuffer
