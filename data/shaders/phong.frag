@@ -13,6 +13,7 @@ in vec3 specular;
 in vec3 ambient;
 
 uniform vec3 cameraPos;
+//uniform sampler2D tex[1];
 
 const int POINT_LIGHT_COUNT = ${POINT_LIGHT_COUNT};
 const float PI = 3.1415926536f;

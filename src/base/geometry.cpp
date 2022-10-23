@@ -116,6 +116,7 @@ namespace gl_render {
                 "",
                 tl
         );
+        _shader->use();
 
         vector<float3> positions;
         vector<float3> normals;

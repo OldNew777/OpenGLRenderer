@@ -8,6 +8,7 @@
 #include <core/basic_traits.h>
 
 namespace gl_render {
+    extern const unordered_set<string> HDR_IMAGE_EXT, LDR_IMAGE_EXT;
 
     struct HDRConfig {
         float exposure = 1.f;

@@ -10,27 +10,6 @@
 
 namespace gl_render {
 
-    class Texture {
-    public:
-        [[nodiscard]] auto width() const noexcept { return _width; }
-        [[nodiscard]] auto height() const noexcept { return _height; }
-        [[nodiscard]] auto channels() const noexcept { return pixel_storage_channel_count(_pixel_storage); }
-        [[nodiscard]] auto size() const noexcept { return _width * _height * pixel_storage_size(_pixel_storage); }
-        [[nodiscard]] auto texture_uid() const noexcept { return _texture_uid; }
-        [[nodiscard]] auto index() const noexcept { return _index; }
-        [[nodiscard]] auto offset() const noexcept { return _offset; }
-
-        Texture(const path &image_path, uint32_t texture_uid, uint32_t offset) noexcept;
-
-    protected:
-        uint32_t _texture_uid;
-        uint32_t _index;
-        uint32_t _offset;
-        uint _width;
-        uint _height;
-        PixelStorage _pixel_storage;
-    };
-
     class TexturePacker {
 
     public:
@@ -73,7 +52,7 @@ namespace gl_render {
         void _fill(TexturePacker::ImageBlock b, const uchar4 *data) noexcept;
 
     public:
-        explicit TexturePacker(size_t max_size = 1024ul, size_t min_size = 16ul);
+        explicit TexturePacker(size_t max_size = 4096ul, size_t min_size = 16ul);
         ImageBlock load(const path &image_path);
         [[nodiscard]] size_t count() const noexcept;
         [[nodiscard]] size_t max_size() const noexcept;
