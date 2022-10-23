@@ -19,6 +19,13 @@ const int POINT_LIGHT_COUNT = ${POINT_LIGHT_COUNT};
 const float PI = 3.1415926536f;
 const float INV_PI = 0.318309886183790671537767526745028724f;
 
+struct PointLightFactor {
+    float constant;
+    float linear;
+    float quadratic;
+};
+const PointLightFactor POINT_LIGHT_FACTOR = {0.9f, 0.5f, 1.f};
+
 struct PointLight {
     vec3 Position;
     vec3 Color;
@@ -37,8 +44,9 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
     // diffuse shading
     float diff = max(dot(normal, lightDir), 0.f);
     vec3 diffuseLight = light.Color * diff;
-    diffuseLight *= 1.f / (distance * distance);
-    return diffuseLight;
+    float attenuation = 1.f / (POINT_LIGHT_FACTOR.constant + POINT_LIGHT_FACTOR.linear * distance +
+        POINT_LIGHT_FACTOR.quadratic * (distance * distance));
+    return diffuseLight * attenuation;
 }
 
 bool same_hemisphere(vec3 v1, vec3 v2, vec3 normal) {
