@@ -52,6 +52,12 @@ namespace gl_render {
             return container;
         }
 
+        struct MeshInfoGrouped {
+            aiMesh *ai_mesh;
+            const MeshInfo *mesh_info;
+            uint offset;
+        };
+
     }
 
     class GeometryGroup {
@@ -74,9 +80,8 @@ namespace gl_render {
         vector<GLuint64> _texture_handles;
 
     public:
-        GeometryGroup(const MeshInfo& mesh, MaterialInfo* material,
-                      aiMesh* ai_mesh, const path &scene_dir,
-                      Shader::TemplateList tl = {}) noexcept;
+        GeometryGroup(MaterialInfo* material, const gl_render::vector<impl::MeshInfoGrouped>& meshInfoGroupedVec,
+                      const path &scene_dir, Shader::TemplateList tl = {}) noexcept;
         ~GeometryGroup() noexcept;
 
         GeometryGroup(GeometryGroup &&) = delete;

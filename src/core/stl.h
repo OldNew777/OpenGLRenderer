@@ -19,6 +19,7 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <filesystem>
+#include <functional>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -34,6 +35,9 @@ namespace gl_render {
     using std::filesystem::path;
 
     // stl
+    using std::tuple;
+    using std::pair;
+    using std::function;
     using std::span;
     using std::optional;
     using std::nullopt;

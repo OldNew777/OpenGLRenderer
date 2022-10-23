@@ -13,7 +13,13 @@
 namespace gl_render {
 
     Geometry::Geometry(const SceneAllNode::SceneAllInfo &sceneAllInfo, const path &scene_dir) {
-        for (auto &&mesh_node: sceneAllInfo.meshes) {
+        Shader::TemplateList tl = {
+                {std::string{"POINT_LIGHT_COUNT"}, serialize(sceneAllInfo.lights.size())}
+        };
+        gl_render::unordered_map<MaterialInfo *, gl_render::vector<impl::MeshInfoGrouped>> mesh_map;
+        gl_render::vector<Assimp::Importer> importer(sceneAllInfo.meshes.size());
+        for (auto index = 0u; index < sceneAllInfo.meshes.size(); ++index) {
+            const auto &mesh_node = sceneAllInfo.meshes[index];
             const auto &mesh = mesh_node.mesh_info();
 
             auto mesh_path = mesh.file_path.string();
@@ -22,8 +28,7 @@ namespace gl_render {
             }
             auto material_name = mesh.material_name;
 
-            Assimp::Importer importer;
-            auto ai_scene = importer.ReadFile(
+            auto ai_scene = importer[index].ReadFile(
                     mesh_path,
                     aiProcess_Triangulate |
                     aiProcess_FixInfacingNormals | aiProcess_GenNormals |
@@ -59,22 +64,24 @@ namespace gl_render {
                     GL_RENDER_ERROR_WITH_LOCATION("Reference to undefined material: {}", material_name);
                 }
                 auto material = iter->second->material_info();
-
-                Shader::TemplateList tl = {
-                        {std::string{"POINT_LIGHT_COUNT"}, serialize(sceneAllInfo.lights.size())}
-                };
-                _groups.emplace_back(make_unique<GeometryGroup>(
-                        mesh, material, ai_mesh, scene_dir,
-                        tl));
-                _aabb.min = min(_aabb.min, _groups.back()->aabb().min);
-                _aabb.max = max(_aabb.max, _groups.back()->aabb().max);
+                uint offset = 0u;
+                if (mesh_map.find(material) != mesh_map.end()) {
+                    offset = mesh_map[material].back().offset + mesh_map[material].back().ai_mesh->mNumVertices;
+                }
+                mesh_map[material].emplace_back(impl::MeshInfoGrouped{ai_mesh, &mesh, offset});
             }
-
-            GL_RENDER_INFO(
-                    "All meshes AABB: min = {}, max = {})",
-                    to_string(_aabb.min),
-                    to_string(_aabb.max));
         }
+
+        for (auto &[material, mesh_info_grouped_vec]: mesh_map) {
+            _groups.emplace_back(make_unique<GeometryGroup>(material, mesh_info_grouped_vec, scene_dir, tl));
+            _aabb.min = min(_aabb.min, _groups.back()->aabb().min);
+            _aabb.max = max(_aabb.max, _groups.back()->aabb().max);
+        }
+
+        GL_RENDER_INFO(
+                "All meshes AABB: min = {}, max = {})",
+                to_string(_aabb.min),
+                to_string(_aabb.max));
         GL_RENDER_INFO("Group count: {}", _groups.size());
     }
 
@@ -106,9 +113,8 @@ namespace gl_render {
         }
     }
 
-    GeometryGroup::GeometryGroup(const MeshInfo &mesh, MaterialInfo *material,
-                                 aiMesh *ai_mesh, const path &scene_dir,
-                                 Shader::TemplateList tl) noexcept {
+    GeometryGroup::GeometryGroup(MaterialInfo *material, const gl_render::vector<impl::MeshInfoGrouped>& meshInfoGroupedVec,
+                                 const path &scene_dir, Shader::TemplateList tl) noexcept {
         _buffer_num = 6;
         _texture_num = material->texture_num();
         string type_string = MaterialInfo::Type2String(material->type);
@@ -147,40 +153,46 @@ namespace gl_render {
             _texture_handles.emplace_back(0u);
         }
 
-        auto model_matrix = mesh.transform;
-        auto normal_matrix = transpose(inverse(model_matrix));
+        for (const auto& meshInfoGrouped : meshInfoGroupedVec) {
+            auto ai_mesh = meshInfoGrouped.ai_mesh;
+            auto mesh = meshInfoGrouped.mesh_info;
+            auto offset = meshInfoGrouped.offset;
 
-        // process vertices
-        for (auto i = 0ul; i < ai_mesh->mNumVertices; i++) {
-            auto ai_position = ai_mesh->mVertices[i];
-            auto ai_normal = ai_mesh->mNormals[i];
-            auto temp = model_matrix * float4{ai_position.x, ai_position.y, ai_position.z, 1.f};
-            auto position = float3(temp.x, temp.y, temp.z);
-            auto normal = normal_matrix * float4{ai_normal.x, ai_normal.y, ai_normal.z, 1.f};
-            positions.emplace_back(position);
-            normals.emplace_back(normal);
-            _aabb.min = min(_aabb.min, position);
-            _aabb.max = max(_aabb.max, position);
+            auto model_matrix = mesh->transform;
+            auto normal_matrix = transpose(inverse(model_matrix));
 
-            // TODO: move properties of phong .etc to children class
-            auto ai_tex_coords = ai_mesh->mTextureCoords[0];
-            if (!has_diffuse_texture || ai_tex_coords == nullptr) {
-                tex_coords.emplace_back(0.f, 0.f, -1.f);
-            } else {
-                tex_coords.emplace_back(ai_tex_coords[i].x, ai_tex_coords[i].y, 1.f);
-                GL_RENDER_INFO("tex coord: ({}, {}, {}), tex uv: ({}, {})",
-                               ai_position.x, ai_position.y, ai_position.z,
-                               ai_tex_coords[i].x, ai_tex_coords[i].y);
+            // process vertices
+            for (auto i = 0ul; i < ai_mesh->mNumVertices; i++) {
+                auto ai_position = ai_mesh->mVertices[i];
+                auto ai_normal = ai_mesh->mNormals[i];
+                auto temp = model_matrix * float4{ai_position.x, ai_position.y, ai_position.z, 1.f};
+                auto position = float3(temp.x, temp.y, temp.z);
+                auto normal = normal_matrix * float4{ai_normal.x, ai_normal.y, ai_normal.z, 1.f};
+                positions.emplace_back(position);
+                normals.emplace_back(normal);
+                _aabb.min = min(_aabb.min, position);
+                _aabb.max = max(_aabb.max, position);
+
+                // TODO: move properties of phong .etc to children class
+                auto ai_tex_coords = ai_mesh->mTextureCoords[0];
+                if (!has_diffuse_texture || ai_tex_coords == nullptr) {
+                    tex_coords.emplace_back(0.f, 0.f, -1.f);
+                } else {
+                    tex_coords.emplace_back(ai_tex_coords[i].x, ai_tex_coords[i].y, 1.f);
+                    GL_RENDER_INFO("tex coord: ({}, {}, {}), tex uv: ({}, {})",
+                                   ai_position.x, ai_position.y, ai_position.z,
+                                   ai_tex_coords[i].x, ai_tex_coords[i].y);
+                }
+                diffuse_vec.emplace_back(diffuse);
+                specular_vec.emplace_back(material->specular);
+                ambient_vec.emplace_back(material->ambient);
             }
-            diffuse_vec.emplace_back(diffuse);
-            specular_vec.emplace_back(material->specular);
-            ambient_vec.emplace_back(material->ambient);
-        }
 
-        // process faces
-        for (auto i = 0ul; i < ai_mesh->mNumFaces; i++) {
-            auto &&face = ai_mesh->mFaces[i].mIndices;
-            indices.emplace_back(uint3{face[0], face[1], face[2]});
+            // process faces
+            for (auto i = 0ul; i < ai_mesh->mNumFaces; i++) {
+                auto &&face = ai_mesh->mFaces[i].mIndices;
+                indices.emplace_back(uint3{face[0], face[1], face[2]} + offset);
+            }
         }
 
         GL_RENDER_INFO(
