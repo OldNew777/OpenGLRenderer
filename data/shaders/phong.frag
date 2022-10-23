@@ -26,6 +26,7 @@ const PointLightFactor POINT_LIGHT_FACTOR = {0.9f, 0.5f, 1.f};
 struct PointLight {
     vec3 Position;
     vec3 Color;
+    sampler2D ShadowMap;
 };
 
 uniform PointLight pointLights[POINT_LIGHT_COUNT];
@@ -72,8 +73,8 @@ void main()
         Lo += CalcPointLight(pointLights[i], norm, Position, viewDir) * diffuseResult;
     }
 
-//    FragColor = vec4(Lo, 1.f);
+    FragColor = vec4(Lo, 1.f);
 //    FragColor = vec4(norm * 0.5f + 0.5f, 1.f);
-    FragColor = vec4(diffuseResult, 1.f);
+//    FragColor = vec4(diffuseResult, 1.f);
 //    FragColor = vec4(TexCoord, 1.f, 1.f);
 }

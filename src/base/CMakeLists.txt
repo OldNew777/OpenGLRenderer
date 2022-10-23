@@ -6,8 +6,7 @@ set(OPENGL_RENDER_BASE_SOURCES
         scene_info.h scene_info.cpp
         scene_parser.h
         shader.h
-        texture.h
-        texture_packer.h texture_packer.cpp)
+        texture.h)
 
 add_library(opengl-render-base SHARED ${OPENGL_RENDER_BASE_SOURCES})
 target_link_libraries(opengl-render-base PUBLIC

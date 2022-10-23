@@ -25,7 +25,9 @@ namespace gl_render {
             Assimp::Importer importer;
             auto ai_scene = importer.ReadFile(
                     mesh_path,
-                    aiProcess_Triangulate | aiProcess_FixInfacingNormals | aiProcess_GenNormals |
+                    aiProcess_Triangulate |
+                    aiProcess_FixInfacingNormals | aiProcess_GenNormals |
+                    aiProcess_RemoveRedundantMaterials |
                     aiProcess_OptimizeGraph | aiProcess_OptimizeMeshes);
             GL_RENDER_ASSERT(ai_scene != nullptr, "Mesh \"{}\" is nullptr", mesh_path);
             GL_RENDER_ASSERT(!(ai_scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE), "Mesh \"{}\" is incomplete", mesh_path);
@@ -72,8 +74,8 @@ namespace gl_render {
                     "All meshes AABB: min = {}, max = {})",
                     to_string(_aabb.min),
                     to_string(_aabb.max));
-            GL_RENDER_INFO("Group count: {}", _groups.size());
         }
+        GL_RENDER_INFO("Group count: {}", _groups.size());
     }
 
     void Geometry::render(
@@ -127,7 +129,7 @@ namespace gl_render {
         vector<uint3> indices;
 
         // process material
-        float3 diffuse{1.0f};
+        float3 diffuse{0.5f, 0.f, 0.5f};
         auto has_diffuse_texture = true;
         if (material->diffuse_map.empty()) {
             diffuse = material->diffuse;
@@ -255,7 +257,6 @@ namespace gl_render {
         // textures
         glUniformHandleui64vARB(glGetUniformLocation(_shader->ID, "textures"),
                                 _texture_handles.size(), _texture_handles.data());
-        GL_RENDER_INFO("shader id: {}, texture handles: {}", _shader->ID, _texture_handles[0]);
 
         glDrawArrays(GL_TRIANGLES, 0, _triangle_count * 3);
         glBindVertexArray(0);
