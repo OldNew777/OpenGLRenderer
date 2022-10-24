@@ -53,9 +53,11 @@ namespace gl_render {
         }
 
         struct MeshInfoGrouped {
+            MaterialInfo * material_info;
             aiMesh *ai_mesh;
             const MeshInfo *mesh_info;
             uint offset;
+            path scene_dir;
         };
 
     }
@@ -77,11 +79,11 @@ namespace gl_render {
         GLuint _specular_buffer{0u};
         GLuint _ambient_buffer{0u};
         GLuint _tex_coord_buffer{0u};
-        vector<GLuint64> _texture_handles;
+        GLuint _diffuse_tex_handle_buffer{0u};
 
     public:
-        GeometryGroup(MaterialInfo* material, const gl_render::vector<impl::MeshInfoGrouped>& meshInfoGroupedVec,
-                      const path &scene_dir, Shader::TemplateList tl = {}) noexcept;
+        explicit GeometryGroup(const gl_render::vector<impl::MeshInfoGrouped>& meshInfoGroupedVec,
+                               Shader::TemplateList tl = {}) noexcept;
         ~GeometryGroup() noexcept;
 
         GeometryGroup(GeometryGroup &&) = delete;
@@ -90,7 +92,6 @@ namespace gl_render {
         GeometryGroup &operator=(const GeometryGroup &) = delete;
 
         virtual void render() const;
-        virtual void shadow() const;
         void set_lights(const vector<LightNode> &lights) const;
         void set_camera(
                 const float4x4& projection,
@@ -120,11 +121,6 @@ namespace gl_render {
 
     public:
         void render(
-                const vector<LightNode> &lights,
-                const float4x4& projection,
-                const float4x4& view,
-                const float3& cameraPos) const;
-        void shadow(
                 const vector<LightNode> &lights,
                 const float4x4& projection,
                 const float4x4& view,
