@@ -6,9 +6,10 @@ in float DiffuseTex;
 in vec2 DiffuseTexCoord;
 in vec3 Position;
 in vec3 Normal;
-in vec3 diffuse;
-in vec3 specular;
-in vec3 ambient;
+in vec3 Diffuse;
+in vec3 Specular;
+in vec3 Ambient;
+flat in sampler2D DiffuseTexHandle;
 
 uniform vec3 cameraPos;
 
@@ -30,7 +31,6 @@ struct PointLight {
 };
 
 uniform PointLight pointLights[POINT_LIGHT_COUNT];
-uniform sampler2D textures[${TEXTURE_COUNT}];
 
 // calculates the color when using a point light.
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
@@ -56,11 +56,11 @@ void main()
     vec3 norm = normalize(Normal);
 
     vec3 Lo = vec3(0.f);
-    vec3 diffuseResult = diffuse;
+    vec3 diffuseResult = Diffuse;
 
     if (DiffuseTex >= 0.f) {
         vec2 Coord = fract(DiffuseTexCoord);
-        diffuseResult = texture(textures[0], Coord).rgb;
+        diffuseResult = texture(DiffuseTexHandle, Coord).rgb;
     }
 
     // point lights

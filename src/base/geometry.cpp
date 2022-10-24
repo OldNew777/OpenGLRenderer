@@ -17,6 +17,7 @@ namespace gl_render {
                 {std::string{"POINT_LIGHT_COUNT"}, serialize(sceneAllInfo.lights.size())}
         };
         gl_render::unordered_map<MaterialInfo *, gl_render::vector<impl::MeshInfoGrouped>> mesh_map;
+        // maintain ownership of importers, and their scenes
         gl_render::vector<Assimp::Importer> importer(sceneAllInfo.meshes.size());
         for (auto index = 0u; index < sceneAllInfo.meshes.size(); ++index) {
             const auto &mesh_node = sceneAllInfo.meshes[index];
@@ -68,12 +69,12 @@ namespace gl_render {
                 if (mesh_map.find(material) != mesh_map.end()) {
                     offset = mesh_map[material].back().offset + mesh_map[material].back().ai_mesh->mNumVertices;
                 }
-                mesh_map[material].emplace_back(impl::MeshInfoGrouped{ai_mesh, &mesh, offset});
+                mesh_map[material].emplace_back(impl::MeshInfoGrouped{material, ai_mesh, &mesh, offset, scene_dir});
             }
         }
 
         for (auto &[material, mesh_info_grouped_vec]: mesh_map) {
-            _groups.emplace_back(make_unique<GeometryGroup>(material, mesh_info_grouped_vec, scene_dir, tl));
+            _groups.emplace_back(make_unique<GeometryGroup>(mesh_info_grouped_vec, tl));
             _aabb.min = min(_aabb.min, _groups.back()->aabb().min);
             _aabb.max = max(_aabb.max, _groups.back()->aabb().max);
         }
@@ -99,25 +100,12 @@ namespace gl_render {
         }
     }
 
-    void Geometry::shadow(
-            const vector<LightNode> &lights,
-            const float4x4& projection,
-            const float4x4& view,
-            const float3& cameraPos) const {
-        for (auto &group: _groups) {
-            auto shader = group->shader();
-            shader->use();
-            group->set_lights(lights);
-            group->set_camera(projection, view, cameraPos);
-            group->shadow();
-        }
-    }
+    GeometryGroup::GeometryGroup(const gl_render::vector<impl::MeshInfoGrouped>& meshInfoGroupedVec,
+                                 Shader::TemplateList tl) noexcept {
 
-    GeometryGroup::GeometryGroup(MaterialInfo *material, const gl_render::vector<impl::MeshInfoGrouped>& meshInfoGroupedVec,
-                                 const path &scene_dir, Shader::TemplateList tl) noexcept {
-        _buffer_num = 6;
-        _texture_num = material->texture_num();
-        string type_string = MaterialInfo::Type2String(material->type);
+        _buffer_num = 7;
+        _texture_num = meshInfoGroupedVec[0].material_info->texture_num();
+        string type_string = MaterialInfo::Type2String(meshInfoGroupedVec[0].material_info->type);
         tl["TEXTURE_COUNT"] = serialize(_texture_num);
         _shader = make_unique<Shader>(
                 "data/shaders/" + type_string + ".vert",
@@ -132,28 +120,31 @@ namespace gl_render {
         vector<float3> specular_vec;
         vector<float3> ambient_vec;
         vector<float3> tex_coords;
+        vector<GLuint64> diffuse_tex_handles;
         vector<uint3> indices;
 
-        // process material
-        float3 diffuse{0.5f, 0.f, 0.5f};
-        auto has_diffuse_texture = true;
-        if (material->diffuse_map.empty()) {
-            diffuse = material->diffuse;
-            has_diffuse_texture = false;
-        }
-
-        if (has_diffuse_texture) {
-            auto diffuse_map_path = material->diffuse_map;
-            if (material->diffuse_map.is_relative()) {
-                diffuse_map_path = (scene_dir / material->diffuse_map).string();
-            }
-            auto diffuse_texture = TextureManager::GetInstance()->CreateTexture(diffuse_map_path);
-            _texture_handles.emplace_back(diffuse_texture->handle());
-        } else {
-            _texture_handles.emplace_back(0u);
-        }
-
         for (const auto& meshInfoGrouped : meshInfoGroupedVec) {
+            auto material = meshInfoGrouped.material_info;
+            auto scene_dir = meshInfoGrouped.scene_dir;
+            GLuint64 diffuse_tex_handle = 0u;
+
+            // process material
+            float3 diffuse{0.5f, 0.f, 0.5f};
+            auto has_diffuse_texture = true;
+            if (material->diffuse_map.empty()) {
+                diffuse = material->diffuse;
+                has_diffuse_texture = false;
+            }
+
+            if (has_diffuse_texture) {
+                auto diffuse_map_path = material->diffuse_map;
+                if (material->diffuse_map.is_relative()) {
+                    diffuse_map_path = (scene_dir / material->diffuse_map).string();
+                }
+                auto diffuse_texture = TextureManager::GetInstance()->CreateTexture(diffuse_map_path);
+                diffuse_tex_handle = diffuse_texture->handle();
+            }
+
             auto ai_mesh = meshInfoGrouped.ai_mesh;
             auto mesh = meshInfoGrouped.mesh_info;
             auto offset = meshInfoGrouped.offset;
@@ -186,6 +177,7 @@ namespace gl_render {
                 diffuse_vec.emplace_back(diffuse);
                 specular_vec.emplace_back(material->specular);
                 ambient_vec.emplace_back(material->ambient);
+                diffuse_tex_handles.emplace_back(diffuse_tex_handle);
             }
 
             // process faces
@@ -212,9 +204,10 @@ namespace gl_render {
         _position_buffer = buffers[0];
         _normal_buffer = buffers[1];
         _diffuse_buffer = buffers[2];
-        _tex_coord_buffer = buffers[3];
-        _specular_buffer = buffers[4];
-        _ambient_buffer = buffers[5];
+        _specular_buffer = buffers[3];
+        _ambient_buffer = buffers[4];
+        _tex_coord_buffer = buffers[5];
+        _diffuse_tex_handle_buffer = buffers[6];
 
         // VAO
         glBindVertexArray(_vertex_array);
@@ -237,23 +230,29 @@ namespace gl_render {
         glEnableVertexAttribArray(2);
         glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(float3), nullptr);
 
-        glBindBuffer(GL_ARRAY_BUFFER, _tex_coord_buffer);
-        glBufferData(GL_ARRAY_BUFFER, vertex_count * sizeof(float3), impl::_flatten(tex_coords, indices).data(),
+        glBindBuffer(GL_ARRAY_BUFFER, _specular_buffer);
+        glBufferData(GL_ARRAY_BUFFER, vertex_count * sizeof(float3), impl::_flatten(specular_vec, indices).data(),
                      GL_STATIC_DRAW);
         glEnableVertexAttribArray(3);
         glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(float3), nullptr);
 
-        glBindBuffer(GL_ARRAY_BUFFER, _specular_buffer);
-        glBufferData(GL_ARRAY_BUFFER, vertex_count * sizeof(float3), impl::_flatten(specular_vec, indices).data(),
-                     GL_STATIC_DRAW);
-        glEnableVertexAttribArray(5);
-        glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(float3), nullptr);
-
         glBindBuffer(GL_ARRAY_BUFFER, _ambient_buffer);
         glBufferData(GL_ARRAY_BUFFER, vertex_count * sizeof(float3), impl::_flatten(ambient_vec, indices).data(),
                      GL_STATIC_DRAW);
-        glEnableVertexAttribArray(6);
+        glEnableVertexAttribArray(4);
+        glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(float3), nullptr);
+
+        glBindBuffer(GL_ARRAY_BUFFER, _tex_coord_buffer);
+        glBufferData(GL_ARRAY_BUFFER, vertex_count * sizeof(float3), impl::_flatten(tex_coords, indices).data(),
+                     GL_STATIC_DRAW);
+        glEnableVertexAttribArray(5);
         glVertexAttribPointer(5, 3, GL_FLOAT, GL_FALSE, sizeof(float3), nullptr);
+
+        glBindBuffer(GL_ARRAY_BUFFER, _diffuse_tex_handle_buffer);
+        glBufferData(GL_ARRAY_BUFFER, vertex_count * sizeof(GLuint64), impl::_flatten(diffuse_tex_handles, indices).data(),
+                     GL_STATIC_DRAW);
+        glEnableVertexAttribArray(6);
+        glVertexAttribPointer(6, 1, GL_SAMPLER_2D, GL_FALSE, sizeof(GLuint64), nullptr);
 
         glBindVertexArray(0);
     }
@@ -264,17 +263,6 @@ namespace gl_render {
     }
 
     void GeometryGroup::render() const {
-        glBindVertexArray(_vertex_array);
-
-        // textures
-        glUniformHandleui64vARB(glGetUniformLocation(_shader->ID, "textures"),
-                                _texture_handles.size(), _texture_handles.data());
-
-        glDrawArrays(GL_TRIANGLES, 0, _triangle_count * 3);
-        glBindVertexArray(0);
-    }
-
-    void GeometryGroup::shadow() const {
         glBindVertexArray(_vertex_array);
         glDrawArrays(GL_TRIANGLES, 0, _triangle_count * 3);
         glBindVertexArray(0);
