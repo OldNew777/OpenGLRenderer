@@ -121,8 +121,8 @@ namespace gl_render {
         tl["TEXTURE_COUNT"] = serialize(_texture_num);
         _shader = make_unique<Shader>(
                 "data/shaders/" + type_string + ".vert",
-                "data/shaders/" + type_string + ".frag",
                 "",
+                "data/shaders/" + type_string + ".frag",
                 tl
         );
 

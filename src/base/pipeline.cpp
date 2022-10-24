@@ -105,11 +105,10 @@ namespace gl_render {
 
         // build and compile shaders
         Shader hdrShader{
-                "data/shaders/hdr2ldr.vert",
-                "data/shaders/hdr2ldr.frag",
-                "",
-                {}
-        };
+            "data/shaders/hdr2ldr.vert",
+            "",
+            "data/shaders/hdr2ldr.frag",
+            {}};
 
         while (!glfwWindowShouldClose(_window)) {
             glfwPollEvents();

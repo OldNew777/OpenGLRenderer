@@ -25,7 +25,7 @@ namespace gl_render {
 
         // constructor generates the shader on the fly
         // ------------------------------------------------------------------------
-        Shader(const path &vertexPath, const path &fragmentPath, const path &geometryPath = {},
+        Shader(const path &vertexPath, const path &geometryPath, const path &fragmentPath,
                const TemplateList &tl = {}) {
 
             // 1. retrieve the vertex/fragment source code from filePath

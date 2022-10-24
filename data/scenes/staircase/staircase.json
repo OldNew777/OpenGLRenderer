@@ -4007,7 +4007,7 @@
     "fov": 58.543979551022964
   },
   "renderer": {
-    "enable_vsync": true,
+    "enable_vsync": false,
     "enable_shadow": false,
     "output_file": "output.png"
   }
