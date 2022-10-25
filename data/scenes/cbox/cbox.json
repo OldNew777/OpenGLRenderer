@@ -43,8 +43,7 @@
         0.725,
         0.71,
         0.68
-      ],
-      "diffuse_map": "textures/cbox.exr"
+      ]
     },
     {
       "name": "ShortBox",

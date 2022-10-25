@@ -29,6 +29,7 @@ struct PointLight {
     samplerCube ShadowCubeMap;
     float FarPlane;
 };
+const float SHADOW_BIAS = 0.01f;
 
 uniform PointLight pointLights[POINT_LIGHT_COUNT];
 uniform sampler2D textures[${TEXTURE_COUNT}];
@@ -57,10 +58,9 @@ float CalculateShadow(PointLight light, vec3 fragPos)
     // it is currently in linear range between [0,1], let's re-transform it back to original depth value
     closestDepth *= light.FarPlane;
     // now get current linear depth as the length between the fragment and light position
-    float currentDepth = length(fragToLight);
+    float currentDepth = length(fragToLight) - SHADOW_BIAS * light.FarPlane;
     // test for shadows
-    float bias = 0.05; // we use a much larger bias since depth is now in [near_plane, far_plane] range
-    float shadow = currentDepth -  bias > closestDepth ? 1.0 : 0.0;
+    float shadow = currentDepth > closestDepth ? 1.0 : 0.0;
     // display closestDepth as debug (to visualize depth cubemap)
     // FragColor = vec4(vec3(closestDepth / far_plane), 1.0);
 
