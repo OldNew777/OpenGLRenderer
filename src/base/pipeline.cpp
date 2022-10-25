@@ -74,6 +74,8 @@ namespace gl_render {
 //        ImGui_ImplGlfw_InitForOpenGL(_window, true);
 //        ImGui_ImplOpenGL3_Init(glsl_version);
 
+        // init HDR2LDR
+        _hdr2ldr = make_unique<HDR2LDR>(_scene->scene_all_info.camera->camera_info.resolution, _hdr_frame_buffer);
         // init geometry
         _geometry = make_unique<Geometry>(_scene->scene_all_info, scene_path.parent_path());
         // init light manager
@@ -82,8 +84,6 @@ namespace gl_render {
         for (auto &light : _scene->scene_all_info.lights) {
             _lightManager->addLight(&light.light_info, _config.renderer_info.shadow_map_resolution);
         }
-        // init HDR2LDR
-        _hdr2ldr = make_unique<HDR2LDR>(_scene->scene_all_info.camera->camera_info.resolution, _hdr_frame_buffer);
     }
 
     void Pipeline::render() noexcept {
@@ -122,24 +122,29 @@ namespace gl_render {
 
 
             // Rendering
-            glClearColor(clear_color.x, clear_color.y, clear_color.z, 1.0f);
-            glViewport(0, 0, width, height);
 //            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
             // 1. render shadow map
             _lightManager->enable_shadow = _config.renderer_info.enable_shadow;
             _lightManager->renderShadow(far_plane);
+            if (auto error = glGetError(); error != GL_NO_ERROR) {
+                GL_RENDER_ERROR_WITH_LOCATION("OpenGL shadow map error: {}", error);
+            }
 
             // 2. render into hdr framebuffer
             glBindFramebuffer(GL_FRAMEBUFFER, _hdr_frame_buffer);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            glClearColor(clear_color.x, clear_color.y, clear_color.z, 1.0f);
+            glViewport(0, 0, width, height);
             _geometry->render(_lightManager.get(), projection, view_matrix, camera_info.position);
+            if (auto error = glGetError(); error != GL_NO_ERROR) {
+                GL_RENDER_ERROR_WITH_LOCATION("OpenGL render error: {}", error);
+            }
 
             // 3. render hdr buffer to 2D quad and tonemap HDR colors to default framebuffer's (clamped) color range
             _hdr2ldr->render(_config.hdr_config);
-
             if (auto error = glGetError(); error != GL_NO_ERROR) {
-                GL_RENDER_ERROR_WITH_LOCATION("OpenGL error: ", error);
+                GL_RENDER_ERROR_WITH_LOCATION("OpenGL hdr2ldr error: {}", error);
             }
 
             // calculate fps

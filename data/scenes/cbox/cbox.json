@@ -140,8 +140,8 @@
     "fov": 19.5
   },
   "renderer": {
-    "enable_vsync": true,
-    "enable_shadow": false,
+    "enable_vsync": false,
+    "enable_shadow": true,
     "output_file": "output.exr"
   }
 }

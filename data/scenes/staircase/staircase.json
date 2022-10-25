@@ -4008,7 +4008,7 @@
   },
   "renderer": {
     "enable_vsync": false,
-    "enable_shadow": false,
+    "enable_shadow": true,
     "output_file": "output.png"
   }
 }
