@@ -6,6 +6,7 @@
 
 #include <base/scene_parser.h>
 #include <base/shader.h>
+#include <base/light_manager.h>
 
 #include <assimp/scene.h>
 
@@ -58,6 +59,11 @@ namespace gl_render {
             uint offset;
         };
 
+        struct MeshSqueezed {
+            gl_render::vector<float3> vertices;
+            gl_render::vector<float3> normals;
+        };
+
     }
 
     class GeometryGroup {
@@ -91,7 +97,7 @@ namespace gl_render {
 
         virtual void render() const;
         virtual void shadow() const;
-        void set_lights(const vector<LightNode> &lights) const;
+        void set_lights(LightManager *lightManager) const;
         void set_camera(
                 const float4x4& projection,
                 const float4x4& view,
@@ -99,6 +105,8 @@ namespace gl_render {
 
         [[nodiscard]] Shader* shader() const noexcept { return _shader.get(); }
         [[nodiscard]] auto aabb() const noexcept { return _aabb; }
+        [[nodiscard]] auto position_buffer() const noexcept { return _position_buffer; }
+        [[nodiscard]] auto triangle_count() const noexcept { return _triangle_count; }
     };
 
     class Geometry {
@@ -106,6 +114,7 @@ namespace gl_render {
     private:
         impl::AABB _aabb;
         vector<unique_ptr<GeometryGroup>> _groups;
+        vector<float3> _vertex_positions_flattened;
 
     public:
         explicit Geometry(const SceneAllNode::SceneAllInfo &sceneAllInfo, const path &scene_dir);
@@ -120,15 +129,17 @@ namespace gl_render {
 
     public:
         void render(
-                const vector<LightNode> &lights,
+                LightManager *lightManager,
                 const float4x4& projection,
                 const float4x4& view,
                 const float3& cameraPos) const;
         void shadow(
-                const vector<LightNode> &lights,
+                LightManager *lightManager,
                 const float4x4& projection,
                 const float4x4& view,
                 const float3& cameraPos) const;
+        [[nodiscard]] auto vertex_positions_flattened() noexcept;
+
     };
 
 }

@@ -5,6 +5,7 @@
 #pragma once
 
 #include <glad/glad.h>
+
 #include <core/stl.h>
 #include <base/shader.h>
 #include <util/imageio.h>
@@ -14,7 +15,6 @@ namespace gl_render {
     class HDR2LDR {
     public:
         explicit HDR2LDR(uint2 resolution, GLuint& hdr_frame_buffer) {
-            _hdr_frame_buffer = hdr_frame_buffer;
             _shader = make_unique<Shader>(
                     "data/shaders/hdr2ldr.vert",
                     "",
@@ -24,6 +24,7 @@ namespace gl_render {
             auto width = resolution.x;
             auto height = resolution.y;
             glGenFramebuffers(1, &hdr_frame_buffer);
+            _hdr_frame_buffer = hdr_frame_buffer;
             // create floating point color buffer
             glGenTextures(1, &_hdr_tex_buffer);
             glBindTexture(GL_TEXTURE_2D, _hdr_tex_buffer);
@@ -40,13 +41,33 @@ namespace gl_render {
             glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _hdr_tex_buffer, 0);
             glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rboDepth);
             if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-                GL_RENDER_ERROR("Framebuffer not complete!");
+                GL_RENDER_ERROR("HDR->LDR framebuffer error");
             }
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+            static float quadVertices[] = {
+                    // positions        // texture Coords
+                    -1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+                    -1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
+                    1.0f, 1.0f, 0.0f, 1.0f, 1.0f,
+                    1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
+            };
+            // setup plane VAO
+            glGenVertexArrays(1, &_quadVAO);
+            glGenBuffers(1, &_quadVBO);
+            glBindVertexArray(_quadVAO);
+            glBindBuffer(GL_ARRAY_BUFFER, _quadVBO);
+            glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
+            glEnableVertexAttribArray(0);
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) 0);
+            glEnableVertexAttribArray(1);
+            glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) (3 * sizeof(float)));
         }
         ~HDR2LDR() {
             glDeleteFramebuffers(1, &_hdr_frame_buffer);
             glDeleteTextures(1, &_hdr_tex_buffer);
+            glDeleteVertexArrays(1, &_quadVAO);
+            glDeleteBuffers(1, &_quadVBO);
         }
 
         void render(const HDRConfig& hdrConfig) noexcept {
@@ -55,29 +76,9 @@ namespace gl_render {
             _shader->use();
             _shader->setFloat("exposure", hdrConfig.exposure);
             _shader->setFloat("gamma", hdrConfig.gamma);
-            static uint quadVAO = 0u;
-            static uint quadVBO = 0u;
+
             // render Quad
-            if (quadVAO == 0u) {
-                static float quadVertices[] = {
-                        // positions        // texture Coords
-                        -1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-                        -1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
-                        1.0f, 1.0f, 0.0f, 1.0f, 1.0f,
-                        1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
-                };
-                // setup plane VAO
-                glGenVertexArrays(1, &quadVAO);
-                glGenBuffers(1, &quadVBO);
-                glBindVertexArray(quadVAO);
-                glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
-                glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
-                glEnableVertexAttribArray(0);
-                glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) 0);
-                glEnableVertexAttribArray(1);
-                glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) (3 * sizeof(float)));
-            }
-            glBindVertexArray(quadVAO);
+            glBindVertexArray(_quadVAO);
             glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_2D, _hdr_tex_buffer);
             glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
@@ -88,6 +89,8 @@ namespace gl_render {
         gl_render::unique_ptr<Shader> _shader;
         GLuint _hdr_frame_buffer{0u};
         GLuint _hdr_tex_buffer{0u};
+        GLuint _quadVAO{0u};
+        GLuint _quadVBO{0u};
     };
 
 }

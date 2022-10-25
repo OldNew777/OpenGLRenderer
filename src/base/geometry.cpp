@@ -20,7 +20,7 @@ namespace gl_render {
         gl_render::vector<Assimp::Importer> importer(sceneAllInfo.meshes.size());
         for (auto index = 0u; index < sceneAllInfo.meshes.size(); ++index) {
             const auto &mesh_node = sceneAllInfo.meshes[index];
-            const auto &mesh = mesh_node.mesh_info();
+            const auto &mesh = mesh_node.mesh_info;
 
             auto mesh_path = mesh.file_path.string();
             if (mesh.file_path.is_relative()) {
@@ -37,7 +37,6 @@ namespace gl_render {
             GL_RENDER_ASSERT(ai_scene != nullptr, "Mesh \"{}\" is nullptr", mesh_path);
             GL_RENDER_ASSERT(!(ai_scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE), "Mesh \"{}\" is incomplete", mesh_path);
             GL_RENDER_ASSERT(ai_scene->mRootNode != nullptr, "Failed to load mesh: {}", mesh_path);
-
 
             // gather submeshes
             vector<aiMesh *> mesh_list;
@@ -63,7 +62,7 @@ namespace gl_render {
                 if (iter == sceneAllInfo.materials.end()) {
                     GL_RENDER_ERROR_WITH_LOCATION("Reference to undefined material: {}", material_name);
                 }
-                auto material = iter->second->material_info();
+                auto material = iter->second->material_info.get();
                 uint offset = 0u;
                 if (mesh_map.find(material) != mesh_map.end()) {
                     offset = mesh_map[material].back().offset + mesh_map[material].back().ai_mesh->mNumVertices;
@@ -86,31 +85,49 @@ namespace gl_render {
     }
 
     void Geometry::render(
-            const vector<LightNode> &lights,
+            LightManager *lightManager,
             const float4x4& projection,
             const float4x4& view,
             const float3& cameraPos) const {
         for (auto &group: _groups) {
             auto shader = group->shader();
             shader->use();
-            group->set_lights(lights);
+            group->set_lights(lightManager);
             group->set_camera(projection, view, cameraPos);
             group->render();
         }
     }
 
     void Geometry::shadow(
-            const vector<LightNode> &lights,
+            LightManager *lightManager,
             const float4x4& projection,
             const float4x4& view,
             const float3& cameraPos) const {
         for (auto &group: _groups) {
             auto shader = group->shader();
             shader->use();
-            group->set_lights(lights);
+            group->set_lights(lightManager);
             group->set_camera(projection, view, cameraPos);
             group->shadow();
         }
+    }
+
+    auto Geometry::vertex_positions_flattened() noexcept {
+        if (_vertex_positions_flattened.empty()) {
+            auto sum = 0u;
+            auto offset = 0u;
+            for (const auto &group: _groups) {
+                sum += group->triangle_count() * 3u;
+            }
+            _vertex_positions_flattened.resize(sum);
+            for (const auto &group: _groups) {
+                auto count = group->triangle_count() * 3u;
+                glBindBuffer(GL_ARRAY_BUFFER, group->position_buffer());
+                glGetBufferSubData(GL_ARRAY_BUFFER, 0, count * sizeof(float3), _vertex_positions_flattened.data() + offset);
+                offset += count;
+            }
+        }
+        return &_vertex_positions_flattened;
     }
 
     GeometryGroup::GeometryGroup(MaterialInfo *material, const gl_render::vector<impl::MeshInfoGrouped>& meshInfoGroupedVec,
@@ -267,8 +284,7 @@ namespace gl_render {
         glBindVertexArray(_vertex_array);
 
         // textures
-        glUniformHandleui64vARB(glGetUniformLocation(_shader->ID, "textures"),
-                                _texture_handles.size(), _texture_handles.data());
+        _shader->setHandlevARB("textures", _texture_handles.data(), _texture_handles.size());
 
         glDrawArrays(GL_TRIANGLES, 0, _triangle_count * 3);
         glBindVertexArray(0);
@@ -281,11 +297,15 @@ namespace gl_render {
     }
 
 
-    void GeometryGroup::set_lights(const vector<LightNode> &lights) const {
+    void GeometryGroup::set_lights(LightManager *lightManager) const {
         // point lights
-        for (auto i = 0ul; i < lights.size(); i++) {
-            _shader->setVec3(serialize("pointLights[", i, "].Position"), lights[i].light_info().position);
-            _shader->setVec3(serialize("pointLights[", i, "].Color"), lights[i].light_info().emission);
+        for (auto i = 0ul; i < lightManager->lights().size(); i++) {
+            auto &&light = lightManager->lights()[i];
+            _shader->setVec3(serialize("pointLights[", i, "].Position"), light->lightInfo()->position);
+            _shader->setVec3(serialize("pointLights[", i, "].Color"), light->lightInfo()->emission);
+            _shader->setHandleARB(serialize("pointLights[", i, "].ShadowCubeMap"), light->depthCubeMapHandle());
+            _shader->setFloat(serialize("pointLights[", i, "].FarPlane"), light->far_plane());
+            _shader->setBool("enable_shadow", lightManager->enable_shadow);
         }
     }
 

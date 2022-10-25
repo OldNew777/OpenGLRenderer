@@ -106,6 +106,7 @@ namespace gl_render {
         bool enable_vsync;
         bool enable_shadow;
         path output_file;
+        uint2 shadow_map_resolution = {1024, 1024};
 
         void print() const noexcept override {
             GL_RENDER_INFO(

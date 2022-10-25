@@ -26,14 +26,16 @@ const PointLightFactor POINT_LIGHT_FACTOR = {0.9f, 0.5f, 1.f};
 struct PointLight {
     vec3 Position;
     vec3 Color;
-    sampler2D ShadowMap;
+    samplerCube ShadowCubeMap;
+    float FarPlane;
 };
 
 uniform PointLight pointLights[POINT_LIGHT_COUNT];
 uniform sampler2D textures[${TEXTURE_COUNT}];
+uniform bool enable_shadow;
 
 // calculates the color when using a point light.
-vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
+vec3 CalculatePointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 {
     vec3 lightVec = light.Position - fragPos;
     vec3 lightDir = normalize(lightVec);
@@ -44,6 +46,25 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
     float attenuation = 1.f / (POINT_LIGHT_FACTOR.constant + POINT_LIGHT_FACTOR.linear * distance +
         POINT_LIGHT_FACTOR.quadratic * (distance * distance));
     return diffuseLight * attenuation;
+}
+
+float CalculateShadow(PointLight light, vec3 fragPos)
+{
+    // get vector between fragment position and light position
+    vec3 fragToLight = fragPos - light.Position;
+    // ise the fragment to light vector to sample from the depth map
+    float closestDepth = texture(light.ShadowCubeMap, fragToLight).r;
+    // it is currently in linear range between [0,1], let's re-transform it back to original depth value
+    closestDepth *= light.FarPlane;
+    // now get current linear depth as the length between the fragment and light position
+    float currentDepth = length(fragToLight);
+    // test for shadows
+    float bias = 0.05; // we use a much larger bias since depth is now in [near_plane, far_plane] range
+    float shadow = currentDepth -  bias > closestDepth ? 1.0 : 0.0;
+    // display closestDepth as debug (to visualize depth cubemap)
+    // FragColor = vec4(vec3(closestDepth / far_plane), 1.0);
+
+    return shadow;
 }
 
 bool same_hemisphere(vec3 v1, vec3 v2, vec3 normal) {
@@ -70,7 +91,9 @@ void main()
         if (!valid) {
             continue;
         }
-        Lo += CalcPointLight(pointLights[i], norm, Position, viewDir) * diffuseResult;
+        float shadow = enable_shadow ? CalculateShadow(pointLights[i], Position) : 0.f;
+        vec3 lightColor = CalculatePointLight(pointLights[i], norm, Position, viewDir);
+        Lo += (1.f - shadow) * lightColor * diffuseResult;
     }
 
     FragColor = vec4(Lo, 1.f);

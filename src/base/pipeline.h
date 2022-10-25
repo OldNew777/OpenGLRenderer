@@ -13,14 +13,13 @@
 #include <base/geometry.h>
 #include <base/hdr2ldr.h>
 #include <util/imageio.h>
+#include <base/light_manager.h>
 
 namespace gl_render {
 
     class Pipeline {
 
     public:
-        static const uint SHADOW_WIDTH, SHADOW_HEIGHT;
-
         struct Config {
             RendererInfo renderer_info;
             HDRConfig hdr_config;
@@ -30,7 +29,6 @@ namespace gl_render {
             static Pipeline pipeline{scene_path};
             return pipeline;
         }
-        void renderShadowMap() noexcept;
         void render() noexcept;
 
     public:
@@ -47,9 +45,8 @@ namespace gl_render {
         gl_render::unique_ptr<SceneAllNode> _scene;
         gl_render::unique_ptr<Geometry> _geometry;
         gl_render::unique_ptr<HDR2LDR> _hdr2ldr;
+        gl_render::unique_ptr<LightManager> _lightManager;
 
-        GLuint _depth_map_buffer{0u};
-        GLuint _depth_map_tex_buffer{0u};
         GLuint _hdr_frame_buffer{0u};
     };
 

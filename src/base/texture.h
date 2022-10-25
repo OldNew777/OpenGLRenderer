@@ -26,39 +26,28 @@ namespace gl_render {
         explicit Texture(const path &image_path) noexcept {
             GL_RENDER_INFO("Loading texture: {}", image_path.string());
 
+            glGenTextures(1, &_id);
+            glBindTexture(GL_TEXTURE_2D, _id);
+            glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+            glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+            glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
             if (is_ldr_image(image_path)) {
                 auto image = load_ldr_image(image_path, _resolution);
                 _pixel_storage = PixelStorage::BYTE4;
-                glGenTextures(1, &_id);
-                glBindTexture(GL_TEXTURE_2D, _id);
-                glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-                glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-                glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-                glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-                glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
                 glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, _resolution.x, _resolution.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, image.data());
-                glGenerateMipmap(GL_TEXTURE_2D);
-                _handle = glGetTextureHandleARB(_id);
-                glMakeTextureHandleResidentARB(_handle);
-                glBindTexture(GL_TEXTURE_2D, 0);
             } else if (is_hdr_image(image_path)) {
                 auto image = load_hdr_image(image_path, _resolution);
                 _pixel_storage = PixelStorage::FLOAT4;
-                glGenTextures(1, &_id);
-                glBindTexture(GL_TEXTURE_2D, _id);
-                glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-                glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-                glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-                glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-                glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
                 glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, _resolution.x, _resolution.y, 0, GL_RGBA, GL_FLOAT, image.data());
-                glGenerateMipmap(GL_TEXTURE_2D);
-                _handle = glGetTextureHandleARB(_id);
-                glMakeTextureHandleResidentARB(_handle);
-                glBindTexture(GL_TEXTURE_2D, 0);
             } else {
                 GL_RENDER_ERROR("Unsupported texture format: {}", image_path.extension().string());
             }
+            glGenerateMipmap(GL_TEXTURE_2D);
+            _handle = glGetTextureHandleARB(_id);
+            glMakeTextureHandleResidentARB(_handle);
+            glBindTexture(GL_TEXTURE_2D, 0);
             GL_RENDER_INFO("Created texture: {}, id: {}, handle: {}", image_path.string(), _id, _handle);
         }
 

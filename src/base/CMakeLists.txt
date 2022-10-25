@@ -1,5 +1,6 @@
 set(OPENGL_RENDER_BASE_SOURCES
         camera.h camera.cpp
+        depth_cube_map.h depth_cube_map.cpp
         geometry.h geometry.cpp
         hdr2ldr.h
         light.h

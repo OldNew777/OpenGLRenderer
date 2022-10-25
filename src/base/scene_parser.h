@@ -123,97 +123,81 @@ namespace gl_render {
     class MaterialNode : public SceneNode {
     public:
         MaterialNode(nlohmann::json &json) noexcept: SceneNode{json} {
-            _material_info = make_unique<MaterialInfo>();
-            _material_info->type = MaterialInfo::String2Type(property_string("type"));
-            _material_info->name = property_string("name");
-            _material_info->diffuse = property_float3_or_default("diffuse", float3(0.5f));
-            _material_info->specular = property_float3_or_default("specular", float3(0.f));
-            _material_info->ambient = property_float3_or_default("ambient", float3(0.f));
-            _material_info->diffuse_map = property_string_or_default("diffuse_map", "");
+            material_info = make_unique<MaterialInfo>();
+            material_info->type = MaterialInfo::String2Type(property_string("type"));
+            material_info->name = property_string("name");
+            material_info->diffuse = property_float3_or_default("diffuse", float3(0.5f));
+            material_info->specular = property_float3_or_default("specular", float3(0.f));
+            material_info->ambient = property_float3_or_default("ambient", float3(0.f));
+            material_info->diffuse_map = property_string_or_default("diffuse_map", "");
         }
 
-        [[nodiscard]] inline auto material_info() const noexcept {
-            return _material_info.get();
-        }
-
-    protected:
-        unique_ptr<MaterialInfo> _material_info;
+    public:
+        unique_ptr<MaterialInfo> material_info;
 
     };
 
     class MeshNode : public SceneNode {
     public:
         MeshNode(nlohmann::json &json) noexcept: SceneNode{json} {
-            _mesh_info.file_path = property_string("file");
-            _mesh_info.material_name = property_string("material");
+            mesh_info.file_path = property_string("file");
+            mesh_info.material_name = property_string("material");
             if (contains("transform")) {
                 auto transfrom_node = SceneNode{_json["transform"]};
                 if (transfrom_node.contains("matrix")) {
-                    _mesh_info.transform = transfrom_node.property_float4x4_or_default(
+                    mesh_info.transform = transfrom_node.property_float4x4_or_default(
                             "matrix",
                             constant::IDENTITY_FLOAT4x4);
                 } else {
                     if (transfrom_node.contains("scale")) {
-                        _mesh_info.transform = scale(
-                                _mesh_info.transform,
+                        mesh_info.transform = scale(
+                                mesh_info.transform,
                                 transfrom_node.property_float3_or_default("scale", float3(1.f)));
                     }
                     if (transfrom_node.contains("rotate")) {
                         auto rotate_node = SceneNode{transfrom_node["rotate"]};
                         auto axis = rotate_node.property_float3("axis");
                         auto angle = rotate_node.property_float("angle");
-                        _mesh_info.transform = rotate(_mesh_info.transform, angle, axis);
+                        mesh_info.transform = rotate(mesh_info.transform, angle, axis);
                     }
                     if (transfrom_node.contains("translate")) {
-                        _mesh_info.transform = translate(_mesh_info.transform,
+                        mesh_info.transform = translate(mesh_info.transform,
                                                          transfrom_node.property_float3("translate"));
                     }
                 }
             }
         }
 
-        [[nodiscard]] inline const auto &mesh_info() const noexcept {
-            return _mesh_info;
-        }
-
-    protected:
-        MeshInfo _mesh_info;
+    public:
+        MeshInfo mesh_info;
     };
 
     class LightNode : public SceneNode {
     public:
         LightNode(nlohmann::json &json) noexcept
                 : SceneNode{json} {
-            _light_info.position = property_float3("position");
-            _light_info.emission = property_float3("emission");
-            _light_info.emission *= property_float_or_default("scale", 1.f);
+            light_info.position = property_float3("position");
+            light_info.emission = property_float3("emission");
+            light_info.emission *= property_float_or_default("scale", 1.f);
         }
 
-        [[nodiscard]] inline const auto &light_info() const noexcept {
-            return _light_info;
-        }
-
-    protected:
-        LightInfo _light_info;
+    public:
+        LightInfo light_info;
     };
 
     class CameraNode : public SceneNode {
     public:
         CameraNode(nlohmann::json &json) noexcept
                 : SceneNode{json} {
-            _camera_info.resolution = property_uint2("resolution");
-            _camera_info.position = property_float3_or_default("position", float3{0.f});
-            _camera_info.front = property_float3_or_default("front", float3{0.0f, 0.0f, -1.0f});
-            _camera_info.up = property_float3_or_default("up", float3{0.0f, 1.0f, 0.0f});
-            _camera_info.fov = property_float_or_default("fov", 35.f);
+            camera_info.resolution = property_uint2("resolution");
+            camera_info.position = property_float3_or_default("position", float3{0.f});
+            camera_info.front = property_float3_or_default("front", float3{0.0f, 0.0f, -1.0f});
+            camera_info.up = property_float3_or_default("up", float3{0.0f, 1.0f, 0.0f});
+            camera_info.fov = property_float_or_default("fov", 35.f);
         }
 
-        [[nodiscard]] inline const auto &camera_info() const noexcept {
-            return _camera_info;
-        }
-
-    protected:
-        CameraInfo _camera_info;
+    public:
+        CameraInfo camera_info;
     };
 
 
@@ -221,17 +205,13 @@ namespace gl_render {
     public:
         RendererNode(nlohmann::json &json) noexcept
                 : SceneNode{json} {
-            _renderer_info.enable_vsync = property_bool_or_default("enable_vsync", true);
-            _renderer_info.enable_shadow = property_bool_or_default("enable_shadow", true);
-            _renderer_info.output_file = property_string_or_default("output_file", "output.exr");
+            renderer_info.enable_vsync = property_bool_or_default("enable_vsync", true);
+            renderer_info.enable_shadow = property_bool_or_default("enable_shadow", true);
+            renderer_info.output_file = property_string_or_default("output_file", "output.exr");
         }
 
-        [[nodiscard]] inline const auto &renderer_info() const noexcept {
-            return _renderer_info;
-        }
-
-    protected:
-        RendererInfo _renderer_info;
+    public:
+        RendererInfo renderer_info;
     };
 
     class SceneAllNode : public SceneNode {
@@ -247,35 +227,31 @@ namespace gl_render {
                 unique_ptr<MaterialNode> material;
                 // TODO: specify material type
                 material = make_unique<MaterialNode>(material_json);
-                auto material_name = material->material_info()->name;
-                if (_scene_all_info.materials.contains(material_name)) {
+                auto material_name = material->material_info->name;
+                if (scene_all_info.materials.contains(material_name)) {
                     GL_RENDER_ERROR_WITH_LOCATION(
                             "Material '{}' already exists.",
                             material_name);
                 }
-                _scene_all_info.materials.insert({
+                scene_all_info.materials.insert({
                     material_name,
                     std::forward<unique_ptr<MaterialNode>>(material)
                 });
             }
             for (auto &mesh_json: json["meshes"]) {
-                auto mesh_node = _scene_all_info.meshes.emplace_back(MeshNode{mesh_json});
-                auto material_name = mesh_node.mesh_info().material_name;
-                if (!_scene_all_info.materials.contains(material_name)) {
+                auto mesh_node = scene_all_info.meshes.emplace_back(MeshNode{mesh_json});
+                auto material_name = mesh_node.mesh_info.material_name;
+                if (!scene_all_info.materials.contains(material_name)) {
                     GL_RENDER_ERROR_WITH_LOCATION(
                             "Material '{}' does not exist.",
                             material_name);
                 }
             }
             for (auto &light_json: json["lights"]) {
-                _scene_all_info.lights.emplace_back(LightNode{light_json});
+                scene_all_info.lights.emplace_back(LightNode{light_json});
             }
-            _scene_all_info.camera.emplace(CameraNode{json["camera"]});
-            _scene_all_info.renderer.emplace(RendererNode{json["renderer"]});
-        }
-
-        [[nodiscard]] inline const auto &scene_all_info() const noexcept {
-            return _scene_all_info;
+            scene_all_info.camera.emplace(CameraNode{json["camera"]});
+            scene_all_info.renderer.emplace(RendererNode{json["renderer"]});
         }
 
     public:
@@ -287,8 +263,7 @@ namespace gl_render {
             optional<RendererNode> renderer;
         };
 
-    protected:
-        SceneAllInfo _scene_all_info;
+        SceneAllInfo scene_all_info;
     };
 
 }

@@ -150,6 +150,16 @@ namespace gl_render {
             glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
         }
 
+        // ------------------------------------------------------------------------
+        void setHandleARB(const string &name, GLuint64 value) const {
+            glUniformHandleui64ARB(glGetUniformLocation(ID, name.c_str()), value);
+        }
+
+        // ------------------------------------------------------------------------
+        void setHandlevARB(const string &name, const GLuint64 *value, GLsizei size) const {
+            glUniformHandleui64vARB(glGetUniformLocation(ID, name.c_str()), size, value);
+        }
+
     private:
         static string readSourceFile(const path &path, const TemplateList &tl) {
             std::ifstream file{path};
