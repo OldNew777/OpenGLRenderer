@@ -11,6 +11,7 @@
 #include <core/stl.h>
 #include <base/scene_parser.h>
 #include <base/geometry.h>
+#include <base/hdr2ldr.h>
 #include <util/imageio.h>
 
 namespace gl_render {
@@ -30,26 +31,26 @@ namespace gl_render {
             return pipeline;
         }
         void renderShadowMap() noexcept;
-        void InitHDRFrameBuffer() noexcept;
         void render() noexcept;
 
-    private:
-        Pipeline(const path &scene_path) noexcept;
-        Pipeline &operator=(Pipeline &&) = default;
+    public:
+        Pipeline &operator=(Pipeline &&) = delete;
         Pipeline &operator=(const Pipeline &) = delete;
 
-        void renderQuad() noexcept;
+    private:
+        explicit Pipeline(const path &scene_path) noexcept;
 
     private:
         GLFWwindow *_window;
         Config _config;
 
-        unique_ptr<SceneAllNode> _scene;
-        unique_ptr<Geometry> _geometry;
-        uint _depth_map_buffer{0u};
-        uint _depth_map_tex_buffer{0u};
-        uint _hdr_frame_buffer{0u};
-        uint _hdr_tex_buffer{0u};
+        gl_render::unique_ptr<SceneAllNode> _scene;
+        gl_render::unique_ptr<Geometry> _geometry;
+        gl_render::unique_ptr<HDR2LDR> _hdr2ldr;
+
+        GLuint _depth_map_buffer{0u};
+        GLuint _depth_map_tex_buffer{0u};
+        GLuint _hdr_frame_buffer{0u};
     };
 
 }

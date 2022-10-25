@@ -8,7 +8,7 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-#include <base/texture.h>
+#include <base/texture_manager.h>
 
 namespace gl_render {
 

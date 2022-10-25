@@ -1,12 +1,16 @@
 set(OPENGL_RENDER_BASE_SOURCES
         camera.h camera.cpp
         geometry.h geometry.cpp
+        hdr2ldr.h
+        light.h
+        light_manager.h
         pipeline.h pipeline.cpp
         pixel.h
         scene_info.h scene_info.cpp
         scene_parser.h
         shader.h
-        texture.h)
+        texture.h
+        texture_manager.h)
 
 add_library(opengl-render-base SHARED ${OPENGL_RENDER_BASE_SOURCES})
 target_link_libraries(opengl-render-base PUBLIC

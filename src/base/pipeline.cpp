@@ -76,8 +76,8 @@ namespace gl_render {
 
         // init geometry
         _geometry = make_unique<Geometry>(_scene->scene_all_info(), scene_path.parent_path());
-        // init hdr frame buffer
-        InitHDRFrameBuffer();
+        // init HDR2LDR
+        _hdr2ldr = make_unique<HDR2LDR>(_scene->scene_all_info().camera->camera_info().resolution, _hdr_frame_buffer);
     }
 
     void Pipeline::render() noexcept {
@@ -103,13 +103,6 @@ namespace gl_render {
                 static_cast<float>(width) / static_cast<float>(height),
                 near_plane, far_plane);
 
-        // build and compile shaders
-        Shader hdrShader{
-            "data/shaders/hdr2ldr.vert",
-            "",
-            "data/shaders/hdr2ldr.frag",
-            {}};
-
         while (!glfwWindowShouldClose(_window)) {
             glfwPollEvents();
 
@@ -134,14 +127,7 @@ namespace gl_render {
             _geometry->render(lights, projection, view_matrix, camera_info.position);
 
             // 2. now render hdr buffer to 2D quad and tonemap HDR colors to default framebuffer's (clamped) color range
-            glBindFramebuffer(GL_FRAMEBUFFER, 0);
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            hdrShader.use();
-            hdrShader.setFloat("exposure", _config.hdr_config.exposure);
-            hdrShader.setFloat("gamma", _config.hdr_config.gamma);
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, _hdr_tex_buffer);
-            renderQuad();
+            _hdr2ldr->render(_config.hdr_config);
 
             if (auto error = glGetError(); error != GL_NO_ERROR) {
                 GL_RENDER_ERROR_WITH_LOCATION("OpenGL error: ", error);
@@ -159,7 +145,8 @@ namespace gl_render {
                 frame_time.pop();
             }
 
-            if (print_time += delta_time; print_time >= fps_count_time) {
+            print_time += delta_time;
+            if (print_time >= fps_count_time) {
                 print_time = 0.f;
                 GL_RENDER_INFO(
                         "Frame {}, FPS: {}, SPF: {}",
@@ -213,59 +200,6 @@ namespace gl_render {
         glDrawBuffer(GL_NONE);
         glReadBuffer(GL_NONE);
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    }
-
-    void Pipeline::InitHDRFrameBuffer() noexcept {
-        // configure floating point framebuffer
-        auto width = _scene->scene_all_info().camera->camera_info().resolution.x;
-        auto height = _scene->scene_all_info().camera->camera_info().resolution.y;
-        glGenFramebuffers(1, &_hdr_frame_buffer);
-        // create floating point color buffer
-        glGenTextures(1, &_hdr_tex_buffer);
-        glBindTexture(GL_TEXTURE_2D, _hdr_tex_buffer);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, width, height, 0, GL_RGBA, GL_FLOAT, nullptr);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        // create depth buffer (renderbuffer)
-        uint rboDepth;
-        glGenRenderbuffers(1, &rboDepth);
-        glBindRenderbuffer(GL_RENDERBUFFER, rboDepth);
-        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
-        // attach buffers
-        glBindFramebuffer(GL_FRAMEBUFFER, _hdr_frame_buffer);
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _hdr_tex_buffer, 0);
-        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rboDepth);
-        if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-            GL_RENDER_ERROR("Framebuffer not complete!");
-        }
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    }
-
-    void Pipeline::renderQuad() noexcept {
-        static uint quadVAO = 0u;
-        static uint quadVBO = 0u;
-        if (quadVAO == 0u) {
-            static float quadVertices[] = {
-                    // positions        // texture Coords
-                    -1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-                    -1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
-                    1.0f, 1.0f, 0.0f, 1.0f, 1.0f,
-                    1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
-            };
-            // setup plane VAO
-            glGenVertexArrays(1, &quadVAO);
-            glGenBuffers(1, &quadVBO);
-            glBindVertexArray(quadVAO);
-            glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
-            glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
-            glEnableVertexAttribArray(0);
-            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) 0);
-            glEnableVertexAttribArray(1);
-            glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) (3 * sizeof(float)));
-        }
-        glBindVertexArray(quadVAO);
-        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-        glBindVertexArray(0);
     }
 
 }
