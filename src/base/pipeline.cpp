@@ -191,7 +191,7 @@ namespace gl_render {
     const uint Pipeline::SHADOW_HEIGHT = 1024u;
     const uint Pipeline::SHADOW_WIDTH = 1024u;
 
-    void Pipeline::InitShadowMap() noexcept {
+    void Pipeline::renderShadowMap() noexcept {
         // depth map VBO
         // -----------------------
         glGenFramebuffers(1, &_depth_map_buffer);

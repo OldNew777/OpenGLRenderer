@@ -29,7 +29,7 @@ namespace gl_render {
             static Pipeline pipeline{scene_path};
             return pipeline;
         }
-        void InitShadowMap() noexcept;
+        void renderShadowMap() noexcept;
         void InitHDRFrameBuffer() noexcept;
         void render() noexcept;
 
