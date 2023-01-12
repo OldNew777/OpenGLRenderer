@@ -86,6 +86,7 @@ void main()
 
     // point lights
     for(int i = 0; i < POINT_LIGHT_COUNT; i++) {
+        Lo += 0.05f * diffuseResult;
         vec3 lightDir = normalize(pointLights[i].Position - Position);
         bool valid = same_hemisphere(lightDir, viewDir, norm);
         if (!valid) {
@@ -96,9 +97,9 @@ void main()
         Lo += (1.f - shadow) * lightColor * diffuseResult;
     }
 
-//    FragColor = vec4(Lo, 1.f);
+    FragColor = vec4(Lo, 1.f);
 //    FragColor = vec4(norm * 0.5f + 0.5f, 1.f);
-    FragColor = vec4(diffuseResult, 1.f);
+//    FragColor = vec4(diffuseResult, 1.f);
 //    FragColor = vec4(TexCoord, 1.f, 1.f);
 //    float cameraDistance = length(cameraPos - Position) / 20.f;
 //    FragColor = vec4(vec3(cameraDistance), 1.f);
