@@ -141,6 +141,6 @@
   "renderer": {
     "enable_vsync": false,
     "enable_shadow": true,
-    "output_file": "output.exr"
+    "output_file": "output.png"
   }
 }

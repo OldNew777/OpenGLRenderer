@@ -154,7 +154,7 @@ namespace gl_render {
             last_fps_time = current_time;
             fps_time_sum += delta_time;
             frame_time.push(delta_time);
-            while (fps_time_sum >= fps_count_time && frame_time.size() > frame_min_size) {
+            while (fps_time_sum > fps_count_time && frame_time.size() > frame_min_size) {
                 fps_time_sum -= frame_time.front();
                 frame_time.pop();
             }

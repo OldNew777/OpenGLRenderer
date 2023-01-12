@@ -29,7 +29,7 @@ struct PointLight {
     samplerCube ShadowCubeMap;
     float FarPlane;
 };
-const float SHADOW_BIAS = 0.01f;
+const float SHADOW_BIAS = 0.07f;
 
 uniform PointLight pointLights[POINT_LIGHT_COUNT];
 uniform sampler2D textures[${TEXTURE_COUNT}];
@@ -58,9 +58,9 @@ float CalculateShadow(PointLight light, vec3 fragPos)
     // it is currently in linear range between [0,1], let's re-transform it back to original depth value
     closestDepth *= light.FarPlane;
     // now get current linear depth as the length between the fragment and light position
-    float currentDepth = length(fragToLight) - SHADOW_BIAS * light.FarPlane;
+    float currentDepth = length(fragToLight);
     // test for shadows
-    float shadow = currentDepth > closestDepth ? 1.0 : 0.0;
+    float shadow = currentDepth - SHADOW_BIAS > closestDepth ? 1.0 : 0.0;
     // display closestDepth as debug (to visualize depth cubemap)
     // FragColor = vec4(vec3(closestDepth / far_plane), 1.0);
 
@@ -96,8 +96,10 @@ void main()
         Lo += (1.f - shadow) * lightColor * diffuseResult;
     }
 
-    FragColor = vec4(Lo, 1.f);
+//    FragColor = vec4(Lo, 1.f);
 //    FragColor = vec4(norm * 0.5f + 0.5f, 1.f);
-//    FragColor = vec4(diffuseResult, 1.f);
+    FragColor = vec4(diffuseResult, 1.f);
 //    FragColor = vec4(TexCoord, 1.f, 1.f);
+//    float cameraDistance = length(cameraPos - Position) / 20.f;
+//    FragColor = vec4(vec3(cameraDistance), 1.f);
 }
